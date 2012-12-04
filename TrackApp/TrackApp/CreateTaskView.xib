@@ -54,6 +54,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
+						<int key="IBUIDatePickerMode">1</int>
 						<object class="NSTimeZone" key="IBUITimeZone">
 							<string key="NS.name">America/Los_Angeles</string>
 							<object class="NSMutableData" key="NS.data">
