@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		020F3324166E9DD4007DD053 /* SetupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F3323166E9DD4007DD053 /* SetupTableViewController.m */; };
 		0235FCD21669423F008F136B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD11669423F008F136B /* UIKit.framework */; };
 		0235FCD41669423F008F136B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD31669423F008F136B /* Foundation.framework */; };
 		0235FCD61669423F008F136B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD51669423F008F136B /* CoreGraphics.framework */; };
@@ -45,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		020F3322166E9DD4007DD053 /* SetupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupTableViewController.h; sourceTree = "<group>"; };
+		020F3323166E9DD4007DD053 /* SetupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupTableViewController.m; sourceTree = "<group>"; };
 		0235FCCD1669423F008F136B /* TrackApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0235FCD11669423F008F136B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0235FCD31669423F008F136B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -144,6 +147,8 @@
 				0235FD1C166945CB008F136B /* FolderMenuView.xib */,
 				0235FD161669446D008F136B /* TaskMenuViewController.h */,
 				0235FD171669446D008F136B /* TaskMenuViewController.m */,
+				020F3322166E9DD4007DD053 /* SetupTableViewController.h */,
+				020F3323166E9DD4007DD053 /* SetupTableViewController.m */,
 				0235FD2F16694F62008F136B /* TaskMenuView.xib */,
 				0235FCE01669423F008F136B /* AppDelegate.h */,
 				0235FCE11669423F008F136B /* AppDelegate.m */,
@@ -325,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0235FD0916694240008F136B /* TrackAppTests.m in Sources */,
+				020F3324166E9DD4007DD053 /* SetupTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

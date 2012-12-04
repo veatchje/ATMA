@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SetupTableViewController.h"
 
 @interface FolderMenuViewController : UIViewController {
     

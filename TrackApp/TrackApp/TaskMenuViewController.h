@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SetupTableViewController.h"
 
 @interface TaskMenuViewController : UIViewController {
     
@@ -14,9 +15,5 @@
 - (IBAction)openEditDialog;
 - (IBAction)openSetupMenu;
 - (IBAction)openEditTaskView;
-
-@end
-
-@interface SetupTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end
