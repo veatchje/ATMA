@@ -16,3 +16,7 @@
 - (IBAction)openEditTaskView;
 
 @end
+
+@interface SetupTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+@end

@@ -7,6 +7,7 @@
 //
 
 #import "FolderMenuViewController.h"
+#import "TaskMenuViewController.h"
 
 @interface FolderMenuViewController ()
 
@@ -23,8 +24,8 @@
 }
 
 - (IBAction)switchToTaskScreen {
-    /*GameMenuController *gmc = [[GameMenuController alloc] initWithNibName:@"GameMenuController" bundle:nil];
-    [self.navigationController pushViewController:gmc animated:NO];*/
+    TaskMenuViewController *tmvc = [[TaskMenuViewController alloc] initWithNibName:@"TaskMenuViewController" bundle:nil];
+    [self.navigationController pushViewController:tmvc animated:NO];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
