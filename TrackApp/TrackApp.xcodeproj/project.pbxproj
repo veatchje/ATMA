@@ -33,6 +33,8 @@
 		0235FD3016694F62008F136B /* TaskMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD2F16694F62008F136B /* TaskMenuView.xib */; };
 		0235FD3416695270008F136B /* CreateTaskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD3316695270008F136B /* CreateTaskView.xib */; };
 		0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD3816695750008F136B /* CreateTaskViewController.m */; };
+		0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */; };
+		0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A321674FBCC007E7F08 /* UITaskViewCell.m */; };
 		DA62A47F166E9754001C370F /* FolderMenuViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A47E166E9754001C370F /* FolderMenuViewIpad.xib */; };
 		DA62A482166E98C2001C370F /* TaskMenuViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A481166E98C2001C370F /* TaskMenuViewIpad.xib */; };
 		DA62A484166E99B2001C370F /* CreateTaskViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */; };
@@ -86,6 +88,10 @@
 		0235FD3316695270008F136B /* CreateTaskView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateTaskView.xib; sourceTree = "<group>"; };
 		0235FD35166956D1008F136B /* CreateTaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateTaskViewController.h; sourceTree = "<group>"; };
 		0235FD3816695750008F136B /* CreateTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTaskViewController.m; sourceTree = "<group>"; };
+		0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITaskListViewControllerIPad.h; path = ../UITaskListViewControllerIPad.h; sourceTree = "<group>"; };
+		0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITaskListViewControllerIPad.m; path = ../UITaskListViewControllerIPad.m; sourceTree = "<group>"; };
+		0A241A311674FBCC007E7F08 /* UITaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITaskViewCell.h; sourceTree = "<group>"; };
+		0A241A321674FBCC007E7F08 /* UITaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITaskViewCell.m; sourceTree = "<group>"; };
 		DA62A47E166E9754001C370F /* FolderMenuViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FolderMenuViewIpad.xib; sourceTree = "<group>"; };
 		DA62A481166E98C2001C370F /* TaskMenuViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskMenuViewIpad.xib; sourceTree = "<group>"; };
 		DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateTaskViewIpad.xib; sourceTree = "<group>"; };
@@ -148,6 +154,10 @@
 		0235FCD71669423F008F136B /* TrackApp */ = {
 			isa = PBXGroup;
 			children = (
+				0A241A311674FBCC007E7F08 /* UITaskViewCell.h */,
+				0A241A321674FBCC007E7F08 /* UITaskViewCell.m */,
+				0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */,
+				0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */,
 				0235FD191669452E008F136B /* FolderMenuViewController.h */,
 				0235FD1A1669452E008F136B /* FolderMenuViewController.m */,
 				0235FD1C166945CB008F136B /* FolderMenuView.xib */,
@@ -334,6 +344,8 @@
 				0235FD181669446D008F136B /* TaskMenuViewController.m in Sources */,
 				0235FD1B1669452E008F136B /* FolderMenuViewController.m in Sources */,
 				0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */,
+				0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */,
+				0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
