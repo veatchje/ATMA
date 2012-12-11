@@ -51,4 +51,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL) textFieldShouldReturn:(UITextField *) theTextField{
+    [theTextField resignFirstResponder];
+    return YES;
+}
+
 @end;
