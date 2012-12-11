@@ -119,7 +119,7 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="7Wd-EU-nxR">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="7Wd-EU-nxR">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="684"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -129,7 +129,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
-                                            <action selector="select:" destination="JU8-yz-of7" eventType="touchUpOutside" id="hak-YB-M0M"/>
                                             <outlet property="delegate" destination="muW-hW-dKr" id="QeF-Mk-auh"/>
                                         </connections>
                                     </textField>
@@ -231,7 +230,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
-                                            <action selector="select:" destination="JU8-yz-of7" eventType="touchUpOutside" id="J1Z-gQ-Xp9"/>
                                             <outlet property="delegate" destination="muW-hW-dKr" id="rjY-y5-5Xh"/>
                                         </connections>
                                     </textField>
@@ -248,7 +246,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
-                                            <action selector="select:" destination="JU8-yz-of7" eventType="touchUpOutside" id="5Jj-mM-16b"/>
                                             <outlet property="delegate" destination="muW-hW-dKr" id="Kd1-2L-FOo"/>
                                         </connections>
                                     </textField>
