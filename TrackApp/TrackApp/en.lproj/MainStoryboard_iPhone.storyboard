@@ -129,6 +129,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
+                                            <action selector="select:" destination="JU8-yz-of7" eventType="touchUpOutside" id="hak-YB-M0M"/>
                                             <outlet property="delegate" destination="muW-hW-dKr" id="QeF-Mk-auh"/>
                                         </connections>
                                     </textField>
@@ -230,6 +231,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
+                                            <action selector="select:" destination="JU8-yz-of7" eventType="touchUpOutside" id="J1Z-gQ-Xp9"/>
                                             <outlet property="delegate" destination="muW-hW-dKr" id="rjY-y5-5Xh"/>
                                         </connections>
                                     </textField>
@@ -244,8 +246,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <rect key="frame" x="20" y="226" width="279" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
+                                            <action selector="select:" destination="JU8-yz-of7" eventType="touchUpOutside" id="5Jj-mM-16b"/>
                                             <outlet property="delegate" destination="muW-hW-dKr" id="Kd1-2L-FOo"/>
                                         </connections>
                                     </textField>
