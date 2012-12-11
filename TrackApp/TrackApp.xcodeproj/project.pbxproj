@@ -36,6 +36,7 @@
 		0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */; };
 		0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A321674FBCC007E7F08 /* UITaskViewCell.m */; };
 		50A20B85167548EA00369CA4 /* AddTaskScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A20B84167548EA00369CA4 /* AddTaskScrollViewController.m */; };
+		A0B5F4591677C49F00956DA5 /* ScrollTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B5F4581677C49F00956DA5 /* ScrollTestViewController.m */; };
 		DA62A47F166E9754001C370F /* FolderMenuViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A47E166E9754001C370F /* FolderMenuViewIpad.xib */; };
 		DA62A482166E98C2001C370F /* TaskMenuViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A481166E98C2001C370F /* TaskMenuViewIpad.xib */; };
 		DA62A484166E99B2001C370F /* CreateTaskViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */; };
@@ -95,6 +96,8 @@
 		0A241A321674FBCC007E7F08 /* UITaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITaskViewCell.m; sourceTree = "<group>"; };
 		50A20B83167548EA00369CA4 /* AddTaskScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTaskScrollViewController.h; sourceTree = "<group>"; };
 		50A20B84167548EA00369CA4 /* AddTaskScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddTaskScrollViewController.m; sourceTree = "<group>"; };
+		A0B5F4571677C49F00956DA5 /* ScrollTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollTestViewController.h; sourceTree = "<group>"; };
+		A0B5F4581677C49F00956DA5 /* ScrollTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollTestViewController.m; sourceTree = "<group>"; };
 		DA62A47E166E9754001C370F /* FolderMenuViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FolderMenuViewIpad.xib; sourceTree = "<group>"; };
 		DA62A481166E98C2001C370F /* TaskMenuViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskMenuViewIpad.xib; sourceTree = "<group>"; };
 		DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateTaskViewIpad.xib; sourceTree = "<group>"; };
@@ -174,6 +177,8 @@
 				0235FCE01669423F008F136B /* AppDelegate.h */,
 				0235FCE11669423F008F136B /* AppDelegate.m */,
 				0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */,
+				A0B5F4571677C49F00956DA5 /* ScrollTestViewController.h */,
+				A0B5F4581677C49F00956DA5 /* ScrollTestViewController.m */,
 				0235FCEC1669423F008F136B /* MainStoryboard_iPad.storyboard */,
 				0235FCEF1669423F008F136B /* MasterViewController.h */,
 				0235FCF01669423F008F136B /* MasterViewController.m */,
@@ -352,6 +357,7 @@
 				0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */,
 				0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */,
 				50A20B85167548EA00369CA4 /* AddTaskScrollViewController.m in Sources */,
+				A0B5F4591677C49F00956DA5 /* ScrollTestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
