@@ -215,9 +215,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         </state>
                                     </button>
                                 </subviews>
-                                <connections>
-                                    <outlet property="delegate" destination="muW-hW-dKr" id="3dV-4q-o9i"/>
-                                </connections>
                             </scrollView>
                             <navigationBar contentMode="scaleToFill" id="S9q-iQ-Q1k">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -231,6 +228,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="scrollview" destination="7Wd-EU-nxR" id="2Yp-VR-d4F"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JU8-yz-of7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
