@@ -38,6 +38,8 @@
 - (void)viewDidLoad
 {
     //scrollView.frame = CGRectMMake(0,0.320.460);
+    [scrollview setScrollEnabled:YES];
+    [scrollview setContentSize:CGSizeMake(320, 646)];
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view.

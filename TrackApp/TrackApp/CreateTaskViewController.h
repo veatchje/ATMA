@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CreateTaskViewController : UIViewController {
-    
+    IBOutlet UIScrollView *scrollview;
 }
 - (IBAction)openSetupMenu;
 - (IBAction)cancel;
