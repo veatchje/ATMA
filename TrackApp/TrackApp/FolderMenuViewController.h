@@ -15,5 +15,6 @@
 - (IBAction)openEditDialog;
 - (IBAction)openSetupMenu;
 - (IBAction)switchToTaskScreen;
+- (IBAction)alert;
 
 @end

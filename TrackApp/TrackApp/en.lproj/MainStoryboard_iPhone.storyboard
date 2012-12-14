@@ -53,6 +53,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="alert" destination="QEM-Id-HDq" eventType="touchUpInside" id="0y6-M3-8YI"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -285,6 +288,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <class className="FolderMenuViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderMenuViewController.h"/>
             <relationships>
+                <relationship kind="action" name="alert"/>
                 <relationship kind="action" name="openEditDialog"/>
                 <relationship kind="action" name="openSetupMenu"/>
                 <relationship kind="action" name="switchToTaskScreen"/>
@@ -305,6 +309,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="0QR-uS-kcq"/>
+        <segue reference="Pis-k7-SXt"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -15,6 +15,19 @@
 
 @implementation FolderMenuViewController
 
+- (IBAction)alert{
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Folder" message:@"Put in folder name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
+    UITextField *folderNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
+    [folderNameTextField setBackgroundColor:[UIColor whiteColor]];
+    [alert addSubview:folderNameTextField];
+    
+    
+    NSString *folderName = folderNameTextField.text;
+    
+    [alert show];
+}
+
 - (IBAction)openEditDialog {
     //put code here
 }
