@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0206C5F41680FFD000559975 /* FolderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5F31680FFD000559975 /* FolderTableViewController.m */; };
-		0206C5F81680FFE500559975 /* FolderTablewViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5F71680FFE500559975 /* FolderTablewViewCell.m */; };
+		0206C5F81680FFE500559975 /* FolderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5F71680FFE500559975 /* FolderTableViewCell.m */; };
+		0206C5FB16810CD900559975 /* TaskTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5FA16810CD800559975 /* TaskTableViewController.m */; };
+		0206C5FE16810CF400559975 /* TaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5FD16810CF400559975 /* TaskTableViewCell.m */; };
+		0206C600168117CF00559975 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 0206C5FF168117CF00559975 /* folder.png */; };
 		020F3324166E9DD4007DD053 /* SetupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F3323166E9DD4007DD053 /* SetupTableViewController.m */; };
 		0235FCD21669423F008F136B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD11669423F008F136B /* UIKit.framework */; };
 		0235FCD41669423F008F136B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD31669423F008F136B /* Foundation.framework */; };
@@ -29,7 +32,6 @@
 		0235FD0616694240008F136B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD0416694240008F136B /* InfoPlist.strings */; };
 		0235FD0916694240008F136B /* TrackAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD0816694240008F136B /* TrackAppTests.m */; };
 		0235FD181669446D008F136B /* TaskMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD171669446D008F136B /* TaskMenuViewController.m */; };
-		0235FD1B1669452E008F136B /* FolderMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD1A1669452E008F136B /* FolderMenuViewController.m */; };
 		0235FD1D166945CB008F136B /* FolderMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD1C166945CB008F136B /* FolderMenuView.xib */; };
 		0235FD2716694B91008F136B /* test.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD2616694B91008F136B /* test.xib */; };
 		0235FD3016694F62008F136B /* TaskMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD2F16694F62008F136B /* TaskMenuView.xib */; };
@@ -37,7 +39,6 @@
 		0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD3816695750008F136B /* CreateTaskViewController.m */; };
 		0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */; };
 		0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A321674FBCC007E7F08 /* UITaskViewCell.m */; };
-		A0B5F4591677C49F00956DA5 /* ScrollTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B5F4581677C49F00956DA5 /* ScrollTestViewController.m */; };
 		DA62A47F166E9754001C370F /* FolderMenuViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A47E166E9754001C370F /* FolderMenuViewIpad.xib */; };
 		DA62A482166E98C2001C370F /* TaskMenuViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A481166E98C2001C370F /* TaskMenuViewIpad.xib */; };
 		DA62A484166E99B2001C370F /* CreateTaskViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */; };
@@ -56,8 +57,13 @@
 /* Begin PBXFileReference section */
 		0206C5F21680FFD000559975 /* FolderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderTableViewController.h; sourceTree = "<group>"; };
 		0206C5F31680FFD000559975 /* FolderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderTableViewController.m; sourceTree = "<group>"; };
-		0206C5F61680FFE500559975 /* FolderTablewViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderTablewViewCell.h; sourceTree = "<group>"; };
-		0206C5F71680FFE500559975 /* FolderTablewViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderTablewViewCell.m; sourceTree = "<group>"; };
+		0206C5F61680FFE500559975 /* FolderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderTableViewCell.h; sourceTree = "<group>"; };
+		0206C5F71680FFE500559975 /* FolderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderTableViewCell.m; sourceTree = "<group>"; };
+		0206C5F916810CD800559975 /* TaskTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskTableViewController.h; sourceTree = "<group>"; };
+		0206C5FA16810CD800559975 /* TaskTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTableViewController.m; sourceTree = "<group>"; };
+		0206C5FC16810CF400559975 /* TaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskTableViewCell.h; sourceTree = "<group>"; };
+		0206C5FD16810CF400559975 /* TaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTableViewCell.m; sourceTree = "<group>"; };
+		0206C5FF168117CF00559975 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = SOURCE_ROOT; };
 		020F3322166E9DD4007DD053 /* SetupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupTableViewController.h; sourceTree = "<group>"; };
 		020F3323166E9DD4007DD053 /* SetupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupTableViewController.m; sourceTree = "<group>"; };
 		0235FCCD1669423F008F136B /* TrackApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,8 +93,6 @@
 		0235FD0816694240008F136B /* TrackAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrackAppTests.m; sourceTree = "<group>"; };
 		0235FD161669446D008F136B /* TaskMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskMenuViewController.h; sourceTree = "<group>"; };
 		0235FD171669446D008F136B /* TaskMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskMenuViewController.m; sourceTree = "<group>"; };
-		0235FD191669452E008F136B /* FolderMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderMenuViewController.h; sourceTree = "<group>"; };
-		0235FD1A1669452E008F136B /* FolderMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderMenuViewController.m; sourceTree = "<group>"; };
 		0235FD1C166945CB008F136B /* FolderMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FolderMenuView.xib; sourceTree = "<group>"; };
 		0235FD2616694B91008F136B /* test.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = test.xib; sourceTree = "<group>"; };
 		0235FD2F16694F62008F136B /* TaskMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskMenuView.xib; sourceTree = "<group>"; };
@@ -99,8 +103,6 @@
 		0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITaskListViewControllerIPad.m; path = ../UITaskListViewControllerIPad.m; sourceTree = "<group>"; };
 		0A241A311674FBCC007E7F08 /* UITaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITaskViewCell.h; sourceTree = "<group>"; };
 		0A241A321674FBCC007E7F08 /* UITaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITaskViewCell.m; sourceTree = "<group>"; };
-		A0B5F4571677C49F00956DA5 /* ScrollTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollTestViewController.h; sourceTree = "<group>"; };
-		A0B5F4581677C49F00956DA5 /* ScrollTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollTestViewController.m; sourceTree = "<group>"; };
 		DA62A47E166E9754001C370F /* FolderMenuViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FolderMenuViewIpad.xib; sourceTree = "<group>"; };
 		DA62A481166E98C2001C370F /* TaskMenuViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskMenuViewIpad.xib; sourceTree = "<group>"; };
 		DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateTaskViewIpad.xib; sourceTree = "<group>"; };
@@ -167,8 +169,6 @@
 				0A241A321674FBCC007E7F08 /* UITaskViewCell.m */,
 				0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */,
 				0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */,
-				0235FD191669452E008F136B /* FolderMenuViewController.h */,
-				0235FD1A1669452E008F136B /* FolderMenuViewController.m */,
 				0235FD1C166945CB008F136B /* FolderMenuView.xib */,
 				DA62A47E166E9754001C370F /* FolderMenuViewIpad.xib */,
 				0235FD161669446D008F136B /* TaskMenuViewController.h */,
@@ -182,10 +182,12 @@
 				0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */,
 				0206C5F21680FFD000559975 /* FolderTableViewController.h */,
 				0206C5F31680FFD000559975 /* FolderTableViewController.m */,
-				0206C5F61680FFE500559975 /* FolderTablewViewCell.h */,
-				0206C5F71680FFE500559975 /* FolderTablewViewCell.m */,
-				A0B5F4571677C49F00956DA5 /* ScrollTestViewController.h */,
-				A0B5F4581677C49F00956DA5 /* ScrollTestViewController.m */,
+				0206C5F61680FFE500559975 /* FolderTableViewCell.h */,
+				0206C5F71680FFE500559975 /* FolderTableViewCell.m */,
+				0206C5F916810CD800559975 /* TaskTableViewController.h */,
+				0206C5FA16810CD800559975 /* TaskTableViewController.m */,
+				0206C5FC16810CF400559975 /* TaskTableViewCell.h */,
+				0206C5FD16810CF400559975 /* TaskTableViewCell.m */,
 				0235FCEC1669423F008F136B /* MainStoryboard_iPad.storyboard */,
 				0235FCEF1669423F008F136B /* MasterViewController.h */,
 				0235FCF01669423F008F136B /* MasterViewController.m */,
@@ -204,6 +206,7 @@
 		0235FCD81669423F008F136B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0206C5FF168117CF00559975 /* folder.png */,
 				0235FCD91669423F008F136B /* TrackApp-Info.plist */,
 				0235FCDA1669423F008F136B /* InfoPlist.strings */,
 				0235FCDD1669423F008F136B /* main.m */,
@@ -318,6 +321,7 @@
 				DA62A47F166E9754001C370F /* FolderMenuViewIpad.xib in Resources */,
 				DA62A482166E98C2001C370F /* TaskMenuViewIpad.xib in Resources */,
 				DA62A484166E99B2001C370F /* CreateTaskViewIpad.xib in Resources */,
+				0206C600168117CF00559975 /* folder.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,13 +361,13 @@
 				0235FCF11669423F008F136B /* MasterViewController.m in Sources */,
 				0235FCF41669423F008F136B /* DetailViewController.m in Sources */,
 				0235FD181669446D008F136B /* TaskMenuViewController.m in Sources */,
-				0235FD1B1669452E008F136B /* FolderMenuViewController.m in Sources */,
 				0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */,
 				0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */,
 				0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */,
-				A0B5F4591677C49F00956DA5 /* ScrollTestViewController.m in Sources */,
 				0206C5F41680FFD000559975 /* FolderTableViewController.m in Sources */,
-				0206C5F81680FFE500559975 /* FolderTablewViewCell.m in Sources */,
+				0206C5F81680FFE500559975 /* FolderTableViewCell.m in Sources */,
+				0206C5FB16810CD900559975 /* TaskTableViewController.m in Sources */,
+				0206C5FE16810CF400559975 /* TaskTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

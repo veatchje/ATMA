@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-#import "FolderTablewViewCell.h"
+#import "FolderTableViewCell.h"
 
-@implementation FolderTablewViewCell
+@implementation FolderTableViewCell
 @synthesize folderImage = _folderImage;
 @synthesize folderName = _folderName;
 @end

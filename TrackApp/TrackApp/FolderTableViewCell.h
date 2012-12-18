@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FolderTablewViewCell : UITableViewCell
+@interface FolderTableViewCell : UITableViewCell
 @property (nonatomic, strong) IBOutlet UIImageView *folderImage;
 @property (nonatomic, strong) IBOutlet UILabel *folderName;
 @end

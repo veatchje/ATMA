@@ -6,11 +6,13 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface FolderTableViewController : UITableViewController
 
-@property (nonatomic, strong) NSString *folderImage;
+@property (nonatomic, strong) UIImageView *folderImage;
 @property (nonatomic, strong) NSArray *folderNames;
+
+- (IBAction)alert;
 
 @end
