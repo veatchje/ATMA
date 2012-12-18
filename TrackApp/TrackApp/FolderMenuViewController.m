@@ -28,6 +28,28 @@
     [alert show];
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MainCell"];
+    
+    if(cell == nil){
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MainCell"];
+    }
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"Folder Name %d", indexPath.row];
+    
+    return cell;
+}
+
 - (IBAction)openEditDialog {
     //put code here
 }
@@ -52,6 +74,9 @@
 
 - (void)viewDidLoad
 {
+    [scrollview setScrollEnabled:YES];
+    [scrollview setContentSize:CGSizeMake(320, 800)];
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0206C5F41680FFD000559975 /* FolderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5F31680FFD000559975 /* FolderTableViewController.m */; };
+		0206C5F81680FFE500559975 /* FolderTablewViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5F71680FFE500559975 /* FolderTablewViewCell.m */; };
 		020F3324166E9DD4007DD053 /* SetupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F3323166E9DD4007DD053 /* SetupTableViewController.m */; };
 		0235FCD21669423F008F136B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD11669423F008F136B /* UIKit.framework */; };
 		0235FCD41669423F008F136B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD31669423F008F136B /* Foundation.framework */; };
@@ -52,6 +54,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0206C5F21680FFD000559975 /* FolderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderTableViewController.h; sourceTree = "<group>"; };
+		0206C5F31680FFD000559975 /* FolderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderTableViewController.m; sourceTree = "<group>"; };
+		0206C5F61680FFE500559975 /* FolderTablewViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderTablewViewCell.h; sourceTree = "<group>"; };
+		0206C5F71680FFE500559975 /* FolderTablewViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderTablewViewCell.m; sourceTree = "<group>"; };
 		020F3322166E9DD4007DD053 /* SetupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupTableViewController.h; sourceTree = "<group>"; };
 		020F3323166E9DD4007DD053 /* SetupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupTableViewController.m; sourceTree = "<group>"; };
 		0235FCCD1669423F008F136B /* TrackApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +180,10 @@
 				0235FCE01669423F008F136B /* AppDelegate.h */,
 				0235FCE11669423F008F136B /* AppDelegate.m */,
 				0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */,
+				0206C5F21680FFD000559975 /* FolderTableViewController.h */,
+				0206C5F31680FFD000559975 /* FolderTableViewController.m */,
+				0206C5F61680FFE500559975 /* FolderTablewViewCell.h */,
+				0206C5F71680FFE500559975 /* FolderTablewViewCell.m */,
 				A0B5F4571677C49F00956DA5 /* ScrollTestViewController.h */,
 				A0B5F4581677C49F00956DA5 /* ScrollTestViewController.m */,
 				0235FCEC1669423F008F136B /* MainStoryboard_iPad.storyboard */,
@@ -352,6 +362,8 @@
 				0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */,
 				0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */,
 				A0B5F4591677C49F00956DA5 /* ScrollTestViewController.m in Sources */,
+				0206C5F41680FFD000559975 /* FolderTableViewController.m in Sources */,
+				0206C5F81680FFE500559975 /* FolderTablewViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -37,6 +37,9 @@
 
 - (void)viewDidLoad
 {
+    [scrollview setScrollEnabled:YES];
+    [scrollview setContentSize:CGSizeMake(320, 800)];
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }

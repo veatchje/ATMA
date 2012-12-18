@@ -10,7 +10,7 @@
 #import "SetupTableViewController.h"
 
 @interface TaskMenuViewController : UIViewController {
-    
+    IBOutlet UIScrollView *scrollview;
 }
 - (IBAction)openEditDialog;
 - (IBAction)openSetupMenu;
