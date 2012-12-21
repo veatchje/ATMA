@@ -62,7 +62,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Folders" id="TpQ-Bu-7bj">
-                        <barButtonItem key="leftBarButtonItem" title="Setup" id="e7K-Aa-Nq6"/>
+                        <barButtonItem key="leftBarButtonItem" title="Setup" id="e7K-Aa-Nq6">
+                            <connections>
+                                <action selector="setupAlert" destination="7RX-5y-NAb" id="0zR-LM-JRd"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="w0V-Tc-ttl">
                             <connections>
                                 <action selector="alert" destination="7RX-5y-NAb" id="d9P-7E-smh"/>

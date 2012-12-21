@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+///////MITCH'S CODE START
+
 #import "FolderTableViewController.h"
 #import "FolderTableViewCell.h"
 
@@ -26,6 +28,12 @@
     [alert show];
 }
 
+- (IBAction)setupAlert{
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Main Menu" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"About", @"Settings", @"Help", nil];
+    
+    [alert show];
+}
 
 - (void)viewDidLoad
 {
@@ -71,3 +79,5 @@
 }
 
 @end
+
+///////MITCH'S CODE END

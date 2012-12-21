@@ -6,8 +6,12 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+///////MITCH'S CODE START
+
 #import <UIKit/UIKit.h>
 
 @interface TaskTableViewCell : UITableViewCell
 @property (nonatomic, strong) IBOutlet UILabel *taskName;
 @end
+
+///////MITCH'S CODE END
