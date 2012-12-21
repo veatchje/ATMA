@@ -21,6 +21,8 @@
     self.taskNames = [[NSArray alloc]
                         initWithObjects:@"wake up",
                         @"go to sleep", nil];
+    
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

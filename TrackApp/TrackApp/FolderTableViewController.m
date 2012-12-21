@@ -35,6 +35,8 @@
     [alert show];
 }
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -44,6 +46,9 @@
     self.folderNames = [[NSArray alloc]
                         initWithObjects:@"Business",
                         @"Personal", nil];
+    
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
