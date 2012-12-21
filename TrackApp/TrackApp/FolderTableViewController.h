@@ -13,7 +13,7 @@
 @interface FolderTableViewController : UITableViewController
 
 @property (nonatomic, strong) UIImageView *folderImage;
-@property (nonatomic, strong) NSArray *folderNames;
+@property (nonatomic, strong) NSMutableArray *folderNames;
 
 - (IBAction)alert;
 

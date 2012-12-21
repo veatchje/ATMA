@@ -43,11 +43,14 @@
     UIImage *img = [UIImage imageNamed:@"folder.png"];
     [self.folderImage setImage:img];
     
-    self.folderNames = [[NSArray alloc]
+    self.folderNames = [[NSMutableArray alloc]
                         initWithObjects:@"Business",
                         @"Personal", nil];
     
+    //ETHAN'S LINE OF CODE
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    
     
 }
 
@@ -81,6 +84,20 @@
     
         
     return cell;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        [self.folderNames removeObjectAtIndex:indexPath.row];
+        [tableView reloadData];
+    }
 }
 
 @end
