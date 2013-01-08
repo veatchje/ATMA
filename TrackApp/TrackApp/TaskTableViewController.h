@@ -10,7 +10,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TaskTableViewController : UITableViewController
+@interface TaskTableViewController : UITableViewController{
+    UIBarButtonItem *newTaskButton;
+}
 
 @property (nonatomic, strong) NSMutableArray *taskNames;
 
