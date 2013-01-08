@@ -12,7 +12,7 @@
 
 @interface TaskTableViewController : UITableViewController
 
-@property (nonatomic, strong) NSArray *taskNames;
+@property (nonatomic, strong) NSMutableArray *taskNames;
 
 @end
 

@@ -18,8 +18,8 @@
 {
     [super viewDidLoad];
     
-    self.taskNames = [[NSArray alloc]
-                        initWithObjects:@"wake up",
+    self.taskNames = [[NSMutableArray alloc]
+                        initWithObjects:@"wake up", @"eat", 
                         @"go to sleep", nil];
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -55,6 +55,20 @@
     
     
     return cell;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        [self.taskNames removeObjectAtIndex:indexPath.row];
+        [tableView reloadData];
+    }
 }
 
 @end
