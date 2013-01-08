@@ -17,6 +17,13 @@
 
 - (IBAction)alert;
 
+///////BRIAN'S CODE START
+
+- (BOOL)shouldAutorotate;
+- (NSInteger)supportedInterfaceOrientations;
+
+///////BRIAN'S CODE END
+
 @end
 
 ///////MITCH'S CODE END

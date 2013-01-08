@@ -54,6 +54,20 @@
     
 }
 
+//////START BRIAN'S CODE
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+//////END BRIAN'S CODE
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
