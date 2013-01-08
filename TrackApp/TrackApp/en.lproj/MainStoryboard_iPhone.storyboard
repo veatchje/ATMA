@@ -52,7 +52,7 @@
                                 <connections>
                                     <outlet property="folderImage" destination="R0X-3e-jJz" id="uVb-GZ-FCv"/>
                                     <outlet property="folderName" destination="9Qd-WD-a3j" id="qBP-LC-57l"/>
-                                    <segue destination="dat-rE-7nb" kind="push" id="Uqw-NN-Ism"/>
+                                    <segue destination="dat-rE-7nb" kind="push" identifier="showFolderTitle" id="Uqw-NN-Ism"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -289,6 +289,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderTableViewController.h"/>
             <relationships>
                 <relationship kind="action" name="alert"/>
+                <relationship kind="action" name="sendTitle:"/>
             </relationships>
         </class>
         <class className="TaskTableViewCell" superclassName="UITableViewCell">

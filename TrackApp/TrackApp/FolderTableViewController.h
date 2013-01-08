@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSMutableArray *folderNames;
 
 - (IBAction)alert;
+- (IBAction)sendTitle:(id)sender;
 
 ///////BRIAN'S CODE START
 

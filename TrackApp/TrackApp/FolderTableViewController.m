@@ -10,6 +10,7 @@
 
 #import "FolderTableViewController.h"
 #import "FolderTableViewCell.h"
+#import "TaskMenuViewController.h"
 
 @implementation FolderTableViewController
 @synthesize folderImage = _folderImage;
@@ -33,6 +34,14 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Main Menu" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"About", @"Settings", @"Help", nil];
     
     [alert show];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"showFolderTitle"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        TaskMenuViewController *destViewController = segue.destinationViewController;
+        destViewController.navigationItem.title = [self.folderNames objectAtIndex:indexPath.row];
+    }
 }
 
 
@@ -100,6 +109,7 @@
     return cell;
 }
 
+//Edit and Delete
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return UITableViewCellEditingStyleDelete;
