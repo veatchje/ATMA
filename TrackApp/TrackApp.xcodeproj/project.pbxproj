@@ -37,6 +37,7 @@
 		0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD3816695750008F136B /* CreateTaskViewController.m */; };
 		0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */; };
 		0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A321674FBCC007E7F08 /* UITaskViewCell.m */; };
+		0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */ = {isa = PBXBuildFile; fileRef = 0AA85DE7169FFB4C00090FB5 /* atmadatabase */; };
 		DA62A484166E99B2001C370F /* CreateTaskViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +98,7 @@
 		0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITaskListViewControllerIPad.m; path = ../UITaskListViewControllerIPad.m; sourceTree = "<group>"; };
 		0A241A311674FBCC007E7F08 /* UITaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITaskViewCell.h; sourceTree = "<group>"; };
 		0A241A321674FBCC007E7F08 /* UITaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITaskViewCell.m; sourceTree = "<group>"; };
+		0AA85DE7169FFB4C00090FB5 /* atmadatabase */ = {isa = PBXFileReference; lastKnownFileType = file; name = atmadatabase; path = ../../atmadatabase; sourceTree = "<group>"; };
 		DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateTaskViewIpad.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,6 +185,7 @@
 				0235FCF31669423F008F136B /* DetailViewController.m */,
 				0235FD35166956D1008F136B /* CreateTaskViewController.h */,
 				0235FD3816695750008F136B /* CreateTaskViewController.m */,
+				0AA85DE5169FFB3100090FB5 /* Database */,
 				0235FCD81669423F008F136B /* Supporting Files */,
 				0235FD2616694B91008F136B /* test.xib */,
 				0235FD3316695270008F136B /* CreateTaskView.xib */,
@@ -223,6 +226,14 @@
 				0235FD0416694240008F136B /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0AA85DE5169FFB3100090FB5 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				0AA85DE7169FFB4C00090FB5 /* atmadatabase */,
+			);
+			name = Database;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +317,7 @@
 				0235FD3416695270008F136B /* CreateTaskView.xib in Resources */,
 				DA62A484166E99B2001C370F /* CreateTaskViewIpad.xib in Resources */,
 				0206C600168117CF00559975 /* folder.png in Resources */,
+				0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

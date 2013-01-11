@@ -9,11 +9,24 @@
 ///////MITCH'S CODE START
 
 #import <UIKit/UIKit.h>
+#import <sqlite3.h>
 
-@interface FolderTableViewController : UITableViewController
+@interface FolderTableViewController : UITableViewController {
+    
+	// Outlets
+	IBOutlet UITextView *textView;
+	IBOutlet UITextField *textField;
+	
+	NSMutableArray *_namesArray;
+}
+
+#define DATABASE_NAME @"atmadatabase.db"
+#define DATABASE_TITLE @"atmadatabase"
 
 @property (nonatomic, strong) UIImageView *folderImage;
 @property (nonatomic, strong) NSMutableArray *folderNames;
+@property(nonatomic, retain) IBOutlet UITextView *textView;
+@property(nonatomic, retain) IBOutlet UITextField *textField;
 
 - (IBAction)alert;
 - (IBAction)sendTitle:(id)sender;
