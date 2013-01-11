@@ -12,6 +12,7 @@
 		0206C5FB16810CD900559975 /* TaskTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5FA16810CD800559975 /* TaskTableViewController.m */; };
 		0206C5FE16810CF400559975 /* TaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5FD16810CF400559975 /* TaskTableViewCell.m */; };
 		0206C600168117CF00559975 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 0206C5FF168117CF00559975 /* folder.png */; };
+		020C5F3516A0AEC300EEF68D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */; };
 		020F3324166E9DD4007DD053 /* SetupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F3323166E9DD4007DD053 /* SetupTableViewController.m */; };
 		0235FCD21669423F008F136B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD11669423F008F136B /* UIKit.framework */; };
 		0235FCD41669423F008F136B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD31669423F008F136B /* Foundation.framework */; };
@@ -61,6 +62,7 @@
 		0206C5FC16810CF400559975 /* TaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskTableViewCell.h; sourceTree = "<group>"; };
 		0206C5FD16810CF400559975 /* TaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTableViewCell.m; sourceTree = "<group>"; };
 		0206C5FF168117CF00559975 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = SOURCE_ROOT; };
+		020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		020F3322166E9DD4007DD053 /* SetupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupTableViewController.h; sourceTree = "<group>"; };
 		020F3323166E9DD4007DD053 /* SetupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupTableViewController.m; sourceTree = "<group>"; };
 		0235FCCD1669423F008F136B /* TrackApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				020C5F3516A0AEC300EEF68D /* libsqlite3.dylib in Frameworks */,
 				0235FCD21669423F008F136B /* UIKit.framework in Frameworks */,
 				0235FCD41669423F008F136B /* Foundation.framework in Frameworks */,
 				0235FCD61669423F008F136B /* CoreGraphics.framework in Frameworks */,
@@ -129,6 +132,7 @@
 		0235FCC21669423F008F136B = {
 			isa = PBXGroup;
 			children = (
+				020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */,
 				0235FCD71669423F008F136B /* TrackApp */,
 				0235FD011669423F008F136B /* TrackAppTests */,
 				0235FCD01669423F008F136B /* Frameworks */,

@@ -21,6 +21,8 @@
     
     UIBarButtonItem *newFolderButton;
     UIBarButtonItem *setupButton;
+    
+    UITextField *folderNameTextField;
 }
 
 #define DATABASE_NAME @"atmadatabase.db"
@@ -33,6 +35,7 @@
 
 - (IBAction)alert;
 - (IBAction)sendTitle:(id)sender;
+- (void) loadNamesFromDatabase;
 
 ///////BRIAN'S CODE START
 

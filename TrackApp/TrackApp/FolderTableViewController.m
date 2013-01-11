@@ -12,6 +12,21 @@
 #import "FolderTableViewCell.h"
 #import "TaskMenuViewController.h"
 
+#define TAG_SETUP 1
+#define TAG_NEWFOLDER 2
+
+//Apparently this code has to be up here. I don't know why - Ahmed
+static int loadNamesCallback(void *context, int count, char **values, char **columns)
+{
+    //Xcode is forcing me to add the _bridge keyword. I don't know why, to be honest
+    NSMutableArray *names = (__bridge NSMutableArray *)context;
+    for (int i=0; i < count; i++) {
+        const char *nameCString = values[i];
+        [names addObject:[NSString stringWithUTF8String:nameCString]];
+    }
+    return SQLITE_OK;
+}
+
 @implementation FolderTableViewController
 @synthesize folderImage = _folderImage;
 @synthesize folderNames = _folderNames;
@@ -19,21 +34,38 @@
 - (IBAction)alert{
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Folder" message:@"Put in folder name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
-    UITextField *folderNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
+    folderNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
     [folderNameTextField setBackgroundColor:[UIColor whiteColor]];
     [alert addSubview:folderNameTextField];
-    
-    
-    NSString *folderName = folderNameTextField.text;
+    alert.tag = TAG_NEWFOLDER;
     
     [alert show];
+}
+
+- (IBAction)createFolder{
+    NSString *folderName = folderNameTextField.text;
 }
 
 - (IBAction)setupAlert{
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Main Menu" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"About", @"Settings", @"Help", nil];
+    alert.tag = TAG_SETUP;
     
     [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(alertView.tag == TAG_NEWFOLDER){
+        if (buttonIndex != [alertView cancelButtonIndex]) {
+            NSString *folderName = folderNameTextField.text;
+            //Add name to database HERE
+            [self.folderNames addObject:folderName];
+            [self.tableView reloadData];
+        }
+    }
+    else if(alertView.tag == TAG_SETUP){
+        
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -52,6 +84,8 @@
     UIImage *img = [UIImage imageNamed:@"folder.png"];
     [self.folderImage setImage:img];
     
+    //[self loadNamesFromDatabase];
+    
     self.folderNames = [[NSMutableArray alloc]
                         initWithObjects:@"Business",
                         @"Personal", nil];
@@ -63,10 +97,12 @@
                                                                     target:self
                                                                     action:@selector(alert)];
     
-    setupButton = [[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStylePlain target:self
+    setupButton = [[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStylePlain
+                                                                target:self
                                                                 action:@selector(setupAlert)];
     
 }
+
 
 //////START BRIAN'S CODE
 
@@ -99,7 +135,7 @@
     static NSString *CellIdentifier = @"folderTableCell";
     
     FolderTableViewCell *cell = [tableView
-                                 dequeueReusableCellWithIdentifier:CellIdentifier];
+                              dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[FolderTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
@@ -108,9 +144,9 @@
     
     // Configure the cell...
     cell.folderName.text = [self.folderNames
-                            objectAtIndex: [indexPath row]];
+                           objectAtIndex: [indexPath row]];
     
-    
+        
     return cell;
 }
 
@@ -138,6 +174,90 @@
         self.navigationItem.leftBarButtonItem = setupButton;
     
 }
+
+//Database stuff starts here
+
+- (NSString *) getWritableDBPath {
+	
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
+	NSString *documentsDir = [paths objectAtIndex:0];
+	return [documentsDir stringByAppendingPathComponent:DATABASE_NAME];
+}
+
+- (void)loadNamesFromDatabase
+{
+    NSString *file = [self getWritableDBPath];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	BOOL success = [fileManager fileExistsAtPath:file];
+    
+	// If its not a local copy set it to the bundle copy
+	if(!success) {
+		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
+		[self createEditableCopyOfDatabaseIfNeeded];
+	}
+    
+    sqlite3 *database = NULL;
+    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
+        sqlite3_exec(database, "select name from folders", loadNamesCallback, (__bridge void *)(self.folderNames), NULL);
+    }
+    sqlite3_close(database);
+}
+
+- (void)saveNameInDatabase:(NSString *)theName {
+	
+	// Copy the database if needed
+	[self createEditableCopyOfDatabaseIfNeeded];
+	
+	NSString *filePath = [self getWritableDBPath];
+	
+	sqlite3 *database;
+	
+	if(sqlite3_open([filePath UTF8String], &database) == SQLITE_OK) {
+		const char *sqlStatement = "insert into folders (name) VALUES (?)";
+		sqlite3_stmt *compiledStatement;
+		if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK)    {
+			sqlite3_bind_text( compiledStatement, 1, [theName UTF8String], -1, SQLITE_TRANSIENT);
+		}
+		if(sqlite3_step(compiledStatement) != SQLITE_DONE ) {
+			NSLog( @"Save Error: %s", sqlite3_errmsg(database) );
+		}
+		sqlite3_finalize(compiledStatement);
+	}
+	sqlite3_close(database);
+}
+
+-(void)createEditableCopyOfDatabaseIfNeeded
+{
+    // Testing for existence
+    BOOL success;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+														 NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:DATABASE_NAME];
+	
+    success = [fileManager fileExistsAtPath:writableDBPath];
+    if (success)
+        return;
+	
+    // The writable database does not exist, so copy the default to
+    // the appropriate location.
+    NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath]
+							   stringByAppendingPathComponent:DATABASE_NAME];
+    success = [fileManager copyItemAtPath:defaultDBPath
+								   toPath:writableDBPath
+									error:&error];
+    if(!success)
+    {
+        NSAssert1(0,@"Failed to create writable database file with Message : '%@'.",
+				  [error localizedDescription]);
+    }
+}
+
+ 
+//Database stuff ends here
+
 
 @end
 

@@ -118,7 +118,7 @@
         <!--Create Task View Controller - New Task-->
         <scene sceneID="ejs-Jf-Tem">
             <objects>
-                <viewController id="muW-hW-dKr" customClass="CreateTaskViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateTaskViewController" id="muW-hW-dKr" customClass="CreateTaskViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="b7l-zu-CPo">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -284,6 +284,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <relationships>
                 <relationship kind="action" name="alert"/>
                 <relationship kind="action" name="sendTitle:"/>
+                <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
             </relationships>
         </class>
         <class className="TaskTableViewCell" superclassName="UITableViewCell">

@@ -32,10 +32,10 @@
 }
 
 - (void) newTaskButtonTouched
-{
-    CreateTaskViewController *newTaskView = [[CreateTaskViewController alloc] initWithNibName:nil bundle:nil];
-    newTaskView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentModalViewController:newTaskView animated:YES];
+{    
+    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -88,8 +88,9 @@
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
 {
     [super setEditing:editing animated:animate];
-    if(editing)
+    if(editing){
         self.navigationItem.leftBarButtonItem = newTaskButton;
+    }
     else
         self.navigationItem.leftBarButtonItem = nil;
     
