@@ -18,6 +18,9 @@
 	IBOutlet UITextField *textField;
 	
 	NSMutableArray *_namesArray;
+    
+    UIBarButtonItem *newFolderButton;
+    UIBarButtonItem *setupButton;
 }
 
 #define DATABASE_NAME @"atmadatabase.db"

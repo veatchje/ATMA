@@ -10,6 +10,7 @@
 
 #import "TaskTableViewController.h"
 #import "TaskTableViewCell.h"
+#import "CreateTaskViewController.h"
 
 @implementation TaskTableViewController
 @synthesize taskNames = _taskNames;
@@ -32,7 +33,9 @@
 
 - (void) newTaskButtonTouched
 {
-    // logic to allow user to add new items goes here
+    CreateTaskViewController *newTaskView = [[CreateTaskViewController alloc] initWithNibName:nil bundle:nil];
+    newTaskView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentModalViewController:newTaskView animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
