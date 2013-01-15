@@ -20,12 +20,14 @@
 }
 
 - (IBAction)cancel {
-    //put code here
+    //Clear fields
+    //Pop current view
 }
 
 - (IBAction)save {
-    /*GameMenuController *gmc = [[GameMenuController alloc] initWithNibName:@"GameMenuController" bundle:nil];
-     [self.navigationController pushViewController:gmc animated:NO];*/
+    //Database call
+    //Pop current view
+    [self.navigationItem.leftBarButtonItem performSelector:self.navigationItem.leftBarButtonItem.action];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
