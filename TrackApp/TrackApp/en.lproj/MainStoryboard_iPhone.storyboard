@@ -274,7 +274,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <outlet property="delegate" destination="muW-hW-dKr" id="Kd1-2L-FOo"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GHI-VE-GUK">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GHI-VE-GUK" userLabel="lblDate">
                                         <rect key="frame" x="258" y="346" width="42" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -295,7 +295,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </navigationItem>
                     <connections>
                         <outlet property="goalNumber" destination="772-ts-X2f" id="zJb-Bq-ArK"/>
-                        <outlet property="lblDate" destination="GHI-VE-GUK" id="njx-Qf-GLf"/>
                         <outlet property="scrollview" destination="7Wd-EU-nxR" id="2Yp-VR-d4F"/>
                         <outlet property="taskName" destination="zae-Ki-aq9" id="nf9-No-DxR"/>
                         <outlet property="unitName" destination="0F7-n2-wdK" id="4V0-eb-ef3"/>
