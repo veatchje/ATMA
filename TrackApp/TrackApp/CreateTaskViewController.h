@@ -12,6 +12,8 @@
 
 @interface CreateTaskViewController : UIViewController {
     IBOutlet UIScrollView *scrollview;
+    IBOutlet UIDatePicker* datePicker;
+    IBOutlet UILabel* lblDate;
 }
 - (IBAction)openSetupMenu;
 - (IBAction)cancel;
