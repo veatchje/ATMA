@@ -64,7 +64,16 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         }
     }
     else if(alertView.tag == TAG_SETUP){
-        //Do setup stuff
+        if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"About"]){
+            UIAlertView *aboutAlert = [[UIAlertView alloc] initWithTitle:@"About" message:@"This is for Senior Project" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [aboutAlert show];
+        }
+        else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Settings"]){
+            //What happens when you press the Settings Button
+        }
+        else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Help"]){
+            //What happens when you press the Help Button
+        }
     }
 }
 
