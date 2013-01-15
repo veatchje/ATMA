@@ -61,11 +61,19 @@
 
 -(IBAction)GetDateWithDay
 {
+    NSDate *today = datePicker.date;
+    NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
+    [myFormatter setDateFormat:@"EEEE"]; // day, like "Saturday"
+    [myFormatter setDateFormat:@"c"]; // day number, like 7 for saturday
     
-    NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
-    [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-    [theDateFormatter setDateFormat:@"EEEE"];
-    lblDate.text =  [theDateFormatter stringFromDate:datePicker.date];
+    NSString *dayOfWeek = [myFormatter stringFromDate:today];
+    lblDate.text =dayOfWeek;
+    
+    
+//    NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
+//    [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+//    [theDateFormatter setDateFormat:@"EEEE"];
+//    lblDate.text =  [theDateFormatter stringFromDate:datePicker.date];
     //lblDate.text=@"change";
 //    NSDate* dt = datePicker.date;
 //    NSDateFormatter* df = [[NSDateFormatter alloc]init];
