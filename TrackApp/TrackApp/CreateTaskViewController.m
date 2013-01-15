@@ -21,13 +21,12 @@
 
 - (IBAction)cancel {
     //Clear fields
-    //Pop current view
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)save {
     //Database call
-    //Pop current view
-    [self.navigationItem.leftBarButtonItem performSelector:self.navigationItem.leftBarButtonItem.action];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

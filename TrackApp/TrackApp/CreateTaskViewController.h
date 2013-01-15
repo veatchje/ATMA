@@ -14,6 +14,10 @@
     IBOutlet UIScrollView *scrollview;
     IBOutlet UIDatePicker* datePicker;
     IBOutlet UILabel* lblDate;
+    
+    IBOutlet UITextField* taskName;
+    IBOutlet UITextField* unitName;
+    IBOutlet UITextField* goalNumber;
 }
 - (IBAction)openSetupMenu;
 - (IBAction)cancel;
