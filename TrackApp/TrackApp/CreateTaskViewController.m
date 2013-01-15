@@ -62,11 +62,11 @@
 -(IBAction)GetDateWithDay
 {
     
-//    NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
-//    [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-//    [theDateFormatter setDateFormat:@"EEEE"];
-//    lblDate.text =  [theDateFormatter stringFromDate:datePicker.date];
-    lblDate.text=@"change";
+    NSDateFormatter* theDateFormatter = [[NSDateFormatter alloc] init];
+    [theDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [theDateFormatter setDateFormat:@"EEEE"];
+    lblDate.text =  [theDateFormatter stringFromDate:datePicker.date];
+    //lblDate.text=@"change";
 //    NSDate* dt = datePicker.date;
 //    NSDateFormatter* df = [[NSDateFormatter alloc]init];
 //    [df setDateFormat:@"yyyy-MM-dd"];
