@@ -66,11 +66,11 @@
     NSDateFormatter* df = [[NSDateFormatter alloc]init];
     [df setDateFormat:@"yyyy-MM-dd"];
     
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSInteger units = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit;
-    NSDateComponents *components = [calendar components:units fromDate:dt];
-    NSInteger year = [components year];
-    NSInteger day = [components day];
+   // NSCalendar *calendar = [NSCalendar currentCalendar];
+   // NSInteger units = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit;
+    //NSDateComponents *components = [calendar components:units fromDate:dt];
+   // NSInteger year = [components year];
+   // NSInteger day = [components day];
     
     NSDateFormatter *weekDay = [[NSDateFormatter alloc] init];
     [weekDay setDateFormat:@"EEEE"];
@@ -78,7 +78,7 @@
     NSDateFormatter *calMonth = [[NSDateFormatter alloc] init];
     [calMonth setDateFormat:@"MM"];
     
-    lblDate.text = [NSString stringWithFormat:@"%@, %i-%@-%i",[weekDay stringFromDate:dt], day, [calMonth stringFromDate:dt], year];}
+    lblDate.text = [weekDay stringFromDate:dt];}
 
 @end;
 
