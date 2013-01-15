@@ -64,7 +64,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         }
     }
     else if(alertView.tag == TAG_SETUP){
-        
+        //Do setup stuff
     }
 }
 
@@ -199,6 +199,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     sqlite3 *database = NULL;
     if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
         sqlite3_exec(database, "select name from folders", loadNamesCallback, (__bridge void *)(self.folderNames), NULL);
+        //Update the TableView
+        [self.tableView reloadData];
     }
     sqlite3_close(database);
 }
