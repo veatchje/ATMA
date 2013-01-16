@@ -64,7 +64,6 @@
     NSDate *today = datePicker.date;
     NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
     [myFormatter setDateFormat:@"EEEE"]; // day, like "Saturday"
-    [myFormatter setDateFormat:@"c"]; // day number, like 7 for saturday
     
     NSString *dayOfWeek = [myFormatter stringFromDate:today];
     lblDate.text =dayOfWeek;

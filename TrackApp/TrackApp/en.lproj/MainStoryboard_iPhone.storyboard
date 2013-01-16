@@ -294,6 +294,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="datePicker" destination="5f4-cj-1RK" id="Snp-Ir-17K"/>
                         <outlet property="goalNumber" destination="772-ts-X2f" id="zJb-Bq-ArK"/>
                         <outlet property="lblDate" destination="GHI-VE-GUK" id="1az-9x-8IT"/>
                         <outlet property="scrollview" destination="7Wd-EU-nxR" id="2Yp-VR-d4F"/>
