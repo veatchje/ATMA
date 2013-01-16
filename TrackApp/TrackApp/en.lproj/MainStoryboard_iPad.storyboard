@@ -392,10 +392,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <segue destination="Vzj-TL-JRq" kind="push" id="sgZ-ZG-C2e"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UoV-Id-4vp">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" restorationIdentifier="lblDate" text="Day Of Week" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UoV-Id-4vp">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="79" id="3dM-TT-Oho"/>
                                     <constraint firstAttribute="height" constant="44" id="QiS-Ys-PLK"/>
+                                    <constraint firstAttribute="width" constant="127" id="Uhs-4L-GjR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -404,8 +404,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         </subviews>
                         <constraints>
                             <constraint firstItem="kss-8c-uIB" firstAttribute="bottom" secondItem="8PY-Lc-gxm" secondAttribute="bottom" type="default" id="398-cf-pvX"/>
-                            <constraint firstItem="UoV-Id-4vp" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="351" id="4Hf-mS-aBc"/>
-                            <constraint firstItem="UoV-Id-4vp" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="181" id="6nD-HA-9SW"/>
                             <constraint firstItem="JA9-zD-0Ht" firstAttribute="top" secondItem="NmR-MY-alD" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="7FT-n0-gRC"/>
                             <constraint firstItem="LJM-8B-e2b" firstAttribute="trailing" secondItem="yaM-rt-coj" secondAttribute="trailing" type="default" id="AEn-kF-d0t"/>
                             <constraint firstItem="yaM-rt-coj" firstAttribute="baseline" secondItem="1X4-7G-eoT" secondAttribute="baseline" type="default" id="AjC-nm-oF6"/>
@@ -418,22 +416,24 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <constraint firstItem="CDn-Bd-3t4" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Om2-vS-eLK"/>
                             <constraint firstItem="LJM-8B-e2b" firstAttribute="leading" secondItem="8XU-hK-fDz" secondAttribute="leading" type="default" id="RO9-Nt-0HK"/>
                             <constraint firstItem="vHW-bW-yGT" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="SFh-Xb-x2f"/>
-                            <constraint firstItem="8PY-Lc-gxm" firstAttribute="baseline" secondItem="kss-8c-uIB" secondAttribute="baseline" type="default" id="VN9-Dv-KSJ"/>
                             <constraint firstItem="LJM-8B-e2b" firstAttribute="baseline" secondItem="CDn-Bd-3t4" secondAttribute="baseline" type="default" id="X8Q-gt-cbo"/>
+                            <constraint firstItem="UoV-Id-4vp" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="383" id="aVe-Rn-m2T"/>
                             <constraint firstItem="dSU-6f-xhg" firstAttribute="trailing" secondItem="vHW-bW-yGT" secondAttribute="trailing" type="default" id="bGY-AD-Woe"/>
                             <constraint firstItem="yaM-rt-coj" firstAttribute="leading" secondItem="LJM-8B-e2b" secondAttribute="leading" type="default" id="bXr-tz-vCb"/>
                             <constraint firstItem="8PY-Lc-gxm" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="539" id="c0j-5D-uAN"/>
                             <constraint firstAttribute="trailing" secondItem="8PY-Lc-gxm" secondAttribute="trailing" constant="89" id="eNV-cj-HsV"/>
                             <constraint firstItem="kss-8c-uIB" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="799" id="f5k-UT-cCR"/>
-                            <constraint firstItem="NmR-MY-alD" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="238" id="g1X-8s-5ri"/>
                             <constraint firstItem="1X4-7G-eoT" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="h7s-pg-cZS"/>
                             <constraint firstItem="yaM-rt-coj" firstAttribute="top" secondItem="LJM-8B-e2b" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="heA-dL-Rtc"/>
                             <constraint firstItem="LJM-8B-e2b" firstAttribute="top" secondItem="8XU-hK-fDz" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="heI-8L-Khw"/>
                             <constraint firstAttribute="bottom" secondItem="kss-8c-uIB" secondAttribute="bottom" constant="65" id="kg9-hu-j5k"/>
                             <constraint firstItem="TsQ-LU-GNG" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="110" id="kjc-4M-hwN"/>
+                            <constraint firstItem="kss-8c-uIB" firstAttribute="baseline" secondItem="8PY-Lc-gxm" secondAttribute="baseline" type="default" id="laL-W9-CBa"/>
                             <constraint firstItem="NmR-MY-alD" firstAttribute="leading" secondItem="JA9-zD-0Ht" secondAttribute="leading" type="default" id="qsH-15-O6u"/>
+                            <constraint firstItem="JA9-zD-0Ht" firstAttribute="leading" secondItem="UoV-Id-4vp" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="sg6-vN-SsX"/>
                             <constraint firstItem="vHW-bW-yGT" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="362" id="t2r-Ks-9e7"/>
                             <constraint firstItem="8XU-hK-fDz" firstAttribute="baseline" secondItem="TsQ-LU-GNG" secondAttribute="baseline" type="default" id="tIE-dw-hea"/>
+                            <constraint firstItem="kss-8c-uIB" firstAttribute="trailing" secondItem="UoV-Id-4vp" secondAttribute="trailing" type="default" id="tUL-Ue-DHF"/>
                             <constraint firstItem="kss-8c-uIB" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="90" id="x1t-aM-PkG"/>
                             <constraint firstItem="dSU-6f-xhg" firstAttribute="baseline" secondItem="NmR-MY-alD" secondAttribute="baseline" type="default" id="zHy-yr-etY"/>
                             <constraint firstItem="dSU-6f-xhg" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="zmM-em-Mxa"/>
@@ -442,6 +442,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </scrollView>
                     <navigationItem key="navigationItem" title="New Task" id="A3l-Et-6SN"/>
                     <connections>
+                        <outlet property="datePicker" destination="JA9-zD-0Ht" id="ZIJ-8e-fsu"/>
                         <outlet property="lblDate" destination="UoV-Id-4vp" id="7Gt-RV-LNk"/>
                     </connections>
                 </viewController>
@@ -476,8 +477,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <relationship kind="action" name="openSetupMenu"/>
                 <relationship kind="action" name="save"/>
                 <relationship kind="outlet" name="datePicker" candidateClass="UIDatePicker"/>
+                <relationship kind="outlet" name="goalNumber" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="lblDate" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="scrollview" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="taskName" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="unitName" candidateClass="UITextField"/>
             </relationships>
         </class>
         <class className="FolderTableViewCell" superclassName="UITableViewCell">
