@@ -12,6 +12,18 @@
 #import "TaskTableViewCell.h"
 #import "CreateTaskViewController.h"
 
+//Apparently this code has to be up here. I don't know why - Ahmed
+//This needs to be changed
+static int loadNamesCallback(void *context, int count, char **values, char **columns)
+{
+    NSMutableArray *names = (__bridge NSMutableArray *)context;
+    for (int i=0; i < count; i++) {
+        const char *nameCString = values[i];
+        [names addObject:[NSString stringWithUTF8String:nameCString]];
+    }
+    return SQLITE_OK;
+}
+
 @implementation TaskTableViewController
 @synthesize taskNames = _taskNames;
 
@@ -95,6 +107,95 @@
         self.navigationItem.leftBarButtonItem = nil;
     
 }
+
+//Database stuff starts here - Ahmed
+
+- (NSString *) getWritableDBPath {
+	
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
+	NSString *documentsDir = [paths objectAtIndex:0];
+	return [documentsDir stringByAppendingPathComponent:DATABASE_NAME];
+}
+
+- (void)loadTasksFromDatabase
+{
+    NSString *file = [self getWritableDBPath];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	BOOL success = [fileManager fileExistsAtPath:file];
+    
+	// If its not a local copy set it to the bundle copy
+	if(!success) {
+		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
+		[self createEditableCopyOfDatabaseIfNeeded];
+	}
+    
+    sqlite3 *database = NULL;
+    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
+        sqlite3_exec(database, "select name from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskNames), NULL);
+        sqlite3_exec(database, "select units from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskUnits), NULL);
+        sqlite3_exec(database, "select period from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskPeriods), NULL);
+        sqlite3_exec(database, "select enddate from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskEndDates), NULL);
+        sqlite3_exec(database, "select current from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskCurrents), NULL);
+        sqlite3_exec(database, "select target from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskTargets), NULL);
+        //Update the TableView
+        [self.tableView reloadData];
+    }
+    sqlite3_close(database);
+}
+
+- (void)saveTaskInDatabase:(NSString *)theName {
+	
+	// Copy the database if needed
+	[self createEditableCopyOfDatabaseIfNeeded];
+	
+	NSString *filePath = [self getWritableDBPath];
+	
+	sqlite3 *database;
+	
+	if(sqlite3_open([filePath UTF8String], &database) == SQLITE_OK) {
+		const char *sqlStatement = "insert into tasks (name) VALUES (?)";
+		sqlite3_stmt *compiledStatement;
+		if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK)    {
+			sqlite3_bind_text( compiledStatement, 1, [theName UTF8String], -1, SQLITE_TRANSIENT);
+		}
+		if(sqlite3_step(compiledStatement) != SQLITE_DONE ) {
+			NSLog( @"Save Error: %s", sqlite3_errmsg(database) );
+		}
+		sqlite3_finalize(compiledStatement);
+	}
+	sqlite3_close(database);
+}
+
+-(void)createEditableCopyOfDatabaseIfNeeded
+{
+    // Testing for existence
+    BOOL success;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+														 NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:DATABASE_NAME];
+	
+    success = [fileManager fileExistsAtPath:writableDBPath];
+    if (success)
+        return;
+	
+    // The writable database does not exist, so copy the default to
+    // the appropriate location.
+    NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath]
+							   stringByAppendingPathComponent:DATABASE_NAME];
+    success = [fileManager copyItemAtPath:defaultDBPath
+								   toPath:writableDBPath
+									error:&error];
+    if(!success)
+    {
+        NSAssert1(0,@"Failed to create writable database file with Message : '%@'.",
+				  [error localizedDescription]);
+    }
+}
+
+//Database stuff ends here
 
 @end
 

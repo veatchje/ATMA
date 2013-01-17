@@ -18,7 +18,6 @@
 //Apparently this code has to be up here. I don't know why - Ahmed
 static int loadNamesCallback(void *context, int count, char **values, char **columns)
 {
-    //Xcode is forcing me to add the _bridge keyword. I don't know why, to be honest
     NSMutableArray *names = (__bridge NSMutableArray *)context;
     for (int i=0; i < count; i++) {
         const char *nameCString = values[i];
@@ -184,7 +183,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
 }
 
-//Database stuff starts here
+//Database stuff starts here - Ahmed
 
 - (NSString *) getWritableDBPath {
 	

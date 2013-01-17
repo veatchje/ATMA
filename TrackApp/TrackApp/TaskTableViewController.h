@@ -9,12 +9,21 @@
 ///////MITCH'S CODE START
 
 #import <UIKit/UIKit.h>
+#import <sqlite3.h>
 
 @interface TaskTableViewController : UITableViewController{
     UIBarButtonItem *newTaskButton;
 }
 
+#define DATABASE_NAME @"atmadatabase.db"
+#define DATABASE_TITLE @"atmadatabase"
+
 @property (nonatomic, strong) NSMutableArray *taskNames;
+@property (nonatomic, strong) NSMutableArray *taskUnits;
+@property (nonatomic, strong) NSMutableArray *taskPeriods;
+@property (nonatomic, strong) NSMutableArray *taskEndDates;
+@property (nonatomic, strong) NSMutableArray *taskCurrents;
+@property (nonatomic, strong) NSMutableArray *taskTargets;
 
 @end
 
