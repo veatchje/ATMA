@@ -13,6 +13,7 @@
 
 @interface TaskTableViewController : UITableViewController{
     UIBarButtonItem *newTaskButton;
+    NSString* folderName;
 }
 
 #define DATABASE_NAME @"atmadatabase.db"

@@ -10,7 +10,7 @@
 
 #import "FolderTableViewController.h"
 #import "FolderTableViewCell.h"
-#import "TaskMenuViewController.h"
+#import "TaskTableViewController.h"
 
 #define TAG_SETUP 1
 #define TAG_NEWFOLDER 2
@@ -85,7 +85,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"showFolderTitle"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        TaskMenuViewController *destViewController = segue.destinationViewController;
+        TaskTableViewController *destViewController = segue.destinationViewController;
         destViewController.navigationItem.title = [self.folderNames objectAtIndex:indexPath.row];
     }
 }

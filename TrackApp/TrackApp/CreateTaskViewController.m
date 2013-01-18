@@ -19,6 +19,10 @@
     //put code here
 }
 
+- (void) setFolderName: (NSString*) name {
+    folderName = name;
+}
+
 - (IBAction)cancel {
     //Clear fields
     [self.navigationController popViewControllerAnimated:YES];

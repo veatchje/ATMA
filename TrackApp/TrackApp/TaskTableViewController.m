@@ -48,6 +48,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     newTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                   target:self
                                                                   action:@selector(newTaskButtonTouched)];
+    folderName = self.navigationItem.title;
     
 }
 
@@ -64,6 +65,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {    
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
     CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
+    [vc setFolderName:folderName];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -23,6 +23,7 @@
     
     NSString* folderName;
 }
+- (void)setFolderName: (NSString*) name;
 - (IBAction)openSetupMenu;
 - (IBAction)cancel;
 - (IBAction)save;
