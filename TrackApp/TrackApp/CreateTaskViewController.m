@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-///////MITCH'S CODE START
+///////MITCH CODE START
 
 #import "CreateTaskViewController.h"
 
@@ -72,4 +72,4 @@
 
 @end;
 
-///////MITCH'S CODE END
+///////MITCH CODE END

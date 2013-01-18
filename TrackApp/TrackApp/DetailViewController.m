@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+/*
+
 #import "DetailViewController.h"
 
 @interface DetailViewController ()
@@ -69,4 +71,6 @@
     self.masterPopoverController = nil;
 }
 
+
 @end
+ */

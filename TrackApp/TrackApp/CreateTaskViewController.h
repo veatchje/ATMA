@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-///////MITCH'S CODE START
+///////MITCH CODE START
 
 #import <UIKit/UIKit.h>
 
@@ -18,6 +18,8 @@
     IBOutlet UITextField* taskName;
     IBOutlet UITextField* unitName;
     IBOutlet UITextField* goalNumber;
+    
+    NSString* folderName;
 }
 - (IBAction)openSetupMenu;
 - (IBAction)cancel;
@@ -25,4 +27,4 @@
 
 @end
 
-///////MITCH'S CODE END
+///////MITCH CODE END

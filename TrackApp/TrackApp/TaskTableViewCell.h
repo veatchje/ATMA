@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-///////MITCH'S CODE START
+///////MITCH CODE START
 
 #import <UIKit/UIKit.h>
 
@@ -14,4 +14,4 @@
 @property (nonatomic, strong) IBOutlet UILabel *taskName;
 @end
 
-///////MITCH'S CODE END
+///////MITCH CODE END

@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+//MITCH CODE START
+
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
@@ -13,3 +15,5 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @end
+
+//MITCH CODE EMD

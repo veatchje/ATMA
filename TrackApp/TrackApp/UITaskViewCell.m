@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+//MITCH CODE START
+
 #import "UITaskViewCell.h"
 
 @implementation UITaskViewCell
@@ -27,3 +29,5 @@
 }
 
 @end
+
+//MITCH CODE END

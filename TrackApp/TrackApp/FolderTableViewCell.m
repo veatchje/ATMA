@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-///////MITCH'S CODE START
+///////MITCH CODE START
 
 #import "FolderTableViewCell.h"
 
@@ -15,4 +15,4 @@
 @synthesize folderName = _folderName;
 @end
 
-///////MITCH'S CODE END
+///////MITCH CODE END

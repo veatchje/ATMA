@@ -6,8 +6,12 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+//MITCH CODE START
+
 #import <UIKit/UIKit.h>
 
 @interface UITaskViewCell : UITableViewCell
 
 @end
+
+//MITCH CODE END

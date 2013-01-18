@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-///////MITCH'S CODE START
+///////MITCH CODE START
 
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
@@ -30,8 +30,8 @@
 
 @property (nonatomic, strong) UIImageView *folderImage;
 @property (nonatomic, strong) NSMutableArray *folderNames;
-@property(nonatomic, retain) IBOutlet UITextView *textView;
-@property(nonatomic, retain) IBOutlet UITextField *textField;
+@property (nonatomic, retain) IBOutlet UITextView *textView;
+@property (nonatomic, retain) IBOutlet UITextField *textField;
 
 - (IBAction)alert;
 - (IBAction)sendTitle:(id)sender;
@@ -46,4 +46,4 @@
 
 @end
 
-///////MITCH'S CODE END
+///////MITCH CODE END

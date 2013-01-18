@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+/*
 #import <UIKit/UIKit.h>
 
 @class DetailViewController;
@@ -14,4 +15,4 @@
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
-@end
+@end*/

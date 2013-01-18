@@ -14,7 +14,9 @@
 
 #define TAG_SETUP 1
 #define TAG_NEWFOLDER 2
+//MITCH CODE END
 
+//AHMED CODE START
 //Apparently this code has to be up here. I don't know why - Ahmed
 static int loadNamesCallback(void *context, int count, char **values, char **columns)
 {
@@ -25,6 +27,10 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     return SQLITE_OK;
 }
+
+//AHMED CODE END
+
+//MITCH CODE START
 
 @implementation FolderTableViewController
 @synthesize folderImage = _folderImage;
@@ -47,7 +53,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (IBAction)setupAlert{
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Main Menu" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"About", @"Settings", @"Help", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Main Menu" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Settings", @"Help", @"About", nil];
     alert.tag = TAG_SETUP;
     
     [alert show];
@@ -183,6 +189,10 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
 }
 
+//MITCH CODE END
+
+//AHMED CODE START
+
 //Database stuff starts here - Ahmed
 
 - (NSString *) getWritableDBPath {
@@ -267,6 +277,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
  
 //Database stuff ends here
+
+//AHMED CODE END
 
 
 @end

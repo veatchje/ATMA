@@ -6,23 +6,12 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+//MITCH CODE START
+
 #import "AppDelegate.h"
 #import "TaskMenuViewController.h"
 
 @implementation AppDelegate
-
-/*- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-        UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-        splitViewController.delegate = (id)navigationController.topViewController;
-    }
-    return YES;
-}*/
-
-
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -52,3 +41,5 @@
 }
 
 @end
+
+//MITCH CODE END

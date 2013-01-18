@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+/*
+
 #import <UIKit/UIKit.h>
 
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate>
@@ -14,3 +16,5 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @end
+
+*/

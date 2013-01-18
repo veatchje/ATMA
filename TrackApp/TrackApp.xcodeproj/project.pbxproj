@@ -13,7 +13,6 @@
 		0206C5FE16810CF400559975 /* TaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5FD16810CF400559975 /* TaskTableViewCell.m */; };
 		0206C600168117CF00559975 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 0206C5FF168117CF00559975 /* folder.png */; };
 		020C5F3516A0AEC300EEF68D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */; };
-		020F3324166E9DD4007DD053 /* SetupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F3323166E9DD4007DD053 /* SetupTableViewController.m */; };
 		0235FCD21669423F008F136B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD11669423F008F136B /* UIKit.framework */; };
 		0235FCD41669423F008F136B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD31669423F008F136B /* Foundation.framework */; };
 		0235FCD61669423F008F136B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD51669423F008F136B /* CoreGraphics.framework */; };
@@ -25,22 +24,16 @@
 		0235FCE81669423F008F136B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0235FCE71669423F008F136B /* Default-568h@2x.png */; };
 		0235FCEB1669423F008F136B /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */; };
 		0235FCEE1669423F008F136B /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0235FCEC1669423F008F136B /* MainStoryboard_iPad.storyboard */; };
-		0235FCF11669423F008F136B /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FCF01669423F008F136B /* MasterViewController.m */; };
-		0235FCF41669423F008F136B /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FCF31669423F008F136B /* DetailViewController.m */; };
 		0235FCFC1669423F008F136B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCFB1669423F008F136B /* SenTestingKit.framework */; };
 		0235FCFD1669423F008F136B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD11669423F008F136B /* UIKit.framework */; };
 		0235FCFE1669423F008F136B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD31669423F008F136B /* Foundation.framework */; };
 		0235FD0616694240008F136B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD0416694240008F136B /* InfoPlist.strings */; };
 		0235FD0916694240008F136B /* TrackAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD0816694240008F136B /* TrackAppTests.m */; };
-		0235FD181669446D008F136B /* TaskMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD171669446D008F136B /* TaskMenuViewController.m */; };
-		0235FD2716694B91008F136B /* test.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD2616694B91008F136B /* test.xib */; };
-		0235FD3416695270008F136B /* CreateTaskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD3316695270008F136B /* CreateTaskView.xib */; };
 		0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD3816695750008F136B /* CreateTaskViewController.m */; };
 		0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */; };
 		0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A321674FBCC007E7F08 /* UITaskViewCell.m */; };
 		0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A46D11216A7461900E278D4 /* Plus%20button.png */; };
 		0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */ = {isa = PBXBuildFile; fileRef = 0AA85DE7169FFB4C00090FB5 /* atmadatabase */; };
-		DA62A484166E99B2001C370F /* CreateTaskViewIpad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,8 +57,6 @@
 		0206C5FD16810CF400559975 /* TaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTableViewCell.m; sourceTree = "<group>"; };
 		0206C5FF168117CF00559975 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = SOURCE_ROOT; };
 		020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		020F3322166E9DD4007DD053 /* SetupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupTableViewController.h; sourceTree = "<group>"; };
-		020F3323166E9DD4007DD053 /* SetupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupTableViewController.m; sourceTree = "<group>"; };
 		0235FCCD1669423F008F136B /* TrackApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0235FCD11669423F008F136B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0235FCD31669423F008F136B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -81,20 +72,12 @@
 		0235FCE71669423F008F136B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		0235FCEA1669423F008F136B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		0235FCED1669423F008F136B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		0235FCEF1669423F008F136B /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		0235FCF01669423F008F136B /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		0235FCF21669423F008F136B /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		0235FCF31669423F008F136B /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		0235FCFA1669423F008F136B /* TrackAppTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackAppTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0235FCFB1669423F008F136B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		0235FD0316694240008F136B /* TrackAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TrackAppTests-Info.plist"; sourceTree = "<group>"; };
 		0235FD0516694240008F136B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0235FD0716694240008F136B /* TrackAppTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrackAppTests.h; sourceTree = "<group>"; };
 		0235FD0816694240008F136B /* TrackAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrackAppTests.m; sourceTree = "<group>"; };
-		0235FD161669446D008F136B /* TaskMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskMenuViewController.h; sourceTree = "<group>"; };
-		0235FD171669446D008F136B /* TaskMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskMenuViewController.m; sourceTree = "<group>"; };
-		0235FD2616694B91008F136B /* test.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = test.xib; sourceTree = "<group>"; };
-		0235FD3316695270008F136B /* CreateTaskView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateTaskView.xib; sourceTree = "<group>"; };
 		0235FD35166956D1008F136B /* CreateTaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateTaskViewController.h; sourceTree = "<group>"; };
 		0235FD3816695750008F136B /* CreateTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTaskViewController.m; sourceTree = "<group>"; };
 		0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITaskListViewControllerIPad.h; path = ../UITaskListViewControllerIPad.h; sourceTree = "<group>"; };
@@ -103,7 +86,6 @@
 		0A241A321674FBCC007E7F08 /* UITaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITaskViewCell.m; sourceTree = "<group>"; };
 		0A46D11216A7461900E278D4 /* Plus%20button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plus%20button.png"; sourceTree = "<group>"; };
 		0AA85DE7169FFB4C00090FB5 /* atmadatabase */ = {isa = PBXFileReference; lastKnownFileType = file; name = atmadatabase; path = ../../atmadatabase; sourceTree = "<group>"; };
-		DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateTaskViewIpad.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,10 +151,6 @@
 				0A241A321674FBCC007E7F08 /* UITaskViewCell.m */,
 				0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */,
 				0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */,
-				0235FD161669446D008F136B /* TaskMenuViewController.h */,
-				0235FD171669446D008F136B /* TaskMenuViewController.m */,
-				020F3322166E9DD4007DD053 /* SetupTableViewController.h */,
-				020F3323166E9DD4007DD053 /* SetupTableViewController.m */,
 				0235FCE01669423F008F136B /* AppDelegate.h */,
 				0235FCE11669423F008F136B /* AppDelegate.m */,
 				0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */,
@@ -185,17 +163,10 @@
 				0206C5FC16810CF400559975 /* TaskTableViewCell.h */,
 				0206C5FD16810CF400559975 /* TaskTableViewCell.m */,
 				0235FCEC1669423F008F136B /* MainStoryboard_iPad.storyboard */,
-				0235FCEF1669423F008F136B /* MasterViewController.h */,
-				0235FCF01669423F008F136B /* MasterViewController.m */,
-				0235FCF21669423F008F136B /* DetailViewController.h */,
-				0235FCF31669423F008F136B /* DetailViewController.m */,
 				0235FD35166956D1008F136B /* CreateTaskViewController.h */,
 				0235FD3816695750008F136B /* CreateTaskViewController.m */,
 				0AA85DE5169FFB3100090FB5 /* Database */,
 				0235FCD81669423F008F136B /* Supporting Files */,
-				0235FD2616694B91008F136B /* test.xib */,
-				0235FD3316695270008F136B /* CreateTaskView.xib */,
-				DA62A483166E99B2001C370F /* CreateTaskViewIpad.xib */,
 			);
 			path = TrackApp;
 			sourceTree = "<group>";
@@ -320,9 +291,6 @@
 				0235FCE81669423F008F136B /* Default-568h@2x.png in Resources */,
 				0235FCEB1669423F008F136B /* MainStoryboard_iPhone.storyboard in Resources */,
 				0235FCEE1669423F008F136B /* MainStoryboard_iPad.storyboard in Resources */,
-				0235FD2716694B91008F136B /* test.xib in Resources */,
-				0235FD3416695270008F136B /* CreateTaskView.xib in Resources */,
-				DA62A484166E99B2001C370F /* CreateTaskViewIpad.xib in Resources */,
 				0206C600168117CF00559975 /* folder.png in Resources */,
 				0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */,
 				0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */,
@@ -362,9 +330,6 @@
 			files = (
 				0235FCDE1669423F008F136B /* main.m in Sources */,
 				0235FCE21669423F008F136B /* AppDelegate.m in Sources */,
-				0235FCF11669423F008F136B /* MasterViewController.m in Sources */,
-				0235FCF41669423F008F136B /* DetailViewController.m in Sources */,
-				0235FD181669446D008F136B /* TaskMenuViewController.m in Sources */,
 				0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */,
 				0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */,
 				0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */,
@@ -380,7 +345,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0235FD0916694240008F136B /* TrackAppTests.m in Sources */,
-				020F3324166E9DD4007DD053 /* SetupTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

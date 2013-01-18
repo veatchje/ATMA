@@ -6,11 +6,15 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-///////MITCH'S CODE START
+///////MITCH CODE START
 
 #import "TaskTableViewController.h"
 #import "TaskTableViewCell.h"
 #import "CreateTaskViewController.h"
+
+//MITCH CODE END
+
+//AHMED CODE START
 
 //Apparently this code has to be up here. I don't know why - Ahmed
 //This needs to be changed
@@ -23,6 +27,10 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     return SQLITE_OK;
 }
+
+//AHMED CODE END
+
+//MITCH CODE START
 
 @implementation TaskTableViewController
 @synthesize taskNames = _taskNames;
@@ -109,6 +117,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 }
 
 //Database stuff starts here - Ahmed
+//AHMED CODE START
 
 - (NSString *) getWritableDBPath {
 	
@@ -196,7 +205,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 }
 
 //Database stuff ends here
+//AHMED CODE END
 
 @end
 
-///////MITCH'S CODE END
+///////MITCH CODE END

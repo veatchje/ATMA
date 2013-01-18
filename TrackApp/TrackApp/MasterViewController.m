@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
+/*
 #import "MasterViewController.h"
 
 #import "DetailViewController.h"
@@ -72,7 +73,7 @@
     NSDate *object = _objects[indexPath.row];
     cell.textLabel.text = [object description];
     return cell;
-}*/
+}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -121,6 +122,6 @@
         NSDate *object = _objects[indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
     }
-}*/
+}
 
-@end
+@end*/

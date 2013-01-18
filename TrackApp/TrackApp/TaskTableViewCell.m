@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-///////MITCH'S CODE START
+///////MITCH CODE START
 
 #import "TaskTableViewCell.h"
 
@@ -14,4 +14,4 @@
 @synthesize taskName = _taskName;
 @end
 
-///////MITCH'S CODE END
+///////MITCH CODE END

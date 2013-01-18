@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-///////MITCH'S CODE START
+///////MITCH CODE START
 
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
@@ -19,11 +19,13 @@
 #define DATABASE_TITLE @"atmadatabase"
 
 @property (nonatomic, strong) NSMutableArray *taskNames;
+//AHMED CODE START
 @property (nonatomic, strong) NSMutableArray *taskUnits;
 @property (nonatomic, strong) NSMutableArray *taskPeriods;
 @property (nonatomic, strong) NSMutableArray *taskEndDates;
 @property (nonatomic, strong) NSMutableArray *taskCurrents;
 @property (nonatomic, strong) NSMutableArray *taskTargets;
+//AHMED CODE END
 
 @end
 
