@@ -51,6 +51,15 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
 }
 
+- (void) viewDidAppear: (BOOL) animated
+{
+    [super viewDidAppear: animated];
+    
+    //[self loadTasksFromDatabase];
+    //Update the TableView
+    [self.tableView reloadData];
+}
+
 - (void) newTaskButtonTouched
 {    
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
@@ -146,8 +155,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         sqlite3_exec(database, "select enddate from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskEndDates), NULL);
         sqlite3_exec(database, "select current from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskCurrents), NULL);
         sqlite3_exec(database, "select target from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskTargets), NULL);
-        //Update the TableView
-        [self.tableView reloadData];
     }
     sqlite3_close(database);
 }
