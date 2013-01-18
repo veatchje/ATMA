@@ -69,6 +69,32 @@
     lblDate.text =dayOfWeek;
 
 }
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    
+    return 3;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    NSDate *now = [NSDate date];
+    NSCalendar* myCalendar = [NSCalendar currentCalendar];
+    
+    if (component == 0) {
+        return [myCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:now].length;
+    }
+    else if (component==1){
+        return [myCalendar rangeOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:now].length;
+    }
+    return 7;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView
+             titleForRow:(NSInteger)row
+            forComponent:(NSInteger)component
+{
+    return [NSString stringWithFormat:@"%d", row+1];
+}
+
 
 @end;
 
