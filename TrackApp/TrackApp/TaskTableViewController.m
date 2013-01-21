@@ -161,7 +161,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     sqlite3_close(database);
 }
 
-/*- (void)saveTaskInDatabase:(NSString *)theName {
+/*- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(NSInteger *)theDate withTarget:(NSInteger *)theTarget  {
 	
 	// Copy the database if needed
 	[self createEditableCopyOfDatabaseIfNeeded];
@@ -171,7 +171,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 	sqlite3 *database;
 	
 	if(sqlite3_open([filePath UTF8String], &database) == SQLITE_OK) {
-		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CONTACTS (id, name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")", //experiment with values here
+        int a = 0;
+		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CONTACTS (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%d\", \"%@\", \"%d\")", theName, theUnits, theFolder, thePeriod, theDate, 0, theTarget, a];
 		sqlite3_stmt *compiledStatement;
 		if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK)    {
 			sqlite3_bind_text( compiledStatement, 1, [theName UTF8String], -1, SQLITE_TRANSIENT);
