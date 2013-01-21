@@ -33,10 +33,46 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //MITCH CODE START
 
 @implementation TaskTableViewController
-@synthesize taskNames = _taskNames;
+@synthesize taskNames, status;
 
 - (void)viewDidLoad
 {
+    /*
+    //Stuff for initializing the database -Ahmed
+    NSString *docsDir;
+    NSArray *dirPaths;
+    
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
+    
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath:databasePath] == NO)
+    {
+        const char * dbPath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+        {
+            char *errMsg;
+            const char *sql_stmt = "BLAH"; //Change to the real name
+            
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                status.text = @"Failed to create Tasks table";
+            }
+            
+            sqlite3_close(atmaDB);
+        } else {
+            status.text = @"Failed to open/create database";
+        }
+        
+    }
+    
+    //[filemgr release];
+    //The DB stuff ends here */
+    
     [super viewDidLoad];
     
     self.taskNames = [[NSMutableArray alloc]
@@ -161,29 +197,34 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     sqlite3_close(database);
 }
 
-/*- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(NSInteger *)theDate withTarget:(NSInteger *)theTarget  {
+- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(NSInteger *)theDate withTarget:(NSInteger *)theTarget  {
 	
 	// Copy the database if needed
 	[self createEditableCopyOfDatabaseIfNeeded];
 	
 	NSString *filePath = [self getWritableDBPath];
+    
+    sqlite3_stmt *statement;
 	
-	sqlite3 *database;
-	
-	if(sqlite3_open([filePath UTF8String], &database) == SQLITE_OK) {
-        int a = 0;
+	if(sqlite3_open([filePath UTF8String], &database) == SQLITE_OK)
+    {
+        //This may cause issues with deletion; nonunique priorities. Can change to just highest priority+1.
+        int a = [taskNames count];
 		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CONTACTS (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%d\", \"%@\", \"%d\")", theName, theUnits, theFolder, thePeriod, theDate, 0, theTarget, a];
-		sqlite3_stmt *compiledStatement;
-		if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK)    {
-			sqlite3_bind_text( compiledStatement, 1, [theName UTF8String], -1, SQLITE_TRANSIENT);
-		}
-		if(sqlite3_step(compiledStatement) != SQLITE_DONE ) {
-			NSLog( @"Save Error: %s", sqlite3_errmsg(database) );
-		}
-		sqlite3_finalize(compiledStatement);
+        const char *insert_stmt = [insertSQL UTF8String];
+        
+		//sqlite3_stmt *compiledStatement;
+		sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement) == SQLITE_DONE ) {
+			status.text = @"Contact added";
+		} else {
+            //fail state
+        }
+		sqlite3_finalize(statement);
+        sqlite3_close(atmaDB);
 	}
-	sqlite3_close(database);
-}*/
+}
 
 -(void)createEditableCopyOfDatabaseIfNeeded
 {

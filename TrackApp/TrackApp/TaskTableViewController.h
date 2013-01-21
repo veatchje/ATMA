@@ -14,6 +14,9 @@
 @interface TaskTableViewController : UITableViewController{
     UIBarButtonItem *newTaskButton;
     NSString* folderName;
+    UILabel *status;
+    NSString *databasePath;
+    sqlite3 *atmaDB;
 }
 
 #define DATABASE_NAME @"atmadatabase.db"
@@ -26,6 +29,7 @@
 @property (nonatomic, strong) NSMutableArray *taskEndDates;
 @property (nonatomic, strong) NSMutableArray *taskCurrents;
 @property (nonatomic, strong) NSMutableArray *taskTargets;
+@property (retain, nonatomic) IBOutlet UILabel *status;
 //AHMED CODE END
 
 @end
