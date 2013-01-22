@@ -235,6 +235,64 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     sqlite3_close(database);
 }
 
+- (void)incrementTaskWithName:(NSString*)theName WithValue:(int)theValue
+{
+    NSString *file = [self getWritableDBPath];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	BOOL success = [fileManager fileExistsAtPath:file];
+    
+	// If its not a local copy set it to the bundle copy
+	if(!success) {
+		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
+		[self createEditableCopyOfDatabaseIfNeeded];
+	}
+    
+    sqlite3 *database = NULL;
+    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
+        int *current = NULL;
+        NSString *insertSQL = [NSString stringWithFormat:@"select current from tasks where name = \"%@\"", theName];
+        const char* b = [insertSQL UTF8String];
+        sqlite3_exec(database, b, NULL, (int*)current, NULL);
+        *current = *current+theValue;
+        
+        int *target = NULL;
+        insertSQL = [NSString stringWithFormat:@"select target from tasks where name = \"%@\"", theName];
+        b = [insertSQL UTF8String];
+        sqlite3_exec(database, b, NULL, (int*)target, NULL);
+        
+        insertSQL = [NSString stringWithFormat:@"update tasks set current = %d where name = \"%@\"", *current, theName];
+        b = [insertSQL UTF8String];
+        sqlite3_exec(database, b, NULL, NULL, NULL);
+        
+        //Target has been reached
+        if (*current >= *target)
+        {
+            //Do something
+        }
+    }
+    sqlite3_close(database);
+}
+
+- (void)resetTaskWithName:(NSString*)theName
+{
+    NSString *file = [self getWritableDBPath];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	BOOL success = [fileManager fileExistsAtPath:file];
+    
+	// If its not a local copy set it to the bundle copy
+	if(!success) {
+		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
+		[self createEditableCopyOfDatabaseIfNeeded];
+	}
+    
+    sqlite3 *database = NULL;
+    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
+        NSString *insertSQL = [NSString stringWithFormat:@"update tasks set current = 0 where name = \"%@\"", theName];
+        const char* b = [insertSQL UTF8String];
+        sqlite3_exec(database, b, NULL, NULL, NULL);
+    }
+    sqlite3_close(database);
+}
 
 
 -(void)createEditableCopyOfDatabaseIfNeeded

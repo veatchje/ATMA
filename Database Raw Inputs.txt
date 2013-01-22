@@ -1,0 +1,11 @@
+create table tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER, FOREIGN KEY (folder) REFERENCES folders(name));
+
+PRAGMA foreign_keys = ON;
+
+insert into tasks (name, units, folder, period, enddate, current, target, priority) values ("Attend Meetings", "meetings", "Business", 7, 2013-1-28, 2, 10, 1);
+
+insert into tasks (name, units, folder, period, enddate, current, target, priority) values ("Make Calls", "calls", "Business", 1, 2013-1-10, 0, 5, 1); 
+
+SELECT count(*) from tasks;
+
+update tasks set priority = -1 where name = "Blah";
