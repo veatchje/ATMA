@@ -197,34 +197,45 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     sqlite3_close(database);
 }
 
-- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(NSInteger *)theDate withTarget:(NSInteger *)theTarget  {
-	
-	// Copy the database if needed
-	[self createEditableCopyOfDatabaseIfNeeded];
-	
-	NSString *filePath = [self getWritableDBPath];
+- (void)incrementTaskWithName:(NSString*)theName
+{
+    NSString *file = [self getWritableDBPath];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	BOOL success = [fileManager fileExistsAtPath:file];
     
-    sqlite3_stmt *statement;
-	
-	if(sqlite3_open([filePath UTF8String], &database) == SQLITE_OK)
-    {
-        //This may cause issues with deletion; nonunique priorities. Can change to just highest priority+1.
-        int a = [taskNames count];
-		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CONTACTS (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%d\", \"%@\", \"%d\")", theName, theUnits, theFolder, thePeriod, theDate, 0, theTarget, a];
-        const char *insert_stmt = [insertSQL UTF8String];
-        
-		//sqlite3_stmt *compiledStatement;
-		sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-        
-        if(sqlite3_step(statement) == SQLITE_DONE ) {
-			status.text = @"Contact added";
-		} else {
-            //fail state
-        }
-		sqlite3_finalize(statement);
-        sqlite3_close(atmaDB);
+	// If its not a local copy set it to the bundle copy
+	if(!success) {
+		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
+		[self createEditableCopyOfDatabaseIfNeeded];
 	}
+    
+    sqlite3 *database = NULL;
+    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
+        int *current = NULL;
+        NSString *insertSQL = [NSString stringWithFormat:@"select current from tasks where name = \"%@\"", theName];
+        const char* b = [insertSQL UTF8String];
+        sqlite3_exec(database, b, NULL, (int*)current, NULL);
+        *current = *current++;
+        
+        int *target = NULL;
+        insertSQL = [NSString stringWithFormat:@"select target from tasks where name = \"%@\"", theName];
+        b = [insertSQL UTF8String];
+        sqlite3_exec(database, b, NULL, (int*)target, NULL);
+        
+        insertSQL = [NSString stringWithFormat:@"update tasks set current = %d where name = \"%@\"", *current, theName];
+        b = [insertSQL UTF8String];
+        sqlite3_exec(database, b, NULL, NULL, NULL);
+        
+        //Target has been reached
+        if (*current == *target)
+        {
+            //Do something
+        }
+    }
+    sqlite3_close(database);
 }
+
+
 
 -(void)createEditableCopyOfDatabaseIfNeeded
 {

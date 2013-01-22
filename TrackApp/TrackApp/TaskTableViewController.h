@@ -19,6 +19,7 @@
     sqlite3 *atmaDB;
 }
 
+
 #define DATABASE_NAME @"atmadatabase.db"
 #define DATABASE_TITLE @"atmadatabase"
 

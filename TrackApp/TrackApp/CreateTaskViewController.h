@@ -9,6 +9,7 @@
 ///////MITCH CODE START
 
 #import <UIKit/UIKit.h>
+#import <sqlite3.h>
 #pragma mark -
 #pragma mark PickerView DataSorce
 
@@ -21,8 +22,21 @@
     IBOutlet UITextField* unitName;
     IBOutlet UITextField* goalNumber;
     
+    //Ahmed's code
+    UILabel *status;
+    NSString *databasePath;
+    sqlite3 *atmaDB;
+    
     NSString* folderName;
 }
+
+
+#define DATABASE_NAME @"atmadatabase.db"
+#define DATABASE_TITLE @"atmadatabase"
+
+
+@property (retain, nonatomic) IBOutlet UILabel *status;
+//Ahmed's code ends here
 - (void)setFolderName: (NSString*) name;
 - (IBAction)openSetupMenu;
 - (IBAction)cancel;

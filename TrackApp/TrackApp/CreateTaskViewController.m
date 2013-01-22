@@ -48,6 +48,42 @@
     [scrollview setScrollEnabled:YES];
     [scrollview setContentSize:CGSizeMake(320, 900)];
     
+    /*
+     //Stuff for initializing the database -Ahmed
+     NSString *docsDir;
+     NSArray *dirPaths;
+     
+     dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+     docsDir = [dirPaths objectAtIndex:0];
+     
+     databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
+     
+     NSFileManager *filemgr = [NSFileManager defaultManager];
+     
+     if ([filemgr fileExistsAtPath:databasePath] == NO)
+     {
+     const char * dbPath = [databasePath UTF8String];
+     
+     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+     {
+     char *errMsg;
+     const char *sql_stmt = "BLAH"; //Change to the real name
+     
+     if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+     {
+     status.text = @"Failed to create Tasks table";
+     }
+     
+     sqlite3_close(atmaDB);
+     } else {
+     status.text = @"Failed to open/create database";
+     }
+     
+     }
+     
+     //[filemgr release];
+     //The DB stuff ends here */
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
@@ -97,6 +133,34 @@
             forComponent:(NSInteger)component
 {
     return [NSString stringWithFormat:@"%d", row+1];
+}
+//More DBstuff -Ahmed
+- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(NSInteger *)theDate withTarget:(NSInteger *)theTarget  {
+	
+	const char *filePath = [databasePath UTF8String];
+    
+    sqlite3_stmt *statement;
+	
+	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
+    {
+        //This may cause issues with deletion; nonunique priorities. Can change to just highest priority+1.
+        int a = 0;
+        sqlite3_exec(atmaDB, "select max(priority) from tasks", NULL, (int*)a, NULL);
+        a++;
+		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CONTACTS (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %@, %@, %d, %@, %d)", theName, theUnits, theFolder, thePeriod, theDate, 0, theTarget, a];
+        const char *insert_stmt = [insertSQL UTF8String];
+        
+		//sqlite3_stmt *compiledStatement;
+		sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement) == SQLITE_DONE ) {
+			status.text = @"Contact added";
+		} else {
+            //fail state
+        }
+		sqlite3_finalize(statement);
+        sqlite3_close(atmaDB);
+	}
 }
 
 
