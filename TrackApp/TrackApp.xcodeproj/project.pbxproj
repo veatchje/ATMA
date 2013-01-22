@@ -34,6 +34,7 @@
 		0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A321674FBCC007E7F08 /* UITaskViewCell.m */; };
 		0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A46D11216A7461900E278D4 /* Plus%20button.png */; };
 		0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */ = {isa = PBXBuildFile; fileRef = 0AA85DE7169FFB4C00090FB5 /* atmadatabase */; };
+		A07B417D16AF2522000C10C9 /* CombinedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A07B417C16AF2522000C10C9 /* CombinedTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,8 @@
 		0A241A321674FBCC007E7F08 /* UITaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITaskViewCell.m; sourceTree = "<group>"; };
 		0A46D11216A7461900E278D4 /* Plus%20button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plus%20button.png"; sourceTree = "<group>"; };
 		0AA85DE7169FFB4C00090FB5 /* atmadatabase */ = {isa = PBXFileReference; lastKnownFileType = file; name = atmadatabase; path = ../../atmadatabase; sourceTree = "<group>"; };
+		A07B417A16AF24B8000C10C9 /* CombinedTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CombinedTableViewController.h; sourceTree = "<group>"; };
+		A07B417C16AF2522000C10C9 /* CombinedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombinedTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +170,8 @@
 				0235FD3816695750008F136B /* CreateTaskViewController.m */,
 				0AA85DE5169FFB3100090FB5 /* Database */,
 				0235FCD81669423F008F136B /* Supporting Files */,
+				A07B417A16AF24B8000C10C9 /* CombinedTableViewController.h */,
+				A07B417C16AF2522000C10C9 /* CombinedTableViewController.m */,
 			);
 			path = TrackApp;
 			sourceTree = "<group>";
@@ -337,6 +342,7 @@
 				0206C5F81680FFE500559975 /* FolderTableViewCell.m in Sources */,
 				0206C5FB16810CD900559975 /* TaskTableViewController.m in Sources */,
 				0206C5FE16810CF400559975 /* TaskTableViewCell.m in Sources */,
+				A07B417D16AF2522000C10C9 /* CombinedTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
