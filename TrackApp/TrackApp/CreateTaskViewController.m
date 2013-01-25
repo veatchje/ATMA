@@ -47,6 +47,17 @@
     //scrollView.frame = CGRectMMake(0,0.320.460);
     [scrollview setScrollEnabled:YES];
     [scrollview setContentSize:CGSizeMake(320, 900)];
+    Cdate=[NSDate date];
+    NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
+    //[myFormatter stringFromDate:Cdate]
+    [myFormatter setDateFormat:@"dd"];
+    [datePicker selectRow:0 inComponent:[[myFormatter stringFromDate:Cdate] intValue] animated:FALSE];
+    [myFormatter setDateFormat:@"MM"];
+    [datePicker selectRow:1 inComponent:[[myFormatter stringFromDate:Cdate] intValue] animated:FALSE];
+    [myFormatter setDateFormat:@"yyyy"];
+    [datePicker selectRow:2 inComponent:[[myFormatter stringFromDate:Cdate] intValue] animated:FALSE];
+
+    
     
     /*
      //Stuff for initializing the database -Ahmed
@@ -101,12 +112,12 @@
 
 -(IBAction)GetDateWithDay
 {
-    NSDate *today = datePicker.date;
-    NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
-    [myFormatter setDateFormat:@"EEEE"]; // day, like "Saturday"
-    
-    NSString *dayOfWeek = [myFormatter stringFromDate:today];
-    lblDate.text =dayOfWeek;
+//    NSDate *today = datePicker.date;
+//    NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
+//    [myFormatter setDateFormat:@"EEEE"]; // day, like "Saturday"
+//    
+//    NSString *dayOfWeek = [myFormatter stringFromDate:today];
+//    lblDate.text =dayOfWeek;
 
 }
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -125,7 +136,7 @@
     else if (component==1){
         return [myCalendar rangeOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:now].length;
     }
-    return 7;
+    return 3000;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView

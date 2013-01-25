@@ -15,12 +15,13 @@
 
 @interface CreateTaskViewController : UIViewController {
     IBOutlet UIScrollView *scrollview;
-    IBOutlet UIDatePicker* datePicker;
+    IBOutlet UIPickerView* datePicker;
     IBOutlet UILabel* lblDate;
     
     IBOutlet UITextField* taskName;
     IBOutlet UITextField* unitName;
     IBOutlet UITextField* goalNumber;
+    NSDate *Cdate;
     
     //Ahmed's code
     UILabel *status;
