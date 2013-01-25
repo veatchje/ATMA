@@ -51,11 +51,11 @@
     NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
     //[myFormatter stringFromDate:Cdate]
     [myFormatter setDateFormat:@"dd"];
-    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]  inComponent:0 animated:FALSE];
+    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]-1  inComponent:0 animated:FALSE];
     [myFormatter setDateFormat:@"MM"];
-    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue] inComponent:1  animated:FALSE];
+    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]-1 inComponent:1  animated:FALSE];
     [myFormatter setDateFormat:@"yyyy"];
-    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue] inComponent:2 animated:FALSE];
+    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]-1 inComponent:2 animated:FALSE];
 
     
     
@@ -127,24 +127,99 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     
-    NSDate *now = [NSDate date];
     NSCalendar* myCalendar = [NSCalendar currentCalendar];
     
     if (component == 0) {
-        return [myCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:now].length;
+        return [myCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:Cdate].length;
     }
     else if (component==1){
-        return [myCalendar rangeOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:now].length;
+        return [myCalendar rangeOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:Cdate].length;
     }
     return 3000;
 }
-
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    NSCalendar* myCalendar = [NSCalendar currentCalendar];
+    if (component==0) {
+        int month =[datePicker selectedRowInComponent:1]+1;
+        int year = [datePicker selectedRowInComponent:2]+1;
+        
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:Cdate];
+        
+        [dateComponents setDay:row+1];
+        NSDate *newDate = [calendar dateFromComponents:dateComponents];
+        
+        Cdate=newDate;
+        [datePicker selectRow:row inComponent:0 animated:FALSE];
+        [datePicker selectRow:month-1 inComponent:1 animated:FALSE];
+        [datePicker selectRow:year-1 inComponent:2 animated:FALSE];
+    }else if (component==1){
+        int day= [datePicker selectedRowInComponent:0]+1;
+        int year =[datePicker selectedRowInComponent:2]+1;
+        
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:Cdate];
+        
+        [dateComponents setMonth:row+1];
+        [dateComponents setDay:1];
+        NSDate *newDate = [calendar dateFromComponents:dateComponents];
+        
+        if ([myCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:newDate].length>=day) {
+            [dateComponents setDay:day];
+        } else{
+            [dateComponents setDay:[myCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:newDate].length];
+            day=[myCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:newDate].length;
+        }
+        Cdate=newDate;
+        [datePicker reloadAllComponents];
+        [datePicker selectRow:day-1 inComponent:0 animated:FALSE];
+        [datePicker selectRow:row inComponent:1 animated:FALSE];
+        [datePicker selectRow:year-1 inComponent:2 animated:FALSE];
+        
+    }else{
+        int day= [datePicker selectedRowInComponent:0]+1;
+        int month =[datePicker selectedRowInComponent:1]+1;
+        
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:Cdate];
+        
+        [dateComponents setYear:row+1];
+        [dateComponents setMonth:1];
+        [dateComponents setDay:1];
+        NSDate *newDate = [calendar dateFromComponents:dateComponents];
+        if ([myCalendar rangeOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:newDate].length>=month) {
+            [dateComponents setMonth:month];
+        } else{
+            [dateComponents setMonth:[myCalendar rangeOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:newDate].length];
+            month=[myCalendar rangeOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:newDate].length;
+        }
+        newDate = [calendar dateFromComponents:dateComponents];
+        if ([myCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:newDate].length>=day) {
+            [dateComponents setDay:day];
+        } else{
+            [dateComponents setDay:[myCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:newDate].length];
+            day=[myCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:newDate].length;
+        }
+        Cdate=newDate;
+        [datePicker reloadAllComponents];
+        [datePicker selectRow:day-1 inComponent:0 animated:FALSE];
+        [datePicker selectRow:month-1 inComponent:1 animated:FALSE];
+        [datePicker selectRow:row inComponent:2 animated:FALSE];
+        
+    }
+    
+    
+    
+}
 - (NSString *)pickerView:(UIPickerView *)pickerView
              titleForRow:(NSInteger)row
             forComponent:(NSInteger)component
 {
     return [NSString stringWithFormat:@"%d", row+1];
 }
+
+
+
 //More DBstuff -Ahmed
 - (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(NSInteger *)theDate withTarget:(NSInteger *)theTarget  {
 	
