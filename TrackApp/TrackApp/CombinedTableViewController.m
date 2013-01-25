@@ -10,7 +10,7 @@
 
 #import "CombinedTableViewController.h"
 #import "TaskTableViewCell.h"
-#import "FolderTableViewCell.h"
+#import "FolderCollectionViewCell.h"
 #import "CreateTaskViewController.h"
 
 //GENERATED CODE START
@@ -26,6 +26,7 @@
     return self;
 }
 
+// Combined from Task and Folder versions
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -71,32 +72,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -109,6 +84,7 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
 }
+
 //GENERATED CODE END
 ///////////////////////////////////////////////////////
 //CODE FROM TaskTVC.m BEGIN
@@ -144,7 +120,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void) newTaskButtonTouched
 {
-    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
     CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
     [vc setFolderName:folderName];
     [self.navigationController pushViewController:vc animated:YES];
@@ -322,23 +298,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //MITCH CODE START
 #define TAG_SETUP 1
 #define TAG_NEWFOLDER 2
-//MITCH CODE END
-
-//AHMED CODE START
-//Apparently this code has to be up here. I don't know why - Ahmed
-static int loadNamesCallback(void *context, int count, char **values, char **columns)
-{
-    NSMutableArray *names = (__bridge NSMutableArray *)context;
-    for (int i=0; i < count; i++) {
-        const char *nameCString = values[i];
-        [names addObject:[NSString stringWithUTF8String:nameCString]];
-    }
-    return SQLITE_OK;
-}
-
-//AHMED CODE END
-
-//MITCH CODE START
 
 @synthesize folderImage = _folderImage;
 @synthesize folderNames = _folderNames;
@@ -389,7 +348,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
-/*//// Replace this with the non-segue code
+/*//// TODO: Replace this with the non-segue code for getting the folder name
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"showFolderTitle"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -398,57 +357,48 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }*/
 
-//////START BRIAN'S CODE
+//BRIAN CODE START
+// CollectionView code
 
-- (BOOL)shouldAutorotate
-{
-    return YES;
-}
-
-- (NSInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-//////END BRIAN'S CODE
-
-
-// Start TableViewComment
-// Replace this with CollectionView stuff.
-/*
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     // Return the number of sections.
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
     return [self.folderNames count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"folderTableCell";
+    static NSString *CellIdentifier = @"folderCollectionCell";
     
-    FolderTableViewCell *cell = [tableView
+    // This gets the CollectionView, which is the only child. (test this)
+    FolderCollectionViewCell *cell = [[self.childViewControllers objectAtIndex: 0]
                                  dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[FolderTableViewCell alloc]
-                initWithStyle:UITableViewCellStyleDefault
-                reuseIdentifier:CellIdentifier];
-    }
+    // TODO: Fix this error.
+//    if (cell == nil) {
+//        cell = [[FolderCollectionViewCell alloc]
+//                initWithStyle:UITableViewCellStyleDefault
+//                reuseIdentifier:CellIdentifier];
+//    }
     
     // Configure the cell...
     cell.folderName.text = [self.folderNames
-                            objectAtIndex: [indexPath row]];
+                            objectAtIndex: [indexPath item]];
     
     
     return cell;
 }
 
+//BRIAN CODE END
+/*////////////////// Start TableView Comment
+// TODO: Replace this with CollectionView code if necessary.
+
 //Edit and Delete
+// TODO: Change to CollectionView style.
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return UITableViewCellEditingStyleDelete;
@@ -458,33 +408,19 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        [self.folderNames removeObjectAtIndex:indexPath.row];
+        [self.folderNames removeObjectAtIndex:indexPath.item];
         [tableView reloadData];
     }
 }
 
-- (void)setEditing:(BOOL)editing animated:(BOOL)animate
-{
-    [super setEditing:editing animated:animate];
-    if(editing)
-        self.navigationItem.leftBarButtonItem = newFolderButton;
-    else
-        self.navigationItem.leftBarButtonItem = setupButton;
-    
-}*////// End TableView comment
+// TODO: Put newFolderButton somewhere.
+*////// End TableView comment
 
 //MITCH CODE END
 
 //AHMED CODE START
 
 //Database stuff starts here - Ahmed
-
-- (NSString *) getWritableDBPath {
-	
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
-	NSString *documentsDir = [paths objectAtIndex:0];
-	return [documentsDir stringByAppendingPathComponent:DATABASE_NAME];
-}
 
 - (void)loadNamesFromDatabase
 {
@@ -529,36 +465,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 	}
 	sqlite3_close(database);
 }
-
--(void)createEditableCopyOfDatabaseIfNeeded
-{
-    // Testing for existence
-    BOOL success;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-														 NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:DATABASE_NAME];
-	
-    success = [fileManager fileExistsAtPath:writableDBPath];
-    if (success)
-        return;
-	
-    // The writable database does not exist, so copy the default to
-    // the appropriate location.
-    NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath]
-							   stringByAppendingPathComponent:DATABASE_NAME];
-    success = [fileManager copyItemAtPath:defaultDBPath
-								   toPath:writableDBPath
-									error:&error];
-    if(!success)
-    {
-        NSAssert1(0,@"Failed to create writable database file with Message : '%@'.",
-				  [error localizedDescription]);
-    }
-}
-
 
 //Database stuff ends here
 
