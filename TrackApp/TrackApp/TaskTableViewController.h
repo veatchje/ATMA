@@ -17,6 +17,7 @@
     UILabel *status;
     NSString *databasePath;
     sqlite3 *atmaDB;
+    
 }
 
 
@@ -24,6 +25,7 @@
 #define DATABASE_TITLE @"atmadatabase"
 
 @property (nonatomic, strong) NSMutableArray *taskNames;
+@property (nonatomic, strong) NSMutableArray *visibleBools;
 //AHMED CODE START
 @property (nonatomic, strong) NSMutableArray *taskUnits;
 @property (nonatomic, strong) NSMutableArray *taskPeriods;

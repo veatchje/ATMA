@@ -33,7 +33,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //MITCH CODE START
 
 @implementation TaskTableViewController
-@synthesize taskNames, status;
+@synthesize taskNames, visibleBools, status;
 
 - (void)viewDidLoad
 {
@@ -78,6 +78,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     self.taskNames = [[NSMutableArray alloc]
                       initWithObjects:@"wake up", @"eat",
                       @"go to sleep", nil];
+    self.visibleBools = [[NSMutableArray alloc]
+                         initWithObjects:@"false", @"false", @"false", nil];
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
@@ -132,10 +134,29 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     // Configure the cell...
     cell.taskName.text = [self.taskNames
                           objectAtIndex: [indexPath row]];
+    [self.visibleBools addObject:cell.plusButton];
+    if([self.visibleBools objectAtIndex: [indexPath row]] == @"true"){
+        [UIView animateWithDuration:0.5
+                                       delay:0.0
+                                     options: UIViewAnimationCurveEaseInOut
+                                  animations:^{cell.plusButton.alpha = 0.0;}
+                                  completion:nil];
+    }
+    else{
+        [UIView animateWithDuration:0.5
+                              delay:0.0
+                            options: UIViewAnimationCurveEaseInOut
+                         animations:^{cell.plusButton.alpha = 1.0;}
+                         completion:nil];
+    }
+    //cell.progress.progress = 0.5;
+    //cell.dateLabel.text = @"Feb 23";
+    //cell.progressText.text = @"5/10";
     
-    
+        
     return cell;
 }
+
 
 //Edit and Delete
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -153,14 +174,28 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
-{
+{    
     [super setEditing:editing animated:animate];
     if(editing){
         self.navigationItem.leftBarButtonItem = newTaskButton;
+        self.visibleBools = [[NSMutableArray alloc]
+                             initWithObjects:@"true", @"true",
+                             @"true", nil];
+        [self.tableView reloadData];
     }
-    else
+    else{
         self.navigationItem.leftBarButtonItem = nil;
-    
+        self.visibleBools = [[NSMutableArray alloc]
+                             initWithObjects:@"false", @"false",
+                             @"false", nil];
+        [self.tableView reloadData];
+    }
+}
+
+-(void)endAppearanceTransition{
+    [super endAppearanceTransition];
+    printf("????\n");
+    [self.tableView reloadData];
 }
 
 //Database stuff starts here - Ahmed
@@ -327,6 +362,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //Database stuff ends here
 //AHMED CODE END
 
+- (void)viewDidUnload {
+    [super viewDidUnload];
+}
 @end
 
 ///////MITCH CODE END

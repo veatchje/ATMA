@@ -12,6 +12,10 @@
 
 @interface TaskTableViewCell : UITableViewCell
 @property (nonatomic, strong) IBOutlet UILabel *taskName;
+@property (nonatomic, strong) IBOutlet UIButton *plusButton;
+@property (nonatomic, strong) IBOutlet UILabel *dateLabel;
+@property (nonatomic, strong) IBOutlet UIProgressView *progress;
+@property (nonatomic, strong) IBOutlet UILabel *progressText;
 @end
 
 ///////MITCH CODE END
