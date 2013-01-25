@@ -51,11 +51,11 @@
     NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
     //[myFormatter stringFromDate:Cdate]
     [myFormatter setDateFormat:@"dd"];
-    [datePicker selectRow:0 inComponent:[[myFormatter stringFromDate:Cdate] intValue] animated:FALSE];
+    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]  inComponent:0 animated:FALSE];
     [myFormatter setDateFormat:@"MM"];
-    [datePicker selectRow:1 inComponent:[[myFormatter stringFromDate:Cdate] intValue] animated:FALSE];
+    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue] inComponent:1  animated:FALSE];
     [myFormatter setDateFormat:@"yyyy"];
-    [datePicker selectRow:2 inComponent:[[myFormatter stringFromDate:Cdate] intValue] animated:FALSE];
+    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue] inComponent:2 animated:FALSE];
 
     
     
