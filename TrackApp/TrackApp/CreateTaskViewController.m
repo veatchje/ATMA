@@ -215,6 +215,19 @@
              titleForRow:(NSInteger)row
             forComponent:(NSInteger)component
 {
+    if (component==0) {
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:Cdate];
+        
+        [dateComponents setDay:row+1];
+        NSDate *newDate = [calendar dateFromComponents:dateComponents];
+        NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
+        //[myFormatter stringFromDate:Cdate]
+        [myFormatter setDateFormat:@"eee dd"];
+        return [myFormatter stringFromDate:newDate];
+        
+    }
+    
     return [NSString stringWithFormat:@"%d", row+1];
 }
 
