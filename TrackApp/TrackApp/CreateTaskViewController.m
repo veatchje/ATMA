@@ -227,7 +227,17 @@
         return [myFormatter stringFromDate:newDate];
         
     }
-    
+    else if (component==1){
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:Cdate];
+        [dateComponents setDay:1];
+        [dateComponents setMonth:row+1];
+        NSDate *newDate = [calendar dateFromComponents:dateComponents];
+        NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
+        //[myFormatter stringFromDate:Cdate]
+        [myFormatter setDateFormat:@"MMM"];
+        return [myFormatter stringFromDate:newDate];
+    }
     return [NSString stringWithFormat:@"%d", row+1];
 }
 
