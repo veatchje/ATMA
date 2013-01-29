@@ -98,11 +98,48 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     UIImage *img = [UIImage imageNamed:@"folder.png"];
     [self.folderImage setImage:img];
     
-    //[self loadNamesFromDatabase];
-    
+     
     self.folderNames = [[NSMutableArray alloc]
                         initWithObjects:@"Business",
                         @"Personal", nil];
+    
+//    NSString *docsDir;
+//    NSArray *dirPaths;
+//    
+//    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    docsDir = [dirPaths objectAtIndex:0];
+//    
+//    self->databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
+//    
+//    NSFileManager *filemgr = [NSFileManager defaultManager];
+//    
+//    if ([filemgr fileExistsAtPath:databasePath] == NO)
+//    {
+//        printf("Creating the database\n");
+//        const char * dbPath = [databasePath UTF8String];
+//        
+//        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+//        {
+//            char *errMsg;
+//            const char *sql_stmt = "create table folders(name TEXT);"; //Change to the real name
+//            
+//            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+//            {
+//                //status.text = @"Failed to create Tasks table";
+//            } else {
+//                sql_stmt = "insert into folders values(\"Business\");";
+//                sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg);
+//                sql_stmt = "insert into folders values(\"Pleasure\");";
+//                sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg);
+//            }
+//            
+//            
+//            //sqlite3_close(atmaDB);
+//        } else {
+//            //status.text = @"Failed to open/create database";
+//        }
+//    }
+//    [self loadNamesFromDatabase];
     
     //ETHAN'S LINE OF CODE
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -120,10 +157,10 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 //////START BRIAN'S CODE
 
-- (BOOL)shouldAutorotate
+/*- (BOOL)shouldAutorotate
 {
     return YES;
-}
+}*/
 
 - (NSInteger)supportedInterfaceOrientations
 {
@@ -256,6 +293,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 														 NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:DATABASE_NAME];
+    
+    printf("writableDBPath: %s\n", [writableDBPath UTF8String]);
 	
     success = [fileManager fileExistsAtPath:writableDBPath];
     if (success)
@@ -265,6 +304,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     // the appropriate location.
     NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath]
 							   stringByAppendingPathComponent:DATABASE_NAME];
+    printf("defaultDBPath: %s\n", [defaultDBPath UTF8String]);
+
     success = [fileManager copyItemAtPath:defaultDBPath
 								   toPath:writableDBPath
 									error:&error];
