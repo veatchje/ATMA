@@ -12,6 +12,8 @@
 #import "TaskTableViewCell.h"
 #import "CreateTaskViewController.h"
 
+#define TAG_INCREMENT 1
+
 //MITCH CODE END
 
 //AHMED CODE START
@@ -75,11 +77,17 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     [super viewDidLoad];
     
+    //This initialization code needs to be replaced by a database call
     self.taskNames = [[NSMutableArray alloc]
                       initWithObjects:@"wake up", @"eat",
                       @"go to sleep", nil];
     self.visibleBools = [[NSMutableArray alloc]
                          initWithObjects:@"false", @"false", @"false", nil];
+    self.taskTotals = [[NSMutableArray alloc]
+                         initWithObjects:[NSNumber numberWithInteger:10], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:10], nil];
+    self.taskCurrents = [[NSMutableArray alloc]
+                      initWithObjects:[NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], nil];
+    //end initialization
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
@@ -134,6 +142,16 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     // Configure the cell...
     cell.taskName.text = [self.taskNames
                           objectAtIndex: [indexPath row]];
+    cell.taskTotal = [self.taskTotals
+                     objectAtIndex:[indexPath row]];
+    
+    float current =[[self.taskCurrents objectAtIndex:[indexPath row]] floatValue];
+    float total = [[self.taskTotals objectAtIndex:[indexPath row]] floatValue];
+    NSString* currentStr = [NSString stringWithFormat:@"%.0f", current];
+    NSString* totalStr = [NSString stringWithFormat:@"%.0f", total];
+    
+    cell.progress.progress = current/total;
+    cell.progressText.text = [NSString stringWithFormat:@"%@/%@", currentStr, totalStr];
     [self.visibleBools addObject:cell.plusButton];
     if([self.visibleBools objectAtIndex: [indexPath row]] == @"true"){
         [UIView animateWithDuration:0.5
@@ -149,12 +167,36 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                          animations:^{cell.plusButton.alpha = 1.0;}
                          completion:nil];
     }
-    //cell.progress.progress = 0.5;
-    //cell.dateLabel.text = @"Feb 23";
-    //cell.progressText.text = @"5/10";
+    
+    cell.plusButton.tag = indexPath.row;
+    [cell.plusButton addTarget:self action:@selector(incrementTask:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if(current/total < 0.33){
+        cell.progress.progressTintColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
+    }
+    else if(current/total >= 0.33 && current/total < 0.66){
+        cell.progress.progressTintColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:1];
+    }
+    else if(current/total >= 0.66 && current/total < 1){
+        cell.progress.progressTintColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:1];
+    }
+    else if(current/total > 1){
+        cell.progress.progressTintColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
+    }
     
         
     return cell;
+}
+
+- (void) incrementTask:(UIButton*)button
+{
+    float newCurrentFloat = [[self.taskCurrents objectAtIndex:button.tag] floatValue] + 1;
+    //Used to stop incrementation past the threshhold
+    //if(newCurrentFloat <= [[self.taskTotals objectAtIndex:button.tag] floatValue]){
+        NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
+        [self.taskCurrents replaceObjectAtIndex:button.tag withObject:newCurrent];
+        [self.tableView reloadData];
+    //}
 }
 
 
@@ -223,7 +265,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     sqlite3 *database = NULL;
     if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
         sqlite3_exec(database, "select name from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskNames), NULL);
-        sqlite3_exec(database, "select units from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskUnits), NULL);
+        sqlite3_exec(database, "select units from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskTotals), NULL);
         sqlite3_exec(database, "select period from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskPeriods), NULL);
         sqlite3_exec(database, "select enddate from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskEndDates), NULL);
         sqlite3_exec(database, "select current from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskCurrents), NULL);

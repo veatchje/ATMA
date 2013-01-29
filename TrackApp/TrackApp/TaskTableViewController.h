@@ -10,14 +10,14 @@
 
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
+#import "TaskTableViewCell.h"
 
 @interface TaskTableViewController : UITableViewController{
     UIBarButtonItem *newTaskButton;
     NSString* folderName;
     UILabel *status;
     NSString *databasePath;
-    sqlite3 *atmaDB;
-    
+    sqlite3 *atmaDB;  
 }
 
 
@@ -27,7 +27,7 @@
 @property (nonatomic, strong) NSMutableArray *taskNames;
 @property (nonatomic, strong) NSMutableArray *visibleBools;
 //AHMED CODE START
-@property (nonatomic, strong) NSMutableArray *taskUnits;
+@property (nonatomic, strong) NSMutableArray *taskTotals;
 @property (nonatomic, strong) NSMutableArray *taskPeriods;
 @property (nonatomic, strong) NSMutableArray *taskEndDates;
 @property (nonatomic, strong) NSMutableArray *taskCurrents;

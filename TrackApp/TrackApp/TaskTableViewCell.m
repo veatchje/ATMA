@@ -12,6 +12,7 @@
 
 @implementation TaskTableViewCell
 @synthesize taskName = _taskName;
+@synthesize taskTotal = _taskTotal;
 @synthesize plusButton = _plusButton;
 @synthesize progress = _progress;
 @synthesize progressText = _progressText;
