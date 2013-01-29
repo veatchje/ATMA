@@ -15,14 +15,15 @@
                         <collectionView key="tableHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="lNr-KE-b2c">
                             <rect key="frame" x="0.0" y="0.0" width="768" height="134"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Eh0-a5-si8">
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Eh0-a5-si8">
                                 <size key="itemSize" width="133" height="133"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                             <cells>
-                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="RW0-H2-L3Y" customClass="FolderCollectionViewCell">
+                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="folderCollectionViewCell" id="RW0-H2-L3Y" customClass="FolderCollectionViewCell">
                                     <rect key="frame" x="0.0" y="0.0" width="133" height="133"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -49,11 +50,18 @@
                                         <constraint firstItem="C80-Zm-W5W" firstAttribute="centerY" secondItem="RW0-H2-L3Y" secondAttribute="centerY" type="default" id="jnU-eh-vIV"/>
                                         <constraint firstItem="13u-Wa-UDN" firstAttribute="centerX" secondItem="RW0-H2-L3Y" secondAttribute="centerX" type="default" id="pgC-dP-wbq"/>
                                     </constraints>
+                                    <connections>
+                                        <outlet property="folderName" destination="13u-Wa-UDN" id="GXN-cz-6hd"/>
+                                    </connections>
                                 </collectionViewCell>
                             </cells>
+                            <connections>
+                                <outlet property="dataSource" destination="Ihz-b6-Uat" id="0HY-Sc-7IG"/>
+                                <outlet property="delegate" destination="Ihz-b6-Uat" id="VwU-BW-evI"/>
+                            </connections>
                         </collectionView>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="4gG-DJ-KWM" customClass="TaskTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taskTableViewCellPortrait" rowHeight="60" id="4gG-DJ-KWM" customClass="TaskTableViewCell">
                                 <rect key="frame" x="0.0" y="156" width="768" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -75,6 +83,9 @@
                                     <constraint firstItem="n26-Lb-T9q" firstAttribute="centerX" secondItem="4gG-DJ-KWM" secondAttribute="centerX" type="default" id="hMp-Q6-OwC"/>
                                     <constraint firstAttribute="bottom" secondItem="n26-Lb-T9q" secondAttribute="bottom" constant="20" type="default" id="ry3-o5-2IX"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="taskName" destination="n26-Lb-T9q" id="Ims-Ci-7Ki"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -83,6 +94,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Tasks" id="X61-99-iUz"/>
+                    <connections>
+                        <outlet property="folderCollectionView" destination="lNr-KE-b2c" id="cXM-V2-GB8"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bHs-Y4-TLp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -454,6 +468,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <relationships>
                 <relationship kind="action" name="alert"/>
                 <relationship kind="action" name="sendTitle:"/>
+                <relationship kind="outlet" name="folderCollectionView" candidateClass="UICollectionView"/>
                 <relationship kind="outlet" name="status" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="textView" candidateClass="UITextView"/>

@@ -9,9 +9,7 @@
 //BRIAN CODE START
 
 #import "CombinedTableViewController.h"
-#import "TaskTableViewCell.h"
-#import "FolderCollectionViewCell.h"
-#import "CreateTaskViewController.h"
+
 
 //GENERATED CODE START
 
@@ -52,6 +50,8 @@
     self.folderNames = [[NSMutableArray alloc]
                         initWithObjects:@"Business",
                         @"Personal", nil];
+    
+    
     
     //ETHAN'S LINE OF CODE
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -373,11 +373,11 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"folderCollectionCell";
+    static NSString *CellIdentifier = @"folderCollectionViewCell";
     
     // This gets the CollectionView, which is the only child. (test this)
-    FolderCollectionViewCell *cell = [[self.childViewControllers objectAtIndex: 0]
-                                 dequeueReusableCellWithIdentifier:CellIdentifier];
+    FolderCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+//    [[self.childViewControllers objectAtIndex: 0] dequeueReusableCellWithIdentifier:CellIdentifier];
     // TODO: Fix this error.
 //    if (cell == nil) {
 //        cell = [[FolderCollectionViewCell alloc]
@@ -473,5 +473,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 //CODE FROM FolderTVC.m END
 
+- (void)viewDidUnload {
+    folderCollectionView = nil;
+    [super viewDidUnload];
+}
 @end
 

@@ -10,8 +10,11 @@
 
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
+#import "TaskTableViewCell.h"
+#import "FolderCollectionViewCell.h"
+#import "CreateTaskViewController.h"
 
-@interface CombinedTableViewController : UITableViewController{
+@interface CombinedTableViewController : UITableViewController<UICollectionViewDataSource, UICollectionViewDelegate>{
     // Folder screen portion
 	IBOutlet UITextView *textView;
 	IBOutlet UITextField *textField;
@@ -22,6 +25,8 @@
     UIBarButtonItem *setupButton;
     
     UITextField *folderNameTextField;
+    
+    IBOutlet UICollectionView *folderCollectionView;
     
     // Task screen portion
     UIBarButtonItem *newTaskButton;
