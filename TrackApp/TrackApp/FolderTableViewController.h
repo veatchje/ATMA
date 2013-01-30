@@ -16,7 +16,6 @@
 	// Outlets
 	IBOutlet UITextView *textView;
 	IBOutlet UITextField *textField;
-    
     NSString *databasePath;
     sqlite3 *atmaDB;
 

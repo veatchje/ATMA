@@ -99,47 +99,60 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [self.folderImage setImage:img];
     
      
-    self.folderNames = [[NSMutableArray alloc]
-                        initWithObjects:@"Business",
-                        @"Personal", nil];
+    //self.folderNames = [[NSMutableArray alloc]
+    //                    initWithObjects:@"Business",
+    //                    @"Personal", nil];
     
-//    NSString *docsDir;
-//    NSArray *dirPaths;
-//    
-//    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    docsDir = [dirPaths objectAtIndex:0];
-//    
-//    self->databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
-//    
-//    NSFileManager *filemgr = [NSFileManager defaultManager];
-//    
-//    if ([filemgr fileExistsAtPath:databasePath] == NO)
-//    {
-//        printf("Creating the database\n");
-//        const char * dbPath = [databasePath UTF8String];
-//        
-//        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-//        {
-//            char *errMsg;
-//            const char *sql_stmt = "create table folders(name TEXT);"; //Change to the real name
-//            
-//            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
-//            {
-//                //status.text = @"Failed to create Tasks table";
-//            } else {
-//                sql_stmt = "insert into folders values(\"Business\");";
-//                sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg);
-//                sql_stmt = "insert into folders values(\"Pleasure\");";
-//                sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg);
-//            }
-//            
-//            
-//            //sqlite3_close(atmaDB);
-//        } else {
-//            //status.text = @"Failed to open/create database";
-//        }
-//    }
-//    [self loadNamesFromDatabase];
+    NSString *docsDir;
+    NSArray *dirPaths;
+    
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
+    
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath:databasePath] == NO)
+    {
+        printf("Creating the database\n");
+        const char * dbPath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+        {
+            char *errMsg;
+            const char *sql_stmt = "create table if not exists folders(name TEXT);";
+            
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                //status.text = @"Failed to create Folders table";
+            } else {
+                sqlite3_stmt *statement;
+                NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Business\")"];
+                const char *insert_stmt = [insertSQL UTF8String];
+                sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+                
+                if(sqlite3_step(statement) == SQLITE_DONE ) {
+                    printf("Folder added");
+                }
+                
+                insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Pleasure\")"];
+                insert_stmt = [insertSQL UTF8String];
+                sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+                
+                if(sqlite3_step(statement) == SQLITE_DONE ) {
+                    printf("Folder added");
+                }
+            }
+            
+            
+            sqlite3_close(atmaDB);
+        } else {
+            //status.text = @"Failed to open/create database";
+        }
+    }
+    //[filemgr release];
+    [self loadNamesFromDatabase];
     
     //ETHAN'S LINE OF CODE
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -239,7 +252,29 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 	return [documentsDir stringByAppendingPathComponent:DATABASE_NAME];
 }
 
-- (void)loadNamesFromDatabase
+- (void) loadNamesFromDatabase
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name from folders"];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                [_folderNames addObject:nameField];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+}
+
+/*- (void)loadNamesFromDatabase
 {
     NSString *file = [self getWritableDBPath];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -259,7 +294,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     sqlite3_close(database);
 }
-
+//*/
 - (void)saveNameInDatabase:(NSString *)theName {
 	
 	// Copy the database if needed
