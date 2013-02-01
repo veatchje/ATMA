@@ -264,7 +264,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([indexPath row] == self.taskNames.count)
+    if([indexPath row] == self.taskNames.count - 1)
         return NO;
     
     return YES;
