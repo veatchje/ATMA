@@ -36,21 +36,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 @synthesize folderImage = _folderImage;
 @synthesize folderNames = _folderNames;
 
-- (IBAction)alert{
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Folder" message:@"Put in folder name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
-    folderNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
-    [folderNameTextField setBackgroundColor:[UIColor whiteColor]];
-    [alert addSubview:folderNameTextField];
-    alert.tag = TAG_NEWFOLDER;
-    
-    [alert show];
-}
-
-- (IBAction)createFolder{
-    NSString *folderName = folderNameTextField.text;
-}
-
 - (IBAction)setupAlert{
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Main Menu" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Settings", @"Help", @"About", nil];
@@ -64,7 +49,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         if (buttonIndex != [alertView cancelButtonIndex]) {
             NSString *folderName = folderNameTextField.text;
             //Add name to database HERE
+            [self.folderNames removeLastObject];
             [self.folderNames addObject:folderName];
+            [self insertAddRowIntoArray];
             [self.tableView reloadData];
         }
     }
@@ -160,14 +147,16 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //ETHAN'S LINE OF CODE
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    newFolderButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                    target:self
-                                                                    action:@selector(alert)];
-    
     setupButton = [[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStylePlain
                                                                 target:self
                                                                 action:@selector(setupAlert)];
     
+}
+
+//CALL THIS METHOD WHENEVER CHANGING THE SIZE OF THE TABLE
+- (void) insertAddRowIntoArray
+{
+    [self.folderNames addObject:@""];
 }
 
 
@@ -212,16 +201,29 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     // Configure the cell...
     cell.folderName.text = [self.folderNames
                            objectAtIndex: [indexPath row]];
+    [cell.folderName setHidden:FALSE];
+    [cell.folderImage setHidden:FALSE];
     
+    if([indexPath row] == self.folderNames.count - 1){
+        [cell.folderName setHidden:TRUE];
+        [cell.folderImage setHidden:TRUE];
+    }
         
     return cell;
 }
 
-//Edit and Delete
+//Edit:Insert, Reorder and Delete
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UITableViewCellEditingStyleDelete;
+    if(indexPath.row == self.folderNames.count - 1){
+        return UITableViewCellEditingStyleInsert;
+    }
+    else{
+        return UITableViewCellEditingStyleDelete;
+    }
 }
+
+
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
 {
@@ -230,15 +232,43 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         [self.folderNames removeObjectAtIndex:indexPath.row];
         [tableView reloadData];
     }
+    else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Folder" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
+        folderNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
+        [folderNameTextField setBackgroundColor:[UIColor whiteColor]];
+        [alert addSubview:folderNameTextField];
+        alert.tag = TAG_NEWFOLDER;
+        
+        [alert show];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([indexPath row] == self.folderNames.count - 1)
+        return NO;
+    
+    return YES;
+}
+
+- (void) tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    if(destinationIndexPath.row >= self.folderNames.count - 1){
+        [self.tableView reloadData];
+        return;
+    }
+    NSString* stringToMove = [self.folderNames objectAtIndex:sourceIndexPath.row];
+    [self.folderNames removeObjectAtIndex:sourceIndexPath.row];
+    
+    [self.folderNames insertObject:stringToMove atIndex:destinationIndexPath.row];
+    [self.tableView reloadData];
+    //Save array of new order to database
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
 {
-    [super setEditing:editing animated:animate];
-    if(editing)
-        self.navigationItem.leftBarButtonItem = newFolderButton;
-    else
-        self.navigationItem.leftBarButtonItem = setupButton;
+    [super setEditing:editing animated:FALSE];
     
 }
 
@@ -279,6 +309,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         }
         sqlite3_close(atmaDB);
     }
+    [self insertAddRowIntoArray];
     [self.tableView reloadData];
 }
 

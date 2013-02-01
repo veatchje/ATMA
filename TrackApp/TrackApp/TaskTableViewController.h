@@ -13,7 +13,7 @@
 #import "TaskTableViewCell.h"
 
 @interface TaskTableViewController : UITableViewController{
-    UIBarButtonItem *newTaskButton;
+    UIBarButtonItem *resetTasksButton;
     NSString* folderName;
     UILabel *status;
     NSString *databasePath;

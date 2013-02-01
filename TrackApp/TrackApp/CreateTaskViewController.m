@@ -30,6 +30,7 @@
 
 - (IBAction)save {
     //Database call
+    //The idea here is to save it to the DB then load it once back at the Tasks screen
     [self.navigationController popViewControllerAnimated:YES];
 }
 

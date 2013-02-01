@@ -87,15 +87,28 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                          initWithObjects:[NSNumber numberWithInteger:10], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:10], nil];
     self.taskCurrents = [[NSMutableArray alloc]
                       initWithObjects:[NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], nil];
+    self.taskEndDates = [[NSMutableArray alloc]
+                         initWithObjects:@"Feb 1", @"Feb 2", @"Feb 3", nil];
+    [self insertAddRowIntoArray];
     //end initialization
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    newTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+    resetTasksButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                   target:self
-                                                                  action:@selector(newTaskButtonTouched)];
+                                                                  action:@selector(resetTasksButtonTouched)];
     folderName = self.navigationItem.title;
     
+}
+
+//CALL THIS METHOD WHENEVER CHANGING THE SIZE OF THE TABLE
+- (void) insertAddRowIntoArray
+{
+    [self.taskNames addObject:@""];
+    [self.visibleBools addObject:@""];
+    [self.taskTotals addObject:[NSNumber numberWithInteger:0]];
+    [self.taskCurrents addObject:[NSNumber numberWithInteger:0]];
+    [self.taskEndDates addObject:@""];
 }
 
 - (void) viewDidAppear: (BOOL) animated
@@ -104,6 +117,28 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     //[self loadTasksFromDatabase];
     //Update the TableView
+    [self.tableView reloadData];
+}
+
+- (void) resetTasksButtonTouched
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reset All Tasks?" message:@"" delegate:self cancelButtonTitle:@"Don't Reset" otherButtonTitles: @"Reset", nil];
+    
+    [alert show];   
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex != [alertView cancelButtonIndex]){
+        [self resetTasks];
+    }
+}
+
+- (void) resetTasks
+{
+    for(int i=0; i<self.taskCurrents.count; i++){
+        [self.taskCurrents replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:0]];
+    }
     [self.tableView reloadData];
 }
 
@@ -154,37 +189,40 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     cell.progressText.text = [NSString stringWithFormat:@"%@/%@", currentStr, totalStr];
     [self.visibleBools addObject:cell.plusButton];
     if([self.visibleBools objectAtIndex: [indexPath row]] == @"true"){
-        [UIView animateWithDuration:0.5
-                                       delay:0.0
-                                     options: UIViewAnimationCurveEaseInOut
-                                  animations:^{cell.plusButton.alpha = 0.0;}
-                                  completion:nil];
+        cell.plusButton.alpha = 0.0;
     }
     else{
-        [UIView animateWithDuration:0.5
-                              delay:0.0
-                            options: UIViewAnimationCurveEaseInOut
-                         animations:^{cell.plusButton.alpha = 1.0;}
-                         completion:nil];
+        cell.plusButton.alpha = 1.0;
     }
     
     cell.plusButton.tag = indexPath.row;
     [cell.plusButton addTarget:self action:@selector(incrementTask:) forControlEvents:UIControlEventTouchUpInside];
     
-    if(current/total < 0.33){
+    if(current/total < 0.40){
         cell.progress.progressTintColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
     }
-    else if(current/total >= 0.33 && current/total < 0.66){
+    else if(current/total >= 0.40 && current/total < 0.80){
         cell.progress.progressTintColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:1];
     }
-    else if(current/total >= 0.66 && current/total < 1){
+    else if(current/total >= 0.80 && current/total < 1){
         cell.progress.progressTintColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:1];
     }
     else if(current/total > 1){
         cell.progress.progressTintColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
     }
     
-        
+    cell.dateLabel.text = [self.taskEndDates
+                           objectAtIndex: [indexPath row]];
+    
+    [cell.progress setHidden:FALSE];
+    [cell.plusButton setHidden:FALSE];
+    [cell.progressText setHidden:FALSE];
+    if([indexPath row] == self.taskNames.count - 1){
+        [cell.progress setHidden:TRUE];
+        [cell.plusButton setHidden:TRUE];
+        [cell.progressText setHidden:TRUE];
+    }
+    
     return cell;
 }
 
@@ -200,10 +238,15 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 }
 
 
-//Edit and Delete
+//Edit: Insert, Reorder, and Delete
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UITableViewCellEditingStyleDelete;
+    if(indexPath.row == self.taskNames.count - 1){
+        return UITableViewCellEditingStyleInsert;
+    }
+    else{
+        return UITableViewCellEditingStyleDelete;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
@@ -213,13 +256,53 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         [self.taskNames removeObjectAtIndex:indexPath.row];
         [tableView reloadData];
     }
+    else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+        [self newTaskButtonTouched];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([indexPath row] == self.taskNames.count)
+        return NO;
+    
+    return YES;
+}
+
+- (void) tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    if(destinationIndexPath.row >= self.taskNames.count - 1){
+        [self.tableView reloadData];
+        return;
+    }
+    NSString* nameToMove = [self.taskNames objectAtIndex:sourceIndexPath.row];
+    [self.taskNames removeObjectAtIndex:sourceIndexPath.row];
+    [self.taskNames insertObject:nameToMove atIndex:destinationIndexPath.row];
+    
+    NSNumber* currentToMove = [self.taskCurrents objectAtIndex:sourceIndexPath.row];
+    [self.taskCurrents removeObjectAtIndex:sourceIndexPath.row];
+    [self.taskCurrents insertObject:currentToMove atIndex:destinationIndexPath.row];
+    
+    NSString* endDateToMove = [self.taskEndDates objectAtIndex:sourceIndexPath.row];
+    [self.taskEndDates removeObjectAtIndex:sourceIndexPath.row];
+    [self.taskEndDates insertObject:endDateToMove atIndex:destinationIndexPath.row];
+    
+    NSNumber* targetToMove = [self.taskTargets objectAtIndex:sourceIndexPath.row];
+    [self.taskTargets removeObjectAtIndex:sourceIndexPath.row];
+    [self.taskTargets insertObject:targetToMove atIndex:destinationIndexPath.row];
+    
+    NSString* visibleBoolToMove = [self.visibleBools objectAtIndex:sourceIndexPath.row];
+    [self.visibleBools removeObjectAtIndex:sourceIndexPath.row];
+    [self.visibleBools insertObject:visibleBoolToMove atIndex:destinationIndexPath.row];
+    //Save array of new order to database
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
 {    
     [super setEditing:editing animated:animate];
     if(editing){
-        self.navigationItem.leftBarButtonItem = newTaskButton;
+        self.navigationItem.leftBarButtonItem = resetTasksButton;
         self.visibleBools = [[NSMutableArray alloc]
                              initWithObjects:@"true", @"true",
                              @"true", nil];
@@ -232,12 +315,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                              @"false", nil];
         [self.tableView reloadData];
     }
-}
-
--(void)endAppearanceTransition{
-    [super endAppearanceTransition];
-    printf("????\n");
-    [self.tableView reloadData];
 }
 
 //Database stuff starts here - Ahmed

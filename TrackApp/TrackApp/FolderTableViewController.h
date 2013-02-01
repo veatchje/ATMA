@@ -22,7 +22,6 @@
 	
 	NSMutableArray *_namesArray;
     
-    UIBarButtonItem *newFolderButton;
     UIBarButtonItem *setupButton;
     
     UITextField *folderNameTextField;
@@ -36,7 +35,6 @@
 @property (nonatomic, retain) IBOutlet UITextView *textView;
 @property (nonatomic, retain) IBOutlet UITextField *textField;
 
-- (IBAction)alert;
 - (IBAction)sendTitle:(id)sender;
 - (void) loadNamesFromDatabase;
 
