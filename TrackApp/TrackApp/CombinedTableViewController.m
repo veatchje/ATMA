@@ -377,13 +377,13 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     // This gets the CollectionView, which is the only child. (test this)
     FolderCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-//    [[self.childViewControllers objectAtIndex: 0] dequeueReusableCellWithIdentifier:CellIdentifier];
+    //    [[self.childViewControllers objectAtIndex: 0] dequeueReusableCellWithIdentifier:CellIdentifier];
     // TODO: Fix this error.
-//    if (cell == nil) {
-//        cell = [[FolderCollectionViewCell alloc]
-//                initWithStyle:UITableViewCellStyleDefault
-//                reuseIdentifier:CellIdentifier];
-//    }
+    //    if (cell == nil) {
+    //        cell = [[FolderCollectionViewCell alloc]
+    //                initWithStyle:UITableViewCellStyleDefault
+    //                reuseIdentifier:CellIdentifier];
+    //    }
     
     // Configure the cell...
     cell.folderName.text = [self.folderNames
@@ -393,28 +393,25 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     return cell;
 }
 
-//BRIAN CODE END
-/*////////////////// Start TableView Comment
-// TODO: Replace this with CollectionView code if necessary.
-
-//Edit and Delete
-// TODO: Change to CollectionView style.
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewCellEditingStyleDelete;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        [self.folderNames removeObjectAtIndex:indexPath.item];
-        [tableView reloadData];
-    }
-}
-
 // TODO: Put newFolderButton somewhere.
-*////// End TableView comment
+
+//BRIAN CODE END
+
+/*////////////////// Start TableView Comment
+ //Edit and Delete
+ - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ return UITableViewCellEditingStyleDelete;
+ }
+ 
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete)
+ {
+ [self.folderNames removeObjectAtIndex:indexPath.item];
+ [tableView reloadData];
+ }
+ }*////// End TableView comment
 
 //MITCH CODE END
 
