@@ -229,6 +229,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
+        //database call?
         [self.folderNames removeObjectAtIndex:indexPath.row];
         [tableView reloadData];
     }
@@ -290,8 +291,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
     
-    printf("In LoadNamesFromDatabase\n");
-    
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
         NSString *querySQL = [NSString stringWithFormat:@"SELECT name from folders;"];
@@ -301,8 +300,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         {
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                const char* name = [nameField UTF8String];
-                printf("Loaded name: %s\n", name);
                 [self.folderNames addObject:nameField];
             }
             sqlite3_finalize(statement);

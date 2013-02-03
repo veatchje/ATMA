@@ -83,7 +83,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                       @"go to sleep", nil];
     self.visibleBools = [[NSMutableArray alloc]
                          initWithObjects:@"false", @"false", @"false", nil];
-    self.taskTotals = [[NSMutableArray alloc]
+    self.taskTargets = [[NSMutableArray alloc]
                          initWithObjects:[NSNumber numberWithInteger:10], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:10], nil];
     self.taskCurrents = [[NSMutableArray alloc]
                       initWithObjects:[NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], nil];
@@ -106,7 +106,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     [self.taskNames addObject:@""];
     [self.visibleBools addObject:@""];
-    [self.taskTotals addObject:[NSNumber numberWithInteger:0]];
+    [self.taskTargets addObject:[NSNumber numberWithInteger:0]];
     [self.taskCurrents addObject:[NSNumber numberWithInteger:0]];
     [self.taskEndDates addObject:@""];
 }
@@ -177,11 +177,11 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     // Configure the cell...
     cell.taskName.text = [self.taskNames
                           objectAtIndex: [indexPath row]];
-    cell.taskTotal = [self.taskTotals
+    cell.taskTotal = [self.taskTargets
                      objectAtIndex:[indexPath row]];
     
     float current =[[self.taskCurrents objectAtIndex:[indexPath row]] floatValue];
-    float total = [[self.taskTotals objectAtIndex:[indexPath row]] floatValue];
+    float total = [[self.taskTargets objectAtIndex:[indexPath row]] floatValue];
     NSString* currentStr = [NSString stringWithFormat:@"%.0f", current];
     NSString* totalStr = [NSString stringWithFormat:@"%.0f", total];
     
@@ -230,7 +230,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     float newCurrentFloat = [[self.taskCurrents objectAtIndex:button.tag] floatValue] + 1;
     //Used to stop incrementation past the threshhold
-    //if(newCurrentFloat <= [[self.taskTotals objectAtIndex:button.tag] floatValue]){
+    //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
         NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
         [self.taskCurrents replaceObjectAtIndex:button.tag withObject:newCurrent];
         [self.tableView reloadData];
@@ -329,125 +329,135 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void)loadTasksFromDatabase
 {
-    NSString *file = [self getWritableDBPath];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	BOOL success = [fileManager fileExistsAtPath:file];
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
     
-	// If its not a local copy set it to the bundle copy
-	if(!success) {
-		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
-		[self createEditableCopyOfDatabaseIfNeeded];
-	}
-    
-    sqlite3 *database = NULL;
-    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
-        sqlite3_exec(database, "select name from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskNames), NULL);
-        sqlite3_exec(database, "select units from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskTotals), NULL);
-        sqlite3_exec(database, "select period from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskPeriods), NULL);
-        sqlite3_exec(database, "select enddate from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskEndDates), NULL);
-        sqlite3_exec(database, "select current from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskCurrents), NULL);
-        sqlite3_exec(database, "select target from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskTargets), NULL);
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"?\" order by priority;"]; //Switch this for other folders
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            sqlite3_bind_text(*query_stmt, 1, [self.navigationItem.title UTF8String], -1, NULL);
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                [self.taskNames addObject:nameField];
+                
+                NSString *unitsField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                [self.taskUnits addObject:unitsField];
+                
+                NSString *periodField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
+                [self.taskPeriods addObject:periodField];
+                
+                NSString *endField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
+                [self.taskEndDates addObject:endField];
+                
+                NSString *currentField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 4)];
+                [self.taskCurrents addObject:currentField];
+                
+                NSString *targetField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 5)];
+                [self.taskTargets addObject:targetField];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
     }
-    sqlite3_close(database);
 }
 
 - (void)incrementTaskWithName:(NSString*)theName
 {
-    NSString *file = [self getWritableDBPath];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	BOOL success = [fileManager fileExistsAtPath:file];
     
-	// If its not a local copy set it to the bundle copy
-	if(!success) {
-		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
-		[self createEditableCopyOfDatabaseIfNeeded];
-	}
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
     
-    sqlite3 *database = NULL;
-    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
-        int *current = NULL;
-        NSString *insertSQL = [NSString stringWithFormat:@"select current from tasks where name = \"%@\"", theName];
-        const char* b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, (int*)current, NULL);
-        *current = *current++;
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+1 where name = \"?\";"];
+        const char *query_stmt = [querySQL UTF8String];
         
-        int *target = NULL;
-        insertSQL = [NSString stringWithFormat:@"select target from tasks where name = \"%@\"", theName];
-        b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, (int*)target, NULL);
-        
-        insertSQL = [NSString stringWithFormat:@"update tasks set current = %d where name = \"%@\"", *current, theName];
-        b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, NULL, NULL);
-        
-        //Target has been reached
-        if (*current == *target)
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            //Do something
+            sqlite3_bind_text(*query_stmt, 1, [theName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Inrement successful!
+            }
+            sqlite3_finalize(statement);
         }
+        sqlite3_close(atmaDB);
     }
-    sqlite3_close(database);
 }
 
 - (void)incrementTaskWithName:(NSString*)theName WithValue:(int)theValue
 {
-    NSString *file = [self getWritableDBPath];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	BOOL success = [fileManager fileExistsAtPath:file];
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
     
-	// If its not a local copy set it to the bundle copy
-	if(!success) {
-		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
-		[self createEditableCopyOfDatabaseIfNeeded];
-	}
-    
-    sqlite3 *database = NULL;
-    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
-        int *current = NULL;
-        NSString *insertSQL = [NSString stringWithFormat:@"select current from tasks where name = \"%@\"", theName];
-        const char* b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, (int*)current, NULL);
-        *current = *current+theValue;
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+? where name = \"?\";"]; 
+        const char *query_stmt = [querySQL UTF8String];
         
-        int *target = NULL;
-        insertSQL = [NSString stringWithFormat:@"select target from tasks where name = \"%@\"", theName];
-        b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, (int*)target, NULL);
-        
-        insertSQL = [NSString stringWithFormat:@"update tasks set current = %d where name = \"%@\"", *current, theName];
-        b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, NULL, NULL);
-        
-        //Target has been reached
-        if (*current >= *target)
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            //Do something
+            sqlite3_bind_int(*query_stmt, 1, theValue);
+            sqlite3_bind_text(*query_stmt, 2, [theName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Inrement successful!
+            }
+            sqlite3_finalize(statement);
         }
+        sqlite3_close(atmaDB);
     }
-    sqlite3_close(database);
 }
 
 - (void)resetTaskWithName:(NSString*)theName
 {
-    NSString *file = [self getWritableDBPath];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	BOOL success = [fileManager fileExistsAtPath:file];
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
     
-	// If its not a local copy set it to the bundle copy
-	if(!success) {
-		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
-		[self createEditableCopyOfDatabaseIfNeeded];
-	}
-    
-    sqlite3 *database = NULL;
-    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
-        NSString *insertSQL = [NSString stringWithFormat:@"update tasks set current = 0 where name = \"%@\"", theName];
-        const char* b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, NULL, NULL);
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =0 where name = \"?\";"]; 
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            sqlite3_bind_text(*query_stmt, 1, [theName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Increment successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
     }
-    sqlite3_close(database);
 }
 
+- (void)resetPeriod:(int)thePeriod ForTaskWithName:(NSString*)theName
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set enddate = ? where name = \"?\";"];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            //Needs to add current time as well!
+            NSDate* today = [NSDate date];
+            double seconds = [today timeIntervalSince1970];
+            sqlite3_bind_int(*query_stmt, 1, seconds + (thePeriod*24*3600));
+            sqlite3_bind_text(*query_stmt, 2, [theName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Reset successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+}
 
 -(void)createEditableCopyOfDatabaseIfNeeded
 {
@@ -475,6 +485,42 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     {
         NSAssert1(0,@"Failed to create writable database file with Message : '%@'.",
 				  [error localizedDescription]);
+    }
+}
+
+-(void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithPriority:(int)thePriority
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= \"?\";"];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            //Needs to add current time as well!
+            sqlite3_bind_int(*query_stmt, 1, thePriority);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Incrementation successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        
+        querySQL = [NSString stringWithFormat:@"update tasks set priority = ? where name = \"?\";"];
+        query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            //Needs to add current time as well!
+            sqlite3_bind_int(*query_stmt, 1, thePriority);
+            sqlite3_bind_text(*query_stmt, 2, [theFirstName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Reprioritization successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
     }
 }
 

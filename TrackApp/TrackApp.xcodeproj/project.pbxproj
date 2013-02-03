@@ -180,6 +180,7 @@
 			);
 			path = TrackApp;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		0235FCD81669423F008F136B /* Supporting Files */ = {
 			isa = PBXGroup;

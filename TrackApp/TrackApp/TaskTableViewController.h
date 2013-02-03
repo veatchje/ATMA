@@ -28,9 +28,15 @@
 @property (nonatomic, strong) NSMutableArray *visibleBools;
 //AHMED CODE START
 @property (nonatomic, strong) NSMutableArray *taskTotals;
+//The number of days allowed for the task
 @property (nonatomic, strong) NSMutableArray *taskPeriods;
+//The units the task is measured in
+@property (nonatomic, strong) NSMutableArray *taskUnits;
+//The date the task is due
 @property (nonatomic, strong) NSMutableArray *taskEndDates;
+//The current progress of the task
 @property (nonatomic, strong) NSMutableArray *taskCurrents;
+//The target goal of progress for the task
 @property (nonatomic, strong) NSMutableArray *taskTargets;
 @property (retain, nonatomic) IBOutlet UILabel *status;
 //AHMED CODE END
