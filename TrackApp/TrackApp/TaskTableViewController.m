@@ -79,16 +79,16 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     //This initialization code needs to be replaced by a database call
     self.taskNames = [[NSMutableArray alloc]
-                      initWithObjects:@"wake up", @"eat",
-                      @"go to sleep", nil];
+                      initWithObjects:@"Make Call", @"Confirm Sale",
+                      @"Meet Client", nil];
     self.visibleBools = [[NSMutableArray alloc]
                          initWithObjects:@"false", @"false", @"false", nil];
     self.taskTargets = [[NSMutableArray alloc]
-                         initWithObjects:[NSNumber numberWithInteger:10], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:10], nil];
+                         initWithObjects:[NSNumber numberWithInteger:20], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:12], nil];
     self.taskCurrents = [[NSMutableArray alloc]
                       initWithObjects:[NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], nil];
     self.taskEndDates = [[NSMutableArray alloc]
-                         initWithObjects:@"Feb 1", @"Feb 2", @"Feb 3", nil];
+                         initWithObjects:@"Today", @"Tomorrow", @"March 13", nil];
     [self insertAddRowIntoArray];
     //end initialization
     
