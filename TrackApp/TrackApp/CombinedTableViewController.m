@@ -31,15 +31,27 @@
     
     // Task portion
     self.taskNames = [[NSMutableArray alloc]
-                      initWithObjects:@"wake up", @"eat",
-                      @"go to sleep", nil];
+                      initWithObjects:@"Make Call", @"Confirm Sale",
+                      @"Meet Client", nil];
+    self.visibleBools = [[NSMutableArray alloc]
+                         initWithObjects:@"false", @"false", @"false", nil];
+    self.taskTargets = [[NSMutableArray alloc]
+                        initWithObjects:[NSNumber numberWithInteger:20], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:12], nil];
+    self.taskCurrents = [[NSMutableArray alloc]
+                         initWithObjects:[NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], nil];
+    self.taskEndDates = [[NSMutableArray alloc]
+                         initWithObjects:@"Today", @"Tomorrow", @"March 13", nil];
+    [self insertAddRowIntoArray];
+    //end initialization
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     newTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                   target:self
                                                                   action:@selector(newTaskButtonTouched)];
-    folderName = self.navigationItem.title;
+    // Line for testing.
+    self.navigationItem.title = @"Business";
+    //folderName = self.navigationItem.title;
     
     // Folder portion
     UIImage *img = [UIImage imageNamed:@"folder.png"];
@@ -56,14 +68,24 @@
     //ETHAN'S LINE OF CODE
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    newFolderButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                    target:self
-                                                                    action:@selector(alert)];
-    
-    setupButton = [[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStylePlain
-                                                  target:self
-                                                  action:@selector(setupAlert)];
+//    newFolderButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+//                                                                    target:self
+//                                                                    action:@selector(alert)];
+//    
+//    setupButton = [[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStylePlain
+//                                                  target:self
+//                                                  action:@selector(setupAlert)];
 
+}
+
+//CALL THIS METHOD WHENEVER CHANGING THE SIZE OF THE TABLE
+- (void) insertAddRowIntoArray
+{
+    [self.taskNames addObject:@""];
+    [self.visibleBools addObject:@""];
+    [self.taskTargets addObject:[NSNumber numberWithInteger:0]];
+    [self.taskCurrents addObject:[NSNumber numberWithInteger:0]];
+    [self.taskEndDates addObject:@""];
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,15 +140,40 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [self.tableView reloadData];
 }
 
-- (void) newTaskButtonTouched
+- (void) resetTasksButtonTouched
 {
-    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
-    CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
-    [vc setFolderName:folderName];
-    [self.navigationController pushViewController:vc animated:YES];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reset All Tasks?" message:@"" delegate:self cancelButtonTitle:@"Don't Reset" otherButtonTitles: @"Reset", nil];
+    
+    [alert show];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//TODO: integrate this with the other clickedButtonAtIndex
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if(buttonIndex != [alertView cancelButtonIndex]){
+//        [self resetTasks];
+//    }
+//}
+
+- (void) resetTasks
+{
+    for(int i=0; i<self.taskCurrents.count; i++){
+        [self.taskCurrents replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:0]];
+    }
+    [self.tableView reloadData];
+}
+
+
+- (void) newTaskButtonTouched
+{
+//    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+//    CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
+//    [vc setFolderName:folderName];
+//    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)
+    tableView
 {
     // Return the number of sections.
     return 1;
@@ -140,7 +187,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"taskTableCell";
+    static NSString *CellIdentifier = @"taskTableViewCellPortrait";
     
     TaskTableViewCell *cell = [tableView
                                dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -153,15 +200,75 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     // Configure the cell...
     cell.taskName.text = [self.taskNames
                           objectAtIndex: [indexPath row]];
+    cell.taskTotal = [self.taskTargets
+                      objectAtIndex:[indexPath row]];
     
+    float current =[[self.taskCurrents objectAtIndex:[indexPath row]] floatValue];
+    float total = [[self.taskTargets objectAtIndex:[indexPath row]] floatValue];
+    NSString* currentStr = [NSString stringWithFormat:@"%.0f", current];
+    NSString* totalStr = [NSString stringWithFormat:@"%.0f", total];
+    
+    cell.progress.progress = current/total;
+    cell.progressText.text = [NSString stringWithFormat:@"%@/%@", currentStr, totalStr];
+    [self.visibleBools addObject:cell.plusButton];
+    if([self.visibleBools objectAtIndex: [indexPath row]] == @"true"){
+        cell.plusButton.alpha = 0.0;
+    }
+    else{
+        cell.plusButton.alpha = 1.0;
+    }
+    
+    cell.plusButton.tag = indexPath.row;
+    [cell.plusButton addTarget:self action:@selector(incrementTask:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if(current/total < 0.40){
+        cell.progress.progressTintColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
+    }
+    else if(current/total >= 0.40 && current/total < 0.80){
+        cell.progress.progressTintColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:1];
+    }
+    else if(current/total >= 0.80 && current/total < 1){
+        cell.progress.progressTintColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:1];
+    }
+    else if(current/total > 1){
+        cell.progress.progressTintColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
+    }
+    
+    cell.dateLabel.text = [self.taskEndDates
+                           objectAtIndex: [indexPath row]];
+    
+    [cell.progress setHidden:FALSE];
+    [cell.plusButton setHidden:FALSE];
+    [cell.progressText setHidden:FALSE];
+    if([indexPath row] == self.taskNames.count - 1){
+        [cell.progress setHidden:TRUE];
+        [cell.plusButton setHidden:TRUE];
+        [cell.progressText setHidden:TRUE];
+    }
     
     return cell;
 }
 
-//Edit and Delete
+- (void) incrementTask:(UIButton*)button
+{
+    float newCurrentFloat = [[self.taskCurrents objectAtIndex:button.tag] floatValue] + 1;
+    //Used to stop incrementation past the threshhold
+    //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
+    NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
+    [self.taskCurrents replaceObjectAtIndex:button.tag withObject:newCurrent];
+    [self.tableView reloadData];
+    //}
+}
+
+//Edit: Insert, Reorder, and Delete
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UITableViewCellEditingStyleDelete;
+    if(indexPath.row == self.taskNames.count - 1){
+        return UITableViewCellEditingStyleInsert;
+    }
+    else{
+        return UITableViewCellEditingStyleDelete;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
@@ -171,19 +278,67 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         [self.taskNames removeObjectAtIndex:indexPath.row];
         [tableView reloadData];
     }
+    else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+        [self newTaskButtonTouched];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([indexPath row] == self.taskNames.count - 1)
+        return NO;
+    
+    return YES;
+}
+
+- (void) tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    if(destinationIndexPath.row >= self.taskNames.count - 1){
+        [self.tableView reloadData];
+        return;
+    }
+    NSString* nameToMove = [self.taskNames objectAtIndex:sourceIndexPath.row];
+    [self.taskNames removeObjectAtIndex:sourceIndexPath.row];
+    [self.taskNames insertObject:nameToMove atIndex:destinationIndexPath.row];
+    
+    NSNumber* currentToMove = [self.taskCurrents objectAtIndex:sourceIndexPath.row];
+    [self.taskCurrents removeObjectAtIndex:sourceIndexPath.row];
+    [self.taskCurrents insertObject:currentToMove atIndex:destinationIndexPath.row];
+    
+    NSString* endDateToMove = [self.taskEndDates objectAtIndex:sourceIndexPath.row];
+    [self.taskEndDates removeObjectAtIndex:sourceIndexPath.row];
+    [self.taskEndDates insertObject:endDateToMove atIndex:destinationIndexPath.row];
+    
+    NSNumber* targetToMove = [self.taskTargets objectAtIndex:sourceIndexPath.row];
+    [self.taskTargets removeObjectAtIndex:sourceIndexPath.row];
+    [self.taskTargets insertObject:targetToMove atIndex:destinationIndexPath.row];
+    
+    NSString* visibleBoolToMove = [self.visibleBools objectAtIndex:sourceIndexPath.row];
+    [self.visibleBools removeObjectAtIndex:sourceIndexPath.row];
+    [self.visibleBools insertObject:visibleBoolToMove atIndex:destinationIndexPath.row];
+    //Save array of new order to database
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
 {
     [super setEditing:editing animated:animate];
     if(editing){
-        self.navigationItem.leftBarButtonItem = newTaskButton;
+        //TODO: This data conflicts. Place the button elsewhere.
+        //self.navigationItem.leftBarButtonItem = resetTasksButton;
+        self.visibleBools = [[NSMutableArray alloc]
+                             initWithObjects:@"true", @"true",
+                             @"true", nil];
+        [self.tableView reloadData];
     }
-    else
+    else{
         self.navigationItem.leftBarButtonItem = nil;
-    
+        self.visibleBools = [[NSMutableArray alloc]
+                             initWithObjects:@"false", @"false",
+                             @"false", nil];
+        [self.tableView reloadData];
+    }
 }
-
 //Database stuff starts here - Ahmed
 //AHMED CODE START
 
@@ -470,9 +625,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 //CODE FROM FolderTVC.m END
 
-- (void)viewDidUnload {
+/*- (void)viewDidUnload {
     folderCollectionView = nil;
     [super viewDidUnload];
-}
+}*/
 @end
 

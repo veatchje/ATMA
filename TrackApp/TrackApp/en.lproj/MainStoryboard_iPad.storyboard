@@ -69,7 +69,49 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n26-Lb-T9q">
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="183" id="BjP-8D-KgO"/>
+                                                <constraint firstAttribute="height" constant="21" id="i8r-rC-IgC"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="diY-AQ-gNK">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="Ydx-Og-OWi"/>
+                                                <constraint firstAttribute="width" constant="40" id="Zhl-Z5-jNy"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Verdana-BoldItalic" family="Verdana" pointSize="44"/>
+                                            <state key="normal" image="Plus%20button.png" backgroundImage="Plus%20button.png">
+                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Feb 23" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QPf-BX-rSS">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="83" id="scy-ew-4u7"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0fs-Nc-RtD">
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="664" id="Fqu-Re-uon"/>
+                                            </constraints>
+                                            <color key="progressTintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="trackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </progressView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5/10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yj-VD-5aB">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="73" id="x4y-JV-teW"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
@@ -80,10 +122,23 @@
                                     <accessibilityTraits key="traits" none="YES" updatesFrequently="YES"/>
                                 </accessibility>
                                 <constraints>
-                                    <constraint firstItem="n26-Lb-T9q" firstAttribute="centerX" secondItem="4gG-DJ-KWM" secondAttribute="centerX" type="default" id="hMp-Q6-OwC"/>
-                                    <constraint firstAttribute="bottom" secondItem="n26-Lb-T9q" secondAttribute="bottom" constant="20" type="default" id="ry3-o5-2IX"/>
+                                    <constraint firstItem="n26-Lb-T9q" firstAttribute="top" secondItem="8Yj-VD-5aB" secondAttribute="top" type="default" id="8ZG-Po-UV9"/>
+                                    <constraint firstItem="8Yj-VD-5aB" firstAttribute="top" secondItem="QPf-BX-rSS" secondAttribute="top" type="default" id="9Ge-bS-evZ"/>
+                                    <constraint firstItem="diY-AQ-gNK" firstAttribute="centerY" secondItem="4gG-DJ-KWM" secondAttribute="centerY" type="default" id="Dfy-B4-SDn"/>
+                                    <constraint firstItem="0fs-Nc-RtD" firstAttribute="top" secondItem="8Yj-VD-5aB" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="K4r-nB-mPS"/>
+                                    <constraint firstItem="QPf-BX-rSS" firstAttribute="top" secondItem="diY-AQ-gNK" secondAttribute="top" type="default" id="K8h-OH-hmH"/>
+                                    <constraint firstItem="QPf-BX-rSS" firstAttribute="trailing" secondItem="0fs-Nc-RtD" secondAttribute="trailing" type="default" id="MkD-Q1-M50"/>
+                                    <constraint firstItem="n26-Lb-T9q" firstAttribute="leading" secondItem="4gG-DJ-KWM" secondAttribute="leading" constant="20" type="default" id="fyp-0p-EsI"/>
+                                    <constraint firstItem="n26-Lb-T9q" firstAttribute="baseline" secondItem="QPf-BX-rSS" secondAttribute="baseline" type="default" id="gjc-V9-fyr"/>
+                                    <constraint firstAttribute="trailing" secondItem="diY-AQ-gNK" secondAttribute="trailing" constant="20" type="default" id="lSj-8B-tGf"/>
+                                    <constraint firstItem="0fs-Nc-RtD" firstAttribute="leading" secondItem="4gG-DJ-KWM" secondAttribute="leading" constant="20" type="default" id="npi-z9-TW5"/>
+                                    <constraint firstItem="8Yj-VD-5aB" firstAttribute="leading" secondItem="4gG-DJ-KWM" secondAttribute="leading" constant="306" id="yJr-3i-dkS"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="dateLabel" destination="QPf-BX-rSS" id="yqH-8Q-IBr"/>
+                                    <outlet property="plusButton" destination="diY-AQ-gNK" id="xxz-CI-ngc"/>
+                                    <outlet property="progress" destination="0fs-Nc-RtD" id="DUr-sq-nYZ"/>
+                                    <outlet property="progressText" destination="8Yj-VD-5aB" id="eDz-QH-Xa2"/>
                                     <outlet property="taskName" destination="n26-Lb-T9q" id="Ims-Ci-7Ki"/>
                                 </connections>
                             </tableViewCell>
@@ -460,6 +515,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
+        <image name="Plus%20button.png" width="126" height="126"/>
         <image name="folder.png" width="128" height="128"/>
     </resources>
     <classes>
@@ -538,9 +594,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
