@@ -235,13 +235,13 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Folder" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Folder" message:@"\n" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
         folderNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
         [folderNameTextField setBackgroundColor:[UIColor whiteColor]];
         [alert addSubview:folderNameTextField];
         alert.tag = TAG_NEWFOLDER;
-        
         [alert show];
+        [folderNameTextField becomeFirstResponder];
     }
 }
 
