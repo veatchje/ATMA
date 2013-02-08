@@ -30,6 +30,11 @@
 
 - (IBAction)save {
     //Database call
+    //Date is integer???
+    /*NSNumber *secondsSinceRefDate = [NSNumber numberWithDouble:[Cdate timeIntervalSinceReferenceDate]];
+    
+    [self saveTaskInDatabaseWithName:taskName withUnits:unitName withFolder:folderName withPeriod: withDate:secondsSinceRefDate withTarget:goalNumber];
+     */
     //The idea here is to save it to the DB then load it once back at the Tasks screen
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -13,6 +13,8 @@
 #import "CreateTaskViewController.h"
 
 #define TAG_INCREMENT 1
+#define TAG_RESET_ALL 2
+#define TAG_TASK_CHANGE 3
 
 //MITCH CODE END
 
@@ -123,14 +125,24 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 - (void) resetTasksButtonTouched
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reset All Tasks?" message:@"" delegate:self cancelButtonTitle:@"Don't Reset" otherButtonTitles: @"Reset", nil];
+    alert.tag = TAG_RESET_ALL;
     
     [alert show];   
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if(buttonIndex != [alertView cancelButtonIndex]){
-        [self resetTasks];
+    printf("test");
+    if(alertView.tag == TAG_RESET_ALL){
+        if(buttonIndex != [alertView cancelButtonIndex]){
+            [self resetTasks];
+        }
+    }
+    else if(alertView.tag == TAG_TASK_CHANGE){
+        if(buttonIndex != [alertView cancelButtonIndex]){
+            float newNumb = [taskNumberTextField.text floatValue];
+            [self incrementTaskLong:newNumb rowIndex:buttonIndex];
+        }
     }
 }
 
@@ -198,6 +210,10 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     cell.plusButton.tag = indexPath.row;
     [cell.plusButton addTarget:self action:@selector(incrementTask:) forControlEvents:UIControlEventTouchUpInside];
     
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskAlert:)];
+    longPress.minimumPressDuration=1.0;
+    [cell.plusButton addGestureRecognizer:longPress];
+    
     if(current/total < 0.40){
         cell.progress.progressTintColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
     }
@@ -217,10 +233,12 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [cell.progress setHidden:FALSE];
     [cell.plusButton setHidden:FALSE];
     [cell.progressText setHidden:FALSE];
+    [cell.dateLabel setHidden:FALSE];
     if([indexPath row] == self.taskNames.count - 1){
         [cell.progress setHidden:TRUE];
         [cell.plusButton setHidden:TRUE];
         [cell.progressText setHidden:TRUE];
+        [cell.dateLabel setHidden:TRUE];
     }
     
     return cell;
@@ -234,6 +252,30 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
         [self.taskCurrents replaceObjectAtIndex:button.tag withObject:newCurrent];
         [self.tableView reloadData];
+    //}
+}
+
+- (void) taskAlert:(UILongPressGestureRecognizer*)sender
+{
+    printf("pop up!");
+    if(taskAlertView == nil){
+        taskAlertView = [[UIAlertView alloc] initWithTitle:@"New Task Number" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        taskNumberTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
+        [taskNumberTextField setBackgroundColor:[UIColor whiteColor]];
+        [taskAlertView addSubview:taskNumberTextField];
+        taskAlertView.tag = TAG_TASK_CHANGE;
+        [taskAlertView show];
+        taskAlertView = nil;
+    }
+}
+
+- (void) incrementTaskLong:(float)newCurrentFloat rowIndex:(NSInteger*)index
+{    
+    //Used to stop incrementation past the threshhold
+    //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
+    NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
+    [self.taskCurrents replaceObjectAtIndex:index withObject:newCurrent];
+    [self.tableView reloadData];
     //}
 }
 

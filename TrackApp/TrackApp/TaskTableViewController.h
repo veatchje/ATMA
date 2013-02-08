@@ -17,7 +17,10 @@
     NSString* folderName;
     UILabel *status;
     NSString *databasePath;
-    sqlite3 *atmaDB;  
+    sqlite3 *atmaDB;
+    
+    UITextField *taskNumberTextField;
+    UIAlertView *taskAlertView;
 }
 
 
