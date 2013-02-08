@@ -41,7 +41,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void)viewDidLoad
 {
-    /*
+    [super viewDidLoad];
     //Stuff for initializing the database -Ahmed
     NSString *docsDir;
     NSArray *dirPaths;
@@ -53,14 +53,17 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     NSFileManager *filemgr = [NSFileManager defaultManager];
     
+    printf("In viewDidLoad, checking if table exists.\n");
+    
     if ([filemgr fileExistsAtPath:databasePath] == NO)
     {
         const char * dbPath = [databasePath UTF8String];
+        printf("In viewDidLoad, table does not exist.\n");
         
         if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
         {
             char *errMsg;
-            const char *sql_stmt = "BLAH"; //Change to the real name
+            const char *sql_stmt = "create table tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER, FOREIGN KEY (folder) REFERENCES folders(name));";
             
             if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
             {
@@ -77,21 +80,17 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //[filemgr release];
     //The DB stuff ends here */
     
-    [super viewDidLoad];
     
-    //This initialization code needs to be replaced by a database call
-    self.taskNames = [[NSMutableArray alloc]
-                      initWithObjects:@"Make Call", @"Confirm Sale",
-                      @"Meet Client", nil];
-    self.visibleBools = [[NSMutableArray alloc]
-                         initWithObjects:@"false", @"false", @"false", nil];
-    self.taskTargets = [[NSMutableArray alloc]
-                         initWithObjects:[NSNumber numberWithInteger:20], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:12], nil];
-    self.taskCurrents = [[NSMutableArray alloc]
-                      initWithObjects:[NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], nil];
-    self.taskEndDates = [[NSMutableArray alloc]
-                         initWithObjects:@"Today", @"Tomorrow", @"March 13", nil];
+    folderName = self.navigationItem.title;
+    //Initialize the arrays, call the database
+    self.taskNames = [[NSMutableArray alloc] init];
+    self.visibleBools = [[NSMutableArray alloc] init];
+    self.taskTargets = [[NSMutableArray alloc] init];
+    self.taskCurrents = [[NSMutableArray alloc] init];
+    self.taskEndDates = [[NSMutableArray alloc] init];
+    [self loadTasksFromDatabase];
     [self insertAddRowIntoArray];
+    [self.tableView reloadData];
     //end initialization
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -99,7 +98,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     resetTasksButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                   target:self
                                                                   action:@selector(resetTasksButtonTouched)];
-    folderName = self.navigationItem.title;
+    
     
 }
 
@@ -376,15 +375,19 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"?\" order by priority;"]; //Switch this for other folders
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = ? order by priority;"]; 
         const char *query_stmt = [querySQL UTF8String];
         
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        printf("In loadTasks, finding tasks in folder %s.\n", [self.navigationItem.title UTF8String]);
+
+        
+        if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             sqlite3_bind_text(*query_stmt, 1, [self.navigationItem.title UTF8String], -1, NULL);
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                 [self.taskNames addObject:nameField];
+                printf("In loadTasks, found task: %s.\n", [nameField UTF8String]);
                 
                 NSString *unitsField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
                 [self.taskUnits addObject:unitsField];
@@ -402,6 +405,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                 [self.taskTargets addObject:targetField];
             }
             sqlite3_finalize(statement);
+        } else {
+            printf("%d", sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL));
         }
         sqlite3_close(atmaDB);
     }

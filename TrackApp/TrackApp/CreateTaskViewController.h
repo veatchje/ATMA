@@ -21,6 +21,8 @@
     IBOutlet UITextField* taskName;
     IBOutlet UITextField* unitName;
     IBOutlet UITextField* goalNumber;
+    //Ethan's code
+    IBOutlet UISegmentedControl* recurrence;
     NSDate *Cdate;
     
     //Ahmed's code

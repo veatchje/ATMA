@@ -29,13 +29,11 @@
 }
 
 - (IBAction)save {
-    //Database call
-    //Date is integer???
-    /*NSNumber *secondsSinceRefDate = [NSNumber numberWithDouble:[Cdate timeIntervalSinceReferenceDate]];
     
-    [self saveTaskInDatabaseWithName:taskName withUnits:unitName withFolder:folderName withPeriod: withDate:secondsSinceRefDate withTarget:goalNumber];
-     */
+    //Date is integer???
+    
     //The idea here is to save it to the DB then load it once back at the Tasks screen
+    [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:[self calculatePeriod] withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -65,7 +63,7 @@
 
     
     
-    /*
+    
      //Stuff for initializing the database -Ahmed
      NSString *docsDir;
      NSArray *dirPaths;
@@ -99,7 +97,7 @@
      }
      
      //[filemgr release];
-     //The DB stuff ends here */
+     //The DB stuff ends here
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
@@ -247,10 +245,30 @@
     return [NSString stringWithFormat:@"%d", row+1];
 }
 
-
+- (int) calculatePeriod{
+    int period = recurrence.selectedSegmentIndex;
+    switch (period) {
+        case 0:
+            return 1;
+            break;
+        case 1:
+            return 7;
+            break;
+        case 2:
+            //Need to fix datePicker here
+            //            int day = [datePicker selectedRowInComponent:0];
+            //            period = day*(-1);
+            return 30;
+        case 3:
+            //custom
+        default:
+            return 0;
+            break;
+    }
+}
 
 //More DBstuff -Ahmed
-- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(NSInteger *)theDate withTarget:(NSInteger *)theTarget  {
+- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(double)theDate withTarget:(NSInteger *)theTarget  {
 	
 	const char *filePath = [databasePath UTF8String];
     
@@ -262,7 +280,7 @@
         int a = 0;
         sqlite3_exec(atmaDB, "select max(priority) from tasks", NULL, (int*)a, NULL);
         a++;
-		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CONTACTS (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %@, %@, %d, %@, %d)", theName, theUnits, theFolder, thePeriod, theDate, 0, theTarget, a];
+		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CONTACTS (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %@, %f, %d, %@, %d)", theName, theUnits, theFolder, thePeriod, theDate, 0, theTarget, a];
         const char *insert_stmt = [insertSQL UTF8String];
         
 		//sqlite3_stmt *compiledStatement;
