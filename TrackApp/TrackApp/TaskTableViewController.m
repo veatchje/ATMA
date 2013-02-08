@@ -132,7 +132,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    printf("test");
     if(alertView.tag == TAG_RESET_ALL){
         if(buttonIndex != [alertView cancelButtonIndex]){
             [self resetTasks];
@@ -257,14 +256,15 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void) taskAlert:(UILongPressGestureRecognizer*)sender
 {
-    printf("pop up!");
     if(taskAlertView == nil){
-        taskAlertView = [[UIAlertView alloc] initWithTitle:@"New Task Number" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        taskAlertView = [[UIAlertView alloc] initWithTitle:@"New Task Number" message:@"\n" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
         taskNumberTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
         [taskNumberTextField setBackgroundColor:[UIColor whiteColor]];
+        taskNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
         [taskAlertView addSubview:taskNumberTextField];
         taskAlertView.tag = TAG_TASK_CHANGE;
         [taskAlertView show];
+        [taskNumberTextField becomeFirstResponder];        
         taskAlertView = nil;
     }
 }
