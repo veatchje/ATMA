@@ -6,10 +6,9 @@
 //  Copyright (c) 2013 ATMA. All rights reserved.
 //
 
-//BRIAN CODE START
+//BRIAN RECOMBINATION OF CODE START
 
 #import "CombinedTableViewController.h"
-
 
 //GENERATED CODE START
 
@@ -22,60 +21,6 @@
         // Custom initialization
     }
     return self;
-}
-
-// Combined from Task and Folder versions
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    // Task portion
-    self.taskNames = [[NSMutableArray alloc]
-                      initWithObjects:@"Make Call", @"Confirm Sale",
-                      @"Meet Client", nil];
-    self.visibleBools = [[NSMutableArray alloc]
-                         initWithObjects:@"false", @"false", @"false", nil];
-    self.taskTargets = [[NSMutableArray alloc]
-                        initWithObjects:[NSNumber numberWithInteger:20], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:12], nil];
-    self.taskCurrents = [[NSMutableArray alloc]
-                         initWithObjects:[NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], nil];
-    self.taskEndDates = [[NSMutableArray alloc]
-                         initWithObjects:@"Today", @"Tomorrow", @"March 13", nil];
-    [self insertAddRowIntoArray];
-    //end initialization
-    
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    newTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                  target:self
-                                                                  action:@selector(newTaskButtonTouched)];
-    // Line for testing.
-    self.navigationItem.title = @"Business";
-    //folderName = self.navigationItem.title;
-    
-    // Folder portion
-    UIImage *img = [UIImage imageNamed:@"folder.png"];
-    [self.folderImage setImage:img];
-    
-    //[self loadNamesFromDatabase];
-    
-    self.folderNames = [[NSMutableArray alloc]
-                        initWithObjects:@"Business",
-                        @"Personal", nil];
-    
-    
-    
-    //ETHAN'S LINE OF CODE
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-//    newFolderButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-//                                                                    target:self
-//                                                                    action:@selector(alert)];
-//    
-//    setupButton = [[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStylePlain
-//                                                  target:self
-//                                                  action:@selector(setupAlert)];
-
 }
 
 //CALL THIS METHOD WHENEVER CHANGING THE SIZE OF THE TABLE
@@ -108,7 +53,54 @@
 }
 
 //GENERATED CODE END
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//BRIAN CODE START
+
+// Combined from Task and Folder versions
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // Task portion
+    self.taskNames = [[NSMutableArray alloc]
+                      initWithObjects:@"Make Call", @"Confirm Sale",
+                      @"Meet Client", nil];
+    self.visibleBools = [[NSMutableArray alloc]
+                         initWithObjects:@"false", @"false", @"false", nil];
+    self.taskTargets = [[NSMutableArray alloc]
+                        initWithObjects:[NSNumber numberWithInteger:20], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:12], nil];
+    self.taskCurrents = [[NSMutableArray alloc]
+                         initWithObjects:[NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], nil];
+    self.taskEndDates = [[NSMutableArray alloc]
+                         initWithObjects:@"Today", @"Tomorrow", @"March 13", nil];
+    [self insertAddRowIntoArray];
+    //end initialization
+    
+    
+    newTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                  target:self
+                                                                  action:@selector(newTaskButtonTouched)];
+    // Line for testing.
+    self.navigationItem.title = @"Business";
+    folderName = self.navigationItem.title;
+    
+    // Folder portion
+    
+    UIImage *img = [UIImage imageNamed:@"folder.png"];
+    [self.folderImage setImage:img];
+    
+    //[self loadNamesFromDatabase];
+    
+    self.folderNames = [[NSMutableArray alloc]
+                        initWithObjects:@"Business",
+                        @"Personal", nil];
+    
+    //ETHAN'S LINE OF CODE
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+//BRIAN CODE END
+//////////////////////////////////////////////////////////////////////////
 //CODE FROM TaskTVC.m BEGIN
 
 //AHMED CODE START
@@ -166,10 +158,10 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void) newTaskButtonTouched
 {
-//    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
-//    CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
-//    [vc setFolderName:folderName];
-//    [self.navigationController pushViewController:vc animated:YES];
+    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+    CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
+    [vc setFolderName:folderName];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)
@@ -339,6 +331,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         [self.tableView reloadData];
     }
 }
+
 //Database stuff starts here - Ahmed
 //AHMED CODE START
 
@@ -351,67 +344,135 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void)loadTasksFromDatabase
 {
-    NSString *file = [self getWritableDBPath];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	BOOL success = [fileManager fileExistsAtPath:file];
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
     
-	// If its not a local copy set it to the bundle copy
-	if(!success) {
-		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
-		[self createEditableCopyOfDatabaseIfNeeded];
-	}
-    
-    sqlite3 *database = NULL;
-    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
-        sqlite3_exec(database, "select name from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskNames), NULL);
-        sqlite3_exec(database, "select units from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskUnits), NULL);
-        sqlite3_exec(database, "select period from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskPeriods), NULL);
-        sqlite3_exec(database, "select enddate from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskEndDates), NULL);
-        sqlite3_exec(database, "select current from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskCurrents), NULL);
-        sqlite3_exec(database, "select target from tasks order by priority", loadNamesCallback, (__bridge void *)(self.taskTargets), NULL);
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"?\" order by priority;"]; //Switch this for other folders
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            sqlite3_bind_text(*query_stmt, 1, [self.navigationItem.title UTF8String], -1, NULL);
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                [self.taskNames addObject:nameField];
+                
+                NSString *unitsField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                [self.taskUnits addObject:unitsField];
+                
+                NSString *periodField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
+                [self.taskPeriods addObject:periodField];
+                
+                NSString *endField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
+                [self.taskEndDates addObject:endField];
+                
+                NSString *currentField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 4)];
+                [self.taskCurrents addObject:currentField];
+                
+                NSString *targetField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 5)];
+                [self.taskTargets addObject:targetField];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
     }
-    sqlite3_close(database);
 }
 
 - (void)incrementTaskWithName:(NSString*)theName
 {
-    NSString *file = [self getWritableDBPath];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	BOOL success = [fileManager fileExistsAtPath:file];
     
-	// If its not a local copy set it to the bundle copy
-	if(!success) {
-		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
-		[self createEditableCopyOfDatabaseIfNeeded];
-	}
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
     
-    sqlite3 *database = NULL;
-    if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
-        int *current = NULL;
-        NSString *insertSQL = [NSString stringWithFormat:@"select current from tasks where name = \"%@\"", theName];
-        const char* b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, (int*)current, NULL);
-        *current = *current++;
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+1 where name = \"?\";"];
+        const char *query_stmt = [querySQL UTF8String];
         
-        int *target = NULL;
-        insertSQL = [NSString stringWithFormat:@"select target from tasks where name = \"%@\"", theName];
-        b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, (int*)target, NULL);
-        
-        insertSQL = [NSString stringWithFormat:@"update tasks set current = %d where name = \"%@\"", *current, theName];
-        b = [insertSQL UTF8String];
-        sqlite3_exec(database, b, NULL, NULL, NULL);
-        
-        //Target has been reached
-        if (*current == *target)
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            //Do something
+            sqlite3_bind_text(*query_stmt, 1, [theName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Inrement successful!
+            }
+            sqlite3_finalize(statement);
         }
+        sqlite3_close(atmaDB);
     }
-    sqlite3_close(database);
 }
 
+- (void)incrementTaskWithName:(NSString*)theName WithValue:(int)theValue
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+? where name = \"?\";"];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            sqlite3_bind_int(*query_stmt, 1, theValue);
+            sqlite3_bind_text(*query_stmt, 2, [theName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Inrement successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+}
 
+- (void)resetTaskWithName:(NSString*)theName
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =0 where name = \"?\";"];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            sqlite3_bind_text(*query_stmt, 1, [theName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Increment successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+}
+
+- (void)resetPeriod:(int)thePeriod ForTaskWithName:(NSString*)theName
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set enddate = ? where name = \"?\";"];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            //Needs to add current time as well!
+            NSDate* today = [NSDate date];
+            double seconds = [today timeIntervalSince1970];
+            sqlite3_bind_int(*query_stmt, 1, seconds + (thePeriod*24*3600));
+            sqlite3_bind_text(*query_stmt, 2, [theName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Reset successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+}
 
 -(void)createEditableCopyOfDatabaseIfNeeded
 {
@@ -442,12 +503,48 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
+-(void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithPriority:(int)thePriority
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= \"?\";"];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            //Needs to add current time as well!
+            sqlite3_bind_int(*query_stmt, 1, thePriority);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Incrementation successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        
+        querySQL = [NSString stringWithFormat:@"update tasks set priority = ? where name = \"?\";"];
+        query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            //Needs to add current time as well!
+            sqlite3_bind_int(*query_stmt, 1, thePriority);
+            sqlite3_bind_text(*query_stmt, 2, [theFirstName UTF8String], -1, NULL);
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Reprioritization successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+}
+
 //Database stuff ends here
 //AHMED CODE END
 ///////MITCH CODE END
 
 //CODE FROM TaskTVC.m END
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //CODE FROM FolderTVC.m BEGIN
 
 //MITCH CODE START
@@ -503,14 +600,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
-/*//// TODO: Replace this with the non-segue code for getting the folder name
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"showFolderTitle"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        TaskTableViewController *destViewController = segue.destinationViewController;
-        destViewController.navigationItem.title = [self.folderNames objectAtIndex:indexPath.row];
-    }
-}*/
+//MITCH CODE END
 
 //BRIAN CODE START
 // CollectionView code
@@ -548,28 +638,17 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    FolderCollectionViewCell *theCell = [folderCollectionView cellForItemAtIndexPath:indexPath];
+    self.navigationItem.title = theCell.folderName.text;
+    folderName = self.navigationItem.title;
+    // saveTasksToDatabase
+    [self loadTasksFromDatabase];
+}
+
 // TODO: Put newFolderButton somewhere.
 
 //BRIAN CODE END
-
-/*////////////////// Start TableView Comment
- //Edit and Delete
- - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
- {
- return UITableViewCellEditingStyleDelete;
- }
- 
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete)
- {
- [self.folderNames removeObjectAtIndex:indexPath.item];
- [tableView reloadData];
- }
- }*////// End TableView comment
-
-//MITCH CODE END
-
 //AHMED CODE START
 
 //Database stuff starts here - Ahmed
