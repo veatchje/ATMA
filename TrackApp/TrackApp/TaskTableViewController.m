@@ -380,6 +380,22 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         
         printf("In loadTasks, finding tasks in folder %s.\n", [self.navigationItem.title UTF8String]);
 
+        if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) != SQLITE_OK)
+        {
+            char * errMsg;
+            const char *sql_stmt = "create table if not exists tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER, FOREIGN KEY (folder) REFERENCES folders(name));";
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) == SQLITE_OK)
+            {
+                sqlite3_stmt *statement2;
+                NSString *insertSQL2 = [NSString stringWithFormat:@"insert into tasks (name, units, folder, period, enddate, current, target, priority) values (\"Create Tasks\", \"tasks\", \"?\", 7, 2013-2-13, 0, 1, 1);"];
+                const char *insert_stmt2 = [insertSQL2 UTF8String];
+                sqlite3_prepare_v2(atmaDB, insert_stmt2, -1, &statement2, NULL);
+                sqlite3_bind_text(*insert_stmt2, 1, [self.navigationController.title UTF8String], -1, NULL);
+                if(sqlite3_step(statement2) == SQLITE_DONE ) {
+                    printf("Task added");
+                }
+            }
+        }
         
         if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -506,34 +522,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
--(void)createEditableCopyOfDatabaseIfNeeded
-{
-    // Testing for existence
-    BOOL success;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-														 NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:DATABASE_NAME];
-	
-    success = [fileManager fileExistsAtPath:writableDBPath];
-    if (success)
-        return;
-	
-    // The writable database does not exist, so copy the default to
-    // the appropriate location.
-    NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath]
-							   stringByAppendingPathComponent:DATABASE_NAME];
-    success = [fileManager copyItemAtPath:defaultDBPath
-								   toPath:writableDBPath
-									error:&error];
-    if(!success)
-    {
-        NSAssert1(0,@"Failed to create writable database file with Message : '%@'.",
-				  [error localizedDescription]);
-    }
-}
 
 -(void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithPriority:(int)thePriority
 {

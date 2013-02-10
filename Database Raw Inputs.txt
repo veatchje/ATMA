@@ -1,4 +1,4 @@
-create table tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER, FOREIGN KEY (folder) REFERENCES folders(name));
+create table if not exists tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER, FOREIGN KEY (folder) REFERENCES folders(name));
 
 PRAGMA foreign_keys = ON;
 
