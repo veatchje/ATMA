@@ -68,43 +68,45 @@
     gestureRecognizer.cancelsTouchesInView = NO;  // this prevents the gesture recognizers to 'block' touches
     
     
-     //Stuff for initializing the database -Ahmed
-     NSString *docsDir;
-     NSArray *dirPaths;
-     
-     dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-     docsDir = [dirPaths objectAtIndex:0];
-     
-     databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
-     
-     NSFileManager *filemgr = [NSFileManager defaultManager];
-     
-     if ([filemgr fileExistsAtPath:databasePath] == NO)
-     {
-     const char * dbPath = [databasePath UTF8String];
-     
-     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-     {
-     char *errMsg;
-     const char *sql_stmt = "BLAH"; //Change to the real name
-     
-     if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
-     {
-     status.text = @"Failed to create Tasks table";
-     }
-     
-     sqlite3_close(atmaDB);
-     } else {
-     status.text = @"Failed to open/create database";
-     }
-     
-     }
+    //Stuff for initializing the database -Ahmed
+    NSString *docsDir;
+    NSArray *dirPaths;
+    
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
+    
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath:databasePath] == NO)
+    {
+        const char * dbPath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+        {
+            char *errMsg;
+            const char *sql_stmt = "create table tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
+            
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                status.text = @"Failed to create Tasks table";
+            }
+            
+            sqlite3_close(atmaDB);
+        } else {
+            status.text = @"Failed to open/create database";
+        }
+        
+    }
      
      //[filemgr release];
      //The DB stuff ends here
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -284,13 +286,15 @@
     
     sqlite3_stmt *statement;
 	
+    printf("in AddTask.\n");
 	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
     {
+        printf("DB open.\n");
         //This may cause issues with deletion; nonunique priorities. Can change to just highest priority+1.
         int a = 0;
-        sqlite3_exec(atmaDB, "select max(priority) from tasks", NULL, (int*)a, NULL);
+        sqlite3_exec(atmaDB, "select max(priority) from tasks;", NULL, (int*)a, NULL);
         a++;
-		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CONTACTS (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %@, %f, %d, %@, %d)", theName, theUnits, theFolder, thePeriod, theDate, 0, theTarget, a];
+		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO tasks (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %d, %f, %d, %d, %d)", theName, theUnits, theFolder, (int)thePeriod, theDate, 0, (int)theTarget, a];
         const char *insert_stmt = [insertSQL UTF8String];
         
 		//sqlite3_stmt *compiledStatement;
@@ -298,6 +302,7 @@
         
         if(sqlite3_step(statement) == SQLITE_DONE ) {
 			status.text = @"Contact added";
+            printf("Added task.\n");
 		} else {
             //fail state
         }
