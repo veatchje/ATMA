@@ -562,6 +562,30 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //Database stuff ends here
 //AHMED CODE END
 
+-(NSString *) DayFormat:(double) time
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *date=[NSDate dateWithTimeIntervalSince1970:time];
+    NSDate *today=[NSDate date];
+    NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:today];
+    
+    today = [calendar dateFromComponents:dateComponents];
+    if ([today timeIntervalSince1970]==time) {
+        return @"today";
+    }else if (time==[today timeIntervalSince1970]-[calendar rangeOfUnit:NSSecondCalendarUnit inUnit:NSDayCalendarUnit forDate:today].length){
+        return @"tomorrow";
+        
+    }else{
+        NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
+        //[myFormatter stringFromDate:Cdate]
+        [myFormatter setDateFormat:@"eee dd"];
+        return [myFormatter stringFromDate:date];
+    }
+    
+    
+}
+
+
 - (void)viewDidUnload {
     [super viewDidUnload];
 }
