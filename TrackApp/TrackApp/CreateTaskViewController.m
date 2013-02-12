@@ -61,7 +61,11 @@
     [myFormatter setDateFormat:@"yyyy"];
     [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]-1 inComponent:2 animated:FALSE];
 
+    goalNumber.keyboardType = UIKeyboardTypeNumberPad;
     
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    [scrollview addGestureRecognizer:gestureRecognizer];
+    gestureRecognizer.cancelsTouchesInView = NO;  // this prevents the gesture recognizers to 'block' touches
     
     
      //Stuff for initializing the database -Ahmed
@@ -112,6 +116,12 @@
 - (BOOL) textFieldShouldReturn:(UITextField *) theTextField{
     [theTextField resignFirstResponder];
     return YES;
+}
+
+- (void)hideKeyboard {
+    [taskName resignFirstResponder];
+    [unitName resignFirstResponder];
+    [goalNumber resignFirstResponder];
 }
 
 -(IBAction)GetDateWithDay
