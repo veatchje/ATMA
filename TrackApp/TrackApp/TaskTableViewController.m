@@ -344,16 +344,21 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [super setEditing:editing animated:animate];
     if(editing){
         self.navigationItem.leftBarButtonItem = resetTasksButton;
-        self.visibleBools = [[NSMutableArray alloc]
-                             initWithObjects:@"true", @"true",
-                             @"true", nil];
+        int count =visibleBools.count;
+        [visibleBools removeAllObjects];
+        for(int i = 0;i<count;i++){
+            [visibleBools addObject:@"true"];
+        }
+        
         [self.tableView reloadData];
     }
     else{
         self.navigationItem.leftBarButtonItem = nil;
-        self.visibleBools = [[NSMutableArray alloc]
-                             initWithObjects:@"false", @"false",
-                             @"false", nil];
+        int count =visibleBools.count;
+        [visibleBools removeAllObjects];
+        for(int i = 0;i<count;i++){
+            [visibleBools addObject:@"false"];
+        }
         [self.tableView reloadData];
     }
 }
@@ -424,6 +429,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                 
                 NSString *targetField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 5)];
                 [self.taskTargets addObject:targetField];
+                
+                [self.visibleBools addObject:@"false"];
             }
             sqlite3_finalize(statement);
         } else {
@@ -591,9 +598,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     printf("%f today2\n ",[today timeIntervalSince1970]);
     printf("%f, time\n",time);
     printf("%f",time-[today timeIntervalSince1970]);
-    if ([today timeIntervalSince1970]<=time+86400) {
+    if ([today timeIntervalSince1970]+86399>=time) {
         return @"Today";
-    }else if ([today timeIntervalSince1970]-2*86400>=time){
+    }else if ([today timeIntervalSince1970]+2*86399+1>=time){
         return @"Tomorrow";
         
     }else{
