@@ -31,13 +31,18 @@
 }
 
 //CALL THIS METHOD WHENEVER CHANGING THE SIZE OF THE TABLE
-- (void) insertAddRowIntoArray
+- (void) insertAddRowIntoTasksArray
 {
     [self.taskNames addObject:@""];
     [self.visibleBools addObject:@""];
     [self.taskTargets addObject:[NSNumber numberWithInteger:0]];
     [self.taskCurrents addObject:[NSNumber numberWithInteger:0]];
     [self.taskEndDates addObject:@""];
+}
+
+- (void) insertAddRowIntoFolderArray
+{
+    [self.folderNames addObject:@""];
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,42 +73,126 @@
 {
     [super viewDidLoad];
     
-    // Task portion
-    self.taskNames = [[NSMutableArray alloc]
-                      initWithObjects:@"Make Call", @"Confirm Sale",
-                      @"Meet Client", nil];
-    self.visibleBools = [[NSMutableArray alloc]
-                         initWithObjects:@"false", @"false", @"false", nil];
-    self.taskTargets = [[NSMutableArray alloc]
-                        initWithObjects:[NSNumber numberWithInteger:20], [NSNumber numberWithInteger:10], [NSNumber numberWithInteger:12], nil];
-    self.taskCurrents = [[NSMutableArray alloc]
-                         initWithObjects:[NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], [NSNumber numberWithInteger:0], nil];
-    self.taskEndDates = [[NSMutableArray alloc]
-                         initWithObjects:@"Today", @"Tomorrow", @"March 13", nil];
-    [self insertAddRowIntoArray];
+    // Folders
+    //DB stuff, so this is my code -Ahmed
+    NSString *docsDir;
+    NSArray *dirPaths;
+    
+    self.folderNames = [[NSMutableArray alloc] init];
+    
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
+    
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    printf("Checking if file exists\n");
+    if ([filemgr fileExistsAtPath:databasePath] == NO)
+    {
+        printf("Creating the database\n");
+        const char * dbPath = [databasePath UTF8String];
+        
+        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+        {
+            char *errMsg;
+            const char *sql_stmt = "create table if not exists folders(name TEXT);";
+            
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                //status.text = @"Failed to create Folders table";
+            } else {
+                sqlite3_stmt *statement;
+                NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Business\")"];
+                const char *insert_stmt = [insertSQL UTF8String];
+                sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+                
+                if(sqlite3_step(statement) == SQLITE_DONE ) {
+                    printf("Folder added");
+                }
+                
+                insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Pleasure\")"];
+                insert_stmt = [insertSQL UTF8String];
+                sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+                
+                if(sqlite3_step(statement) == SQLITE_DONE ) {
+                    printf("Folder added");
+                }
+            }
+            
+            
+            sqlite3_close(atmaDB);
+        } else {
+            //status.text = @"Failed to open/create database";
+        }
+    }
+
+    UIImage *img = [UIImage imageNamed:@"folder.png"];
+    [self.folderImage setImage:img];
+    
+    self.folderNames = [[NSMutableArray alloc] init];
+    [self loadNamesFromDatabase];
+    [self insertAddRowIntoFolderArray];
+    
+    
+    //Tasks    
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
+        
+    if ([filemgr fileExistsAtPath:databasePath] == NO)
+    {
+        const char * dbPath = [databasePath UTF8String];
+        printf("In viewDidLoad, table does not exist.\n");
+        
+        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+        {
+            char *errMsg;
+            const char *sql_stmt = "create table tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
+            
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                status.text = @"Failed to create Tasks table";
+            }
+            
+            sqlite3_close(atmaDB);
+        } else {
+            status.text = @"Failed to open/create database";
+        }
+        
+    }
+    
+    self.taskNames = [[NSMutableArray alloc] init];
+    self.visibleBools = [[NSMutableArray alloc] init];
+    self.taskTargets = [[NSMutableArray alloc] init];
+    self.taskCurrents = [[NSMutableArray alloc] init];
+    self.taskEndDates = [[NSMutableArray alloc] init];
+    [self loadTasksFromDatabase];
+    [self insertAddRowIntoTasksArray];
     //end initialization
     
     
     resetTasksButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                                                  target:self
-                                                                  action:@selector(resetTasksButtonTouched)];
+                                                                     target:self
+                                                                     action:@selector(resetTasksButtonTouched)];
     // Line for testing.
     self.navigationItem.title = @"Business";
     folderName = self.navigationItem.title;
     
-    // Folder portion
-    
-    UIImage *img = [UIImage imageNamed:@"folder.png"];
-    [self.folderImage setImage:img];
-    
-    //[self loadNamesFromDatabase];
-    
-    self.folderNames = [[NSMutableArray alloc]
-                        initWithObjects:@"Business",
-                        @"Personal", nil];
     
     //ETHAN'S LINE OF CODE
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void) viewDidAppear: (BOOL) animated
+{
+    [super viewDidAppear: animated];
+    
+    [self loadNamesFromDatabase];
+    [self loadTasksFromDatabase];
+    //Update the TableView
+    [folderCollectionView reloadData];
+    [self.tableView reloadData];
 }
 
 //BRIAN CODE END
@@ -129,15 +218,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //MITCH CODE START
 
 @synthesize taskNames, status;
-
-- (void) viewDidAppear: (BOOL) animated
-{
-    [super viewDidAppear: animated];
-    
-    //[self loadTasksFromDatabase];
-    //Update the TableView
-    [self.tableView reloadData];
-}
 
 - (void) resetTasksButtonTouched
 {
@@ -173,7 +253,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)
-    tableView
+tableView
 {
     // Return the number of sections.
     return 1;
@@ -343,10 +423,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //AHMED CODE START
 
 - (NSString *) getWritableDBPath {
-	
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
-	NSString *documentsDir = [paths objectAtIndex:0];
-	return [documentsDir stringByAppendingPathComponent:DATABASE_NAME];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
+    NSString *documentsDir = [paths objectAtIndex:0];
+    return [documentsDir stringByAppendingPathComponent:DATABASE_NAME];
 }
 
 - (void)loadTasksFromDatabase
@@ -356,15 +435,40 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"?\" order by priority;"]; //Switch this for other folders
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority;", [self.navigationItem.title UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
         
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) != SQLITE_OK)
         {
-            sqlite3_bind_text(*query_stmt, 1, [self.navigationItem.title UTF8String], -1, NULL);
+            printf("Now creating Tasks table.\n");
+            char * errMsg;
+            const char *sql_stmt = "create table if not exists tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) == SQLITE_OK)
+            {
+                printf("Task table creation statement was successful.\n");
+                sqlite3_stmt *statement2;
+                NSString *insertSQL2 = [NSString stringWithFormat:@"insert into tasks (name, units, folder, period, enddate, current, target, priority) values (\"Create Tasks\", \"tasks\", \"%s\", 7, 2013-2-13, 0, 1, 1);", [self.navigationItem.title UTF8String]];
+                const char *insert_stmt2 = [insertSQL2 UTF8String];
+                sqlite3_prepare_v2(atmaDB, insert_stmt2, -1, &statement2, NULL);
+                printf("Everything is prepared.\n");
+                if(sqlite3_step(statement2) == SQLITE_DONE ) {
+                    printf("Task added");
+                }
+            }
+        }
+        
+        if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            [self.taskNames removeAllObjects];
+            [self.taskUnits removeAllObjects];
+            [self.taskPeriods removeAllObjects];
+            [self.taskEndDates removeAllObjects];
+            [self.taskCurrents removeAllObjects];
+            [self.taskTargets removeAllObjects];
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                 [self.taskNames addObject:nameField];
+                printf("In loadTasks, found task: %s.\n", [nameField UTF8String]);
                 
                 NSString *unitsField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
                 [self.taskUnits addObject:unitsField];
@@ -373,7 +477,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                 [self.taskPeriods addObject:periodField];
                 
                 NSString *endField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
-                [self.taskEndDates addObject:endField];
+                [self.taskEndDates addObject:[self DayFormat:[endField integerValue]]];
                 
                 NSString *currentField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 4)];
                 [self.taskCurrents addObject:currentField];
@@ -382,9 +486,12 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                 [self.taskTargets addObject:targetField];
             }
             sqlite3_finalize(statement);
+        } else {
+            printf("%d", sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL));
         }
         sqlite3_close(atmaDB);
     }
+    [self insertAddRowIntoTasksArray];
 }
 
 - (void)incrementTaskWithName:(NSString*)theName
@@ -488,25 +595,23 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-														 NSUserDomainMask, YES);
+                                                         NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:DATABASE_NAME];
-	
     success = [fileManager fileExistsAtPath:writableDBPath];
     if (success)
         return;
-	
     // The writable database does not exist, so copy the default to
     // the appropriate location.
     NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath]
-							   stringByAppendingPathComponent:DATABASE_NAME];
+                               stringByAppendingPathComponent:DATABASE_NAME];
     success = [fileManager copyItemAtPath:defaultDBPath
-								   toPath:writableDBPath
-									error:&error];
+                                   toPath:writableDBPath
+                                    error:&error];
     if(!success)
     {
         NSAssert1(0,@"Failed to create writable database file with Message : '%@'.",
-				  [error localizedDescription]);
+                  [error localizedDescription]);
     }
 }
 
@@ -608,12 +713,12 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
             [self resetTasks];
         }
     }
-//    else if(alertView.tag == TAG_TASK_CHANGE){
-//        if(buttonIndex != [alertView cancelButtonIndex]){
-//            float newNumb = [taskNumberTextField.text floatValue];
-//            [self incrementTaskLong:newNumb rowIndex:buttonIndex];
-//        }
-//    }
+    //    else if(alertView.tag == TAG_TASK_CHANGE){
+    //        if(buttonIndex != [alertView cancelButtonIndex]){
+    //            float newNumb = [taskNumberTextField.text floatValue];
+    //            [self incrementTaskLong:newNumb rowIndex:buttonIndex];
+    //        }
+    //    }
 }
 
 //MITCH CODE END
@@ -658,8 +763,19 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     FolderCollectionViewCell *theCell = [folderCollectionView cellForItemAtIndexPath:indexPath];
     self.navigationItem.title = theCell.folderName.text;
     folderName = self.navigationItem.title;
-    // saveTasksToDatabase
+    
+    for (FolderCollectionViewCell *otherCell in [folderCollectionView visibleCells])
+    {
+        if(otherCell.folderName.text == theCell.folderName.text){
+            [otherCell setBackgroundColor:[UIColor blueColor]];
+        }
+        else{
+            [otherCell setBackgroundColor:[UIColor whiteColor]];
+        }
+    }  
+    
     [self loadTasksFromDatabase];
+    [self.tableView reloadData];
 }
 
 // TODO: Put newFolderButton somewhere.
@@ -672,14 +788,14 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 - (void)loadNamesFromDatabase
 {
     NSString *file = [self getWritableDBPath];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	BOOL success = [fileManager fileExistsAtPath:file];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL success = [fileManager fileExistsAtPath:file];
     
-	// If its not a local copy set it to the bundle copy
-	if(!success) {
-		//file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
-		[self createEditableCopyOfDatabaseIfNeeded];
-	}
+    // If its not a local copy set it to the bundle copy
+    if(!success) {
+        //file = [[NSBundle mainBundle] pathForResource:DATABASE_TITLE ofType:@"db"];
+        [self createEditableCopyOfDatabaseIfNeeded];
+    }
     
     sqlite3 *database = NULL;
     if (sqlite3_open([file UTF8String], &database) == SQLITE_OK) {
@@ -691,26 +807,22 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 }
 
 - (void)saveNameInDatabase:(NSString *)theName {
-	
-	// Copy the database if needed
-	[self createEditableCopyOfDatabaseIfNeeded];
-	
-	NSString *filePath = [self getWritableDBPath];
-	
-	sqlite3 *database;
-	
-	if(sqlite3_open([filePath UTF8String], &database) == SQLITE_OK) {
-		const char *sqlStatement = "insert into folders (name) VALUES (?)";
-		sqlite3_stmt *compiledStatement;
-		if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK)    {
-			sqlite3_bind_text( compiledStatement, 1, [theName UTF8String], -1, SQLITE_TRANSIENT);
-		}
-		if(sqlite3_step(compiledStatement) != SQLITE_DONE ) {
-			NSLog( @"Save Error: %s", sqlite3_errmsg(database) );
-		}
-		sqlite3_finalize(compiledStatement);
-	}
-	sqlite3_close(database);
+    // Copy the database if needed
+    [self createEditableCopyOfDatabaseIfNeeded];
+    NSString *filePath = [self getWritableDBPath];
+    sqlite3 *database;
+    if(sqlite3_open([filePath UTF8String], &database) == SQLITE_OK) {
+        const char *sqlStatement = "insert into folders (name) VALUES (?)";
+        sqlite3_stmt *compiledStatement;
+        if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK)    {
+            sqlite3_bind_text( compiledStatement, 1, [theName UTF8String], -1, SQLITE_TRANSIENT);
+        }
+        if(sqlite3_step(compiledStatement) != SQLITE_DONE ) {
+            NSLog( @"Save Error: %s", sqlite3_errmsg(database) );
+        }
+        sqlite3_finalize(compiledStatement);
+    }
+    sqlite3_close(database);
 }
 
 //Database stuff ends here
@@ -718,11 +830,37 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //AHMED CODE END
 ///////MITCH'S CODE END
 
+//Patrick Code
+-(NSString *) DayFormat:(double) time
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *date=[NSDate dateWithTimeIntervalSince1970:time];
+    NSDate *today=[NSDate date];
+    NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:today];
+    printf("%f today1\n ",[today timeIntervalSince1970]);
+    today = [calendar dateFromComponents:dateComponents];
+    printf("%f today2\n ",[today timeIntervalSince1970]);
+    printf("%f, time\n",time);
+    printf("%f",time-[today timeIntervalSince1970]);
+    if ([today timeIntervalSince1970]<=time+86400) {
+        return @"Today";
+    }else if ([today timeIntervalSince1970]-2*86400>=time){
+        return @"Tomorrow";
+        
+    }else{
+        NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
+        //[myFormatter stringFromDate:Cdate]
+        [myFormatter setDateFormat:@"eee dd"];
+        return [myFormatter stringFromDate:date];
+    }
+    
+    
+}
+
 //CODE FROM FolderTVC.m END
 
 /*- (void)viewDidUnload {
-    folderCollectionView = nil;
-    [super viewDidUnload];
-}*/
+ folderCollectionView = nil;
+ [super viewDidUnload];
+ }*/
 @end
-

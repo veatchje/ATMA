@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="eHa-kU-KxO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="eHa-kU-KxO">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Combined Table View Controller - Tasks-->
@@ -392,13 +392,14 @@
                             <constraint firstItem="rta-UR-tch" firstAttribute="centerX" secondItem="JYY-CA-gjg" secondAttribute="centerX" type="default" id="IeL-UG-k74"/>
                             <constraint firstItem="rta-UR-tch" firstAttribute="top" secondItem="kz4-EW-RPa" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="NLl-MG-E8c"/>
                             <constraint firstItem="7Y6-p3-Z7g" firstAttribute="top" secondItem="cWJ-fT-tZu" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="QMv-3O-88D"/>
+                            <constraint firstItem="kss-8c-uIB" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="592" id="RFQ-jF-XkS"/>
                             <constraint firstItem="tg6-1Q-5NZ" firstAttribute="leading" secondItem="cWJ-fT-tZu" secondAttribute="leading" type="default" id="VZ1-Ks-BpS"/>
                             <constraint firstItem="qQV-9F-ZVA" firstAttribute="leading" secondItem="NbQ-jh-64w" secondAttribute="leading" type="default" id="WNX-aq-Jtl"/>
+                            <constraint firstAttribute="bottom" secondItem="kss-8c-uIB" secondAttribute="bottom" constant="272" id="Y85-O2-pyg"/>
                             <constraint firstItem="jlp-iw-ub6" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="20" symbolic="YES" type="default" id="aOq-Tg-kE3"/>
                             <constraint firstItem="cWJ-fT-tZu" firstAttribute="top" secondItem="tg6-1Q-5NZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="e2n-0b-F2e"/>
                             <constraint firstItem="psZ-Cc-xvE" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="112" id="fXx-gE-zD7"/>
                             <constraint firstItem="NbQ-jh-64w" firstAttribute="leading" secondItem="tg6-1Q-5NZ" secondAttribute="leading" type="default" id="fnT-ke-D28"/>
-                            <constraint firstAttribute="bottom" secondItem="kss-8c-uIB" secondAttribute="bottom" constant="58" id="iN3-ge-XUW"/>
                             <constraint firstItem="qQV-9F-ZVA" firstAttribute="top" secondItem="jlp-iw-ub6" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="jpR-1P-LEG"/>
                             <constraint firstItem="psZ-Cc-xvE" firstAttribute="leading" secondItem="kz4-EW-RPa" secondAttribute="leading" type="default" id="mic-zd-wLY"/>
                             <constraint firstItem="psZ-Cc-xvE" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="223" id="nS9-8E-Sjj"/>
@@ -410,7 +411,6 @@
                             <constraint firstItem="tg6-1Q-5NZ" firstAttribute="trailing" secondItem="qQV-9F-ZVA" secondAttribute="trailing" type="default" id="vfg-90-72A"/>
                             <constraint firstItem="h7W-h2-VYc" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="253" id="vmS-iW-HhM"/>
                             <constraint firstItem="tg6-1Q-5NZ" firstAttribute="top" secondItem="NbQ-jh-64w" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="wJC-AV-lox"/>
-                            <constraint firstItem="kss-8c-uIB" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="806" id="z1e-yu-09q"/>
                         </constraints>
                     </scrollView>
                     <navigationItem key="navigationItem" title="New Task" id="A3l-Et-6SN"/>
@@ -423,7 +423,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T9A-49-Od0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1512" y="-1708"/>
+            <point key="canvasLocation" x="1512" y="-1736"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zBc-x1-7wS">
@@ -522,6 +522,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
