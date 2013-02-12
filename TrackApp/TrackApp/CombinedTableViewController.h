@@ -29,11 +29,14 @@
     IBOutlet UICollectionView *folderCollectionView;
     
     // Task screen portion
-    UIBarButtonItem *newTaskButton;
+    UIBarButtonItem *resetTasksButton;
     NSString* folderName;
     UILabel *status;
     NSString *databasePath;
     sqlite3 *atmaDB;
+    
+    UITextField *taskNumberTextField;
+    UIAlertView *taskAlertView;
 }
 
 
@@ -65,6 +68,9 @@
 @property (nonatomic, strong) NSMutableArray *taskTargets;
 @property (retain, nonatomic) IBOutlet UILabel *status;
 //AHMED CODE END
+
+//@property (nonatomic, assign) id <UICollectionViewDelegate> delegate;
+//@property (nonatomic) BOOL allowsSelection;
 
 @end
 

@@ -10,6 +10,13 @@
 
 #import "CombinedTableViewController.h"
 
+#define TAG_SETUP 1
+#define TAG_NEWFOLDER 2
+#define TAG_INCREMENT 3
+#define TAG_RESET_ALL 4
+#define TAG_TASK_CHANGE 5
+
+
 //GENERATED CODE START
 
 @implementation CombinedTableViewController
@@ -77,9 +84,9 @@
     //end initialization
     
     
-    newTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+    resetTasksButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                   target:self
-                                                                  action:@selector(newTaskButtonTouched)];
+                                                                  action:@selector(resetTasksButtonTouched)];
     // Line for testing.
     self.navigationItem.title = @"Business";
     folderName = self.navigationItem.title;
@@ -136,6 +143,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reset All Tasks?" message:@"" delegate:self cancelButtonTitle:@"Don't Reset" otherButtonTitles: @"Reset", nil];
     
+    alert.tag = TAG_RESET_ALL;
     [alert show];
 }
 
@@ -316,8 +324,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     [super setEditing:editing animated:animate];
     if(editing){
-        //TODO: This data conflicts. Place the button elsewhere.
-        //self.navigationItem.leftBarButtonItem = resetTasksButton;
+        self.navigationItem.leftBarButtonItem = resetTasksButton;
         self.visibleBools = [[NSMutableArray alloc]
                              initWithObjects:@"true", @"true",
                              @"true", nil];
@@ -548,8 +555,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //CODE FROM FolderTVC.m BEGIN
 
 //MITCH CODE START
-#define TAG_SETUP 1
-#define TAG_NEWFOLDER 2
 
 @synthesize folderImage = _folderImage;
 @synthesize folderNames = _folderNames;
@@ -598,6 +603,17 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
             //What happens when you press the Help Button
         }
     }
+    else if(alertView.tag == TAG_RESET_ALL){
+        if(buttonIndex != [alertView cancelButtonIndex]){
+            [self resetTasks];
+        }
+    }
+//    else if(alertView.tag == TAG_TASK_CHANGE){
+//        if(buttonIndex != [alertView cancelButtonIndex]){
+//            float newNumb = [taskNumberTextField.text floatValue];
+//            [self incrementTaskLong:newNumb rowIndex:buttonIndex];
+//        }
+//    }
 }
 
 //MITCH CODE END
