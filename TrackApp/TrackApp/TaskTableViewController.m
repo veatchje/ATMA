@@ -87,7 +87,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     self.taskCurrents = [[NSMutableArray alloc] init];
     self.taskEndDates = [[NSMutableArray alloc] init];
     [self loadTasksFromDatabase];
-    [self insertAddRowIntoArray];
+    //[self insertAddRowIntoArray];
     [self.tableView reloadData];
     //end initialization
     
@@ -113,7 +113,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 - (void) viewDidAppear: (BOOL) animated
 {
     [super viewDidAppear: animated];
-    
+    [self setEditing:FALSE animated:FALSE];
     [self loadTasksFromDatabase];
     //Update the TableView
     [self.tableView reloadData];
@@ -346,7 +346,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         self.navigationItem.leftBarButtonItem = resetTasksButton;
         int count =visibleBools.count;
         [visibleBools removeAllObjects];
-        for(int i = 0;i<count;i++){
+        for(int i = 0;i<count-1;i++){
             [visibleBools addObject:@"true"];
         }
         
@@ -356,7 +356,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         self.navigationItem.leftBarButtonItem = nil;
         int count =visibleBools.count;
         [visibleBools removeAllObjects];
-        for(int i = 0;i<count;i++){
+        for(int i = 0;i<count-1;i++){
             [visibleBools addObject:@"false"];
         }
         [self.tableView reloadData];
@@ -410,6 +410,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
             [self.taskEndDates removeAllObjects];
             [self.taskCurrents removeAllObjects];
             [self.taskTargets removeAllObjects];
+            [self.visibleBools removeAllObjects];
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                 [self.taskNames addObject:nameField];
