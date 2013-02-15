@@ -40,14 +40,16 @@
     }
     else if(alertView.tag == TAG_SETUP){
         if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"About"]){
-            UIAlertView *aboutAlert = [[UIAlertView alloc] initWithTitle:@"About" message:@"This is for Senior Project" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView *aboutAlert = [[UIAlertView alloc] initWithTitle:@"About" message:@"This is a productivity tracking application currently in development by students at Rose-Hulman Institute of Technology." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [aboutAlert show];
         }
         else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Settings"]){
-            //What happens when you press the Settings Button
+            UIAlertView *settingsAlert = [[UIAlertView alloc] initWithTitle:@"Settings" message:@"There are currently no settings." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [settingsAlert show];
         }
         else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Help"]){
-            //What happens when you press the Help Button
+            UIAlertView *helpAlert = [[UIAlertView alloc] initWithTitle:@"Help" message:@"This is the folder screen.  Its used to organize your tasks.  Touch a folder to see its tasks.  To add, reorder, or delete your folders or tasks, press the edit button on the top right of either screen." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [helpAlert show];
         }
     }
 }

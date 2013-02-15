@@ -137,7 +137,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     else if(alertView.tag == TAG_TASK_CHANGE){
         if(buttonIndex != [alertView cancelButtonIndex]){
             float newNumb = [taskNumberTextField.text floatValue];
-            [self incrementTaskLong:newNumb rowIndex:buttonIndex];
+            [self incrementTaskLong:newNumb plusButtonIndex:plusButtonIndex];
         }
     }
 }
@@ -206,6 +206,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     cell.plusButton.tag = indexPath.row;
     [cell.plusButton addTarget:self action:@selector(incrementTask:) forControlEvents:UIControlEventTouchUpInside];
     
+    [cell.plusButton addTarget:self action:@selector(plusButtonHelper:) forControlEvents:UIControlEventTouchDown];
+    
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskAlert:)];
     longPress.minimumPressDuration=1.0;
     [cell.plusButton addGestureRecognizer:longPress];
@@ -252,6 +254,11 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //}
 }
 
+- (void) plusButtonHelper: (UIButton*)button
+{
+    plusButtonIndex = button.tag;
+}
+
 - (void) taskAlert:(UILongPressGestureRecognizer*)sender
 {
     if(taskAlertView == nil){
@@ -267,8 +274,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
-- (void) incrementTaskLong:(float)newCurrentFloat rowIndex:(NSInteger*)index
-{    
+- (void) incrementTaskLong:(float)newCurrentFloat plusButtonIndex:(NSInteger*) index
+{
+    printf("%f swag %d", newCurrentFloat, (int)index);
     //Used to stop incrementation past the threshhold
     //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
     NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];

@@ -288,55 +288,6 @@
         <image name="Plus%20button.png" width="126" height="126"/>
         <image name="folder.png" width="128" height="128"/>
     </resources>
-    <classes>
-        <class className="CreateTaskViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CreateTaskViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel"/>
-                <relationship kind="action" name="openSetupMenu"/>
-                <relationship kind="action" name="save"/>
-                <relationship kind="outlet" name="datePicker" candidateClass="UIPickerView"/>
-                <relationship kind="outlet" name="goalNumber" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="lblDate" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="recurrence" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="scrollview" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="taskName" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="unitName" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FolderTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="folderImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="folderName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FolderTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="sendTitle:"/>
-                <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="TaskTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plusButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="progress" candidateClass="UIProgressView"/>
-                <relationship kind="outlet" name="progressText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="taskName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="TaskTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
