@@ -147,6 +147,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     for(int i=0; i<self.taskCurrents.count; i++){
         [self.taskCurrents replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:0]];
     }
+    [self resetTasksFromDatabase];
     [self.tableView reloadData];
 }
 
@@ -288,6 +289,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 
 //Edit: Insert, Reorder, and Delete
+
+//Edit
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == self.taskNames.count - 1){
@@ -298,6 +301,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
+//Commit the edit
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
@@ -313,6 +317,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
+
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([indexPath row] == self.taskNames.count - 1)
@@ -321,11 +326,21 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     return YES;
 }
 
+//Reorder
 - (void) tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     if(destinationIndexPath.row >= self.taskNames.count - 1){
         [self.tableView reloadData];
         return;
+    }
+    NSString *toMoveAbove;
+    if (destinationIndexPath.row >= [self.taskNames count]-2)
+    {
+        toMoveAbove = @"";
+    } else if (sourceIndexPath.row < destinationIndexPath.row) {
+        toMoveAbove = [self.taskNames objectAtIndex:destinationIndexPath.row+1];
+    } else {
+        toMoveAbove = [self.taskNames objectAtIndex:destinationIndexPath.row];
     }
     NSString* nameToMove = [self.taskNames objectAtIndex:sourceIndexPath.row];
     [self.taskNames removeObjectAtIndex:sourceIndexPath.row];
@@ -347,6 +362,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [self.visibleBools removeObjectAtIndex:sourceIndexPath.row];
     [self.visibleBools insertObject:visibleBoolToMove atIndex:destinationIndexPath.row];
     //Save array of new order to database
+    printf("First name: %s \t Second name: %s\n", [nameToMove UTF8String], [toMoveAbove UTF8String]);
+    [self moveTaskWithName:nameToMove AboveTaskWithName:toMoveAbove];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
@@ -519,6 +536,27 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
+- (void)resetTasksFromDatabase
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =0 where folder = \"%s\";", [self.navigationItem.title UTF8String]];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                //Increment successful!
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+}
+
 - (void)deleteTaskWithName:(NSString*)theName
 {
     const char *dbPath = [databasePath UTF8String];
@@ -564,15 +602,43 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 }
 
 
--(void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithPriority:(int)thePriority
+-(void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithName:(NSString*)theSecondName
 {
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= %d;", thePriority];
+        NSString *querySQL = [NSString stringWithFormat:@"select priority from tasks where name = \"%s\";", [theSecondName UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
+        int priority = 0;
+        if (![theSecondName isEqualToString:@""]) {
+            
+            querySQL = [NSString stringWithFormat:@"select priority from tasks where name = \"%s\";", [theSecondName UTF8String]];
+            query_stmt = [querySQL UTF8String];
+            if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+            {
+                sqlite3_step(statement);
+                NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
+                priority = [priorityRaw intValue];
+                sqlite3_finalize(statement);
+            }
+        } else {
+            querySQL = [NSString stringWithFormat:@"select max(priority) from tasks;"];
+            query_stmt = [querySQL UTF8String];
+            if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+            {
+                sqlite3_step(statement);
+                NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
+                priority = [priorityRaw intValue] + 1;
+                sqlite3_finalize(statement);
+            }
+            
+        }
+        
+
+        querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= %d;", priority];
+        query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -582,7 +648,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
             sqlite3_finalize(statement);
         }
         
-        querySQL = [NSString stringWithFormat:@"update tasks set priority = %d where name = \"%s\";", thePriority, [theFirstName UTF8String]];
+        querySQL = [NSString stringWithFormat:@"update tasks set priority = %d where name = \"%s\";", priority, [theFirstName UTF8String]];
         query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -617,7 +683,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }else{
         NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
         //[myFormatter stringFromDate:Cdate]
-        [myFormatter setDateFormat:@"eee dd"];
+        [myFormatter setDateFormat:@"MMM dd"];
         return [myFormatter stringFromDate:date];
     }
     

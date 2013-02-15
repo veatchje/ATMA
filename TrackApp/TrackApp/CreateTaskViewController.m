@@ -31,10 +31,16 @@
 - (IBAction)save {
     
     //Date is integer???
-    
-    //The idea here is to save it to the DB then load it once back at the Tasks screen
-    [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:[self calculatePeriod] withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
-    [self.navigationController popViewControllerAnimated:YES];
+    if(taskName.text.length < 1 || goalNumber.text.length < 1){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please make sure that the task name and goal number are filled in." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alert show];
+    }
+    else{        
+        //The idea here is to save it to the DB then load it once back at the Tasks screen
+        [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:[self calculatePeriod] withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
