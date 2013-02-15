@@ -39,8 +39,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "658"
          endingLineNumber = "658"
-         landmarkName = "-collectionView:didSelectItemAtIndexPath:"
-         landmarkType = "5">
+         landmarkName = "@implementation CombinedTableViewController"
+         landmarkType = "3">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

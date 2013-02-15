@@ -247,6 +247,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
         NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
         [self.taskCurrents replaceObjectAtIndex:button.tag withObject:newCurrent];
+    [self incrementTaskWithName:[self.taskNames objectAtIndex:button.tag]];
         [self.tableView reloadData];
     //}
 }
@@ -272,6 +273,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
     NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
     [self.taskCurrents replaceObjectAtIndex:index withObject:newCurrent];
+    [self incrementTaskWithName:[self.taskNames objectAtIndex:index] WithValue:newCurrentFloat];
     [self.tableView reloadData];
     //}
 }
@@ -450,12 +452,12 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+1 where name = \"?\";"];
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+1 where name = \"%s\";", [theName UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            sqlite3_bind_text(*query_stmt, 1, [theName UTF8String], -1, NULL);
+            //sqlite3_bind_text(*query_stmt, 1, [theName UTF8String], -1, NULL);
             if (sqlite3_step(statement) == SQLITE_DONE) {
                 //Inrement successful!
             }
@@ -472,13 +474,13 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+? where name = \"?\";"]; 
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =%d where name = \"%s\";", theValue, [theName UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            sqlite3_bind_int(*query_stmt, 1, theValue);
-            sqlite3_bind_text(*query_stmt, 2, [theName UTF8String], -1, NULL);
+            //sqlite3_bind_int(*query_stmt, 1, theValue);
+            //sqlite3_bind_text(*query_stmt, 2, [theName UTF8String], -1, NULL);
             if (sqlite3_step(statement) == SQLITE_DONE) {
                 //Inrement successful!
             }
