@@ -213,16 +213,16 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     longPress.minimumPressDuration=1.0;
     [cell.plusButton addGestureRecognizer:longPress];
     
-    if(current/total < 0.40){
+    if(cell.progress.progress < 0.40){
         cell.progress.progressTintColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
     }
-    else if(current/total >= 0.40 && current/total < 0.80){
+    else if(cell.progress.progress >= 0.40 && current/total < 0.80){
         cell.progress.progressTintColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:1];
     }
-    else if(current/total >= 0.80 && current/total < 1){
+    else if(cell.progress.progress >= 0.80 && current/total <= 1){
         cell.progress.progressTintColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:1];
     }
-    else if(current/total > 1){
+    else if(cell.progress.progress > 1){
         cell.progress.progressTintColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
     }
     
@@ -678,7 +678,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     if ([today timeIntervalSince1970]+86399>=time) {
         return @"Today";
     }else if ([today timeIntervalSince1970]+2*86399+1>=time){
-        return @"Tomorrow";
+        return @"Tom.";
         
     }else{
         NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];

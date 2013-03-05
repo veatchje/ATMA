@@ -90,28 +90,28 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P4z-Lz-ZdG">
-                                            <rect key="frame" x="9" y="4" width="162" height="21"/>
+                                            <rect key="frame" x="9" y="4" width="184" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" progressViewStyle="bar" progress="0.5" id="0i3-Nx-KrC">
-                                            <rect key="frame" x="9" y="33" width="230" height="11"/>
+                                            <rect key="frame" x="9" y="33" width="243" height="11"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="progressTintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="trackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </progressView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5/10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UQt-vy-sEA">
-                                            <rect key="frame" x="94" y="30" width="60" height="15"/>
+                                            <rect key="frame" x="107" y="30" width="60" height="15"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Feb 23" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5jn-mB-iXc">
-                                            <rect key="frame" x="156" y="4" width="83" height="21"/>
+                                            <rect key="frame" x="186" y="4" width="66" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -161,11 +161,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="7Wd-EU-nxR">
-                                <rect key="frame" x="0.0" y="-45" width="320" height="684"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Task Here" minimumFontSize="17" id="zae-Ki-aq9">
-                                        <rect key="frame" x="20" y="92" width="280" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Task Name" minimumFontSize="17" id="zae-Ki-aq9">
+                                        <rect key="frame" x="20" y="20" width="280" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
@@ -173,60 +173,25 @@
                                             <outlet property="delegate" destination="muW-hW-dKr" id="QeF-Mk-auh"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Task Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vXu-Xk-xX4">
-                                        <rect key="frame" x="20" y="63" width="87" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Recurrence" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T2t-Rf-skg">
-                                        <rect key="frame" x="22" y="266" width="88" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="wFQ-rN-8yG">
-                                        <rect key="frame" x="20" y="295" width="280" height="44"/>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="wFQ-rN-8yG">
+                                        <rect key="frame" x="22" y="141" width="280" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <segments>
                                             <segment title="Daily"/>
                                             <segment title="Weekly"/>
                                             <segment title="Monthly"/>
+                                            <segment title="Other"/>
                                         </segments>
                                     </segmentedControl>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Completed by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9fD-M8-vAv">
-                                        <rect key="frame" x="22" y="346" width="105" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hYu-jf-HWE">
-                                        <rect key="frame" x="69" y="621" width="181" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Create Task">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="save" destination="muW-hW-dKr" eventType="touchUpInside" id="V5O-cI-V8D"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Units" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tgB-LB-WhG">
-                                        <rect key="frame" x="20" y="130" width="39" height="21"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="End Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9fD-M8-vAv">
+                                        <rect key="frame" x="22" y="178" width="105" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Unit of Measurment" minimumFontSize="17" id="0F7-n2-wdK">
-                                        <rect key="frame" x="20" y="159" width="280" height="30"/>
+                                        <rect key="frame" x="20" y="58" width="280" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
@@ -234,15 +199,8 @@
                                             <outlet property="delegate" destination="muW-hW-dKr" id="rjY-y5-5Xh"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Goal number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kWT-iP-CX5">
-                                        <rect key="frame" x="20" y="197" width="99" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="0" minimumFontSize="17" id="772-ts-X2f">
-                                        <rect key="frame" x="20" y="226" width="279" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Goal Number" minimumFontSize="17" id="772-ts-X2f">
+                                        <rect key="frame" x="21" y="96" width="279" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" enablesReturnKeyAutomatically="YES"/>
@@ -251,7 +209,7 @@
                                         </connections>
                                     </textField>
                                     <pickerView contentMode="scaleToFill" restorationIdentifier="DatePicker" id="yea-5h-DY3">
-                                        <rect key="frame" x="0.0" y="370" width="320" height="216"/>
+                                        <rect key="frame" x="0.0" y="207" width="320" height="216"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <connections>
                                             <outlet property="dataSource" destination="muW-hW-dKr" id="dhK-mP-OvS"/>
@@ -283,60 +241,100 @@
             </objects>
             <point key="canvasLocation" x="1032" y="714"/>
         </scene>
+        <!--Create Task View Controller - New Task-->
+        <scene sceneID="PaN-I0-C1F">
+            <objects>
+                <viewController storyboardIdentifier="EditTaskViewController" id="g79-ib-FFz" customClass="CreateTaskViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KH9-or-QOS">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="nHF-MC-gwW">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Task Name" minimumFontSize="17" id="oLN-M8-HzM">
+                                        <rect key="frame" x="20" y="20" width="280" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="g79-ib-FFz" id="qpe-Sg-JbW"/>
+                                        </connections>
+                                    </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Rna-s3-tYt">
+                                        <rect key="frame" x="22" y="141" width="280" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="Daily"/>
+                                            <segment title="Weekly"/>
+                                            <segment title="Monthly"/>
+                                            <segment title="Other"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="End Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LC2-0D-nof">
+                                        <rect key="frame" x="22" y="178" width="105" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Unit of Measurment" minimumFontSize="17" id="7O5-oF-4I7">
+                                        <rect key="frame" x="20" y="58" width="280" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="g79-ib-FFz" id="xeo-S3-KOy"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Goal Number" minimumFontSize="17" id="Tkp-Ek-sDX">
+                                        <rect key="frame" x="21" y="96" width="279" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" enablesReturnKeyAutomatically="YES"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="g79-ib-FFz" id="3j3-Yo-7ZD"/>
+                                        </connections>
+                                    </textField>
+                                    <pickerView contentMode="scaleToFill" restorationIdentifier="DatePicker" id="bG9-FF-2Rv">
+                                        <rect key="frame" x="0.0" y="207" width="320" height="216"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="g79-ib-FFz" id="He0-EE-9ty"/>
+                                            <outlet property="delegate" destination="g79-ib-FFz" id="41l-Iu-KgY"/>
+                                        </connections>
+                                    </pickerView>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Task" id="a4l-Yw-VFR">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="hdg-st-IIa">
+                            <connections>
+                                <action selector="alert" destination="7RX-5y-NAb" id="e0B-Zz-JJv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="datePicker" destination="bG9-FF-2Rv" id="s6z-aI-RWQ"/>
+                        <outlet property="goalNumber" destination="Tkp-Ek-sDX" id="ldQ-lp-82r"/>
+                        <outlet property="recurrence" destination="Rna-s3-tYt" id="IJR-h2-oVd"/>
+                        <outlet property="scrollview" destination="nHF-MC-gwW" id="KXX-ET-JMa"/>
+                        <outlet property="taskName" destination="oLN-M8-HzM" id="bJT-xD-MRo"/>
+                        <outlet property="unitName" destination="7O5-oF-4I7" id="e6L-8q-IsW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sIJ-tr-fS7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="507" y="714"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Plus%20button.png" width="126" height="126"/>
         <image name="folder.png" width="128" height="128"/>
     </resources>
-    <classes>
-        <class className="CreateTaskViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CreateTaskViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel"/>
-                <relationship kind="action" name="openSetupMenu"/>
-                <relationship kind="action" name="save"/>
-                <relationship kind="outlet" name="datePicker" candidateClass="UIPickerView"/>
-                <relationship kind="outlet" name="goalNumber" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="lblDate" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="recurrence" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="scrollview" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="taskName" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="unitName" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FolderTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="folderImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="folderName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FolderTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="sendTitle:"/>
-                <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="TaskTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plusButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="progress" candidateClass="UIProgressView"/>
-                <relationship kind="outlet" name="progressText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="taskName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="TaskTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

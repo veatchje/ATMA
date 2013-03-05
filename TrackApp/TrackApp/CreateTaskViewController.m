@@ -38,6 +38,11 @@
     }
     else{        
         //The idea here is to save it to the DB then load it once back at the Tasks screen
+        //This boolean is true if we are editing an existing task
+        if (TRUE)
+        {
+            [self deleteExistingTaskInDatabaseWithName:taskName.text withFolder:folderName];
+        }
         [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:[self calculatePeriod] withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -55,7 +60,7 @@
 - (void)viewDidLoad
 {
     //scrollView.frame = CGRectMMake(0,0.320.460);
-    [scrollview setScrollEnabled:YES];
+    [scrollview setScrollEnabled:NO];
     [scrollview setContentSize:CGSizeMake(320, 900)];
     Cdate=[NSDate date];
     NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
@@ -73,6 +78,10 @@
     [scrollview addGestureRecognizer:gestureRecognizer];
     gestureRecognizer.cancelsTouchesInView = NO;  // this prevents the gesture recognizers to 'block' touches
     
+    UIBarButtonItem *createTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+                                                                     target:self
+                                                                     action:@selector(save)];
+    self.navigationItem.rightBarButtonItem = createTaskButton;
     
     //Stuff for initializing the database -Ahmed
     NSString *docsDir;
@@ -286,6 +295,32 @@
 }
 
 //More DBstuff -Ahmed
+- (void)deleteExistingTaskInDatabaseWithName:(NSString*)theName withFolder:(NSString *)theFolder {
+    const char *filePath = [databasePath UTF8String];
+    
+    sqlite3_stmt *statement;
+	
+    printf("in AddTask.\n");
+	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
+    {
+        printf("DB open.\n");
+		NSString *insertSQL = [NSString stringWithFormat:@"delete from tasks where name = \"%@\" and folder = \"%@\")", theName, theFolder];
+        const char *insert_stmt = [insertSQL UTF8String];
+        
+        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement) == SQLITE_DONE ) {
+			status.text = @"Task deleted";
+            printf("Deleted task.\n");
+		} else {
+            //fail state
+        }
+		sqlite3_finalize(statement);
+        sqlite3_close(atmaDB);
+	}
+
+}
+
 - (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(double)theDate withTarget:(NSInteger *)theTarget  {
 	
 	const char *filePath = [databasePath UTF8String];

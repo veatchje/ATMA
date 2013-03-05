@@ -35,6 +35,8 @@
 		0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A46D11216A7461900E278D4 /* Plus%20button.png */; };
 		0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */ = {isa = PBXBuildFile; fileRef = 0AA85DE7169FFB4C00090FB5 /* atmadatabase */; };
 		0AF5B60816B2237D0043479B /* FolderCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5B60716B2237D0043479B /* FolderCollectionViewCell.m */; };
+		50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B616CEDCA800A778B8 /* App%20icon%202.png */; };
+		50A593B916CEDD1900A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B816CEDD1900A778B8 /* App%20icon%202.png */; };
 		A07B417D16AF2522000C10C9 /* CombinedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A07B417C16AF2522000C10C9 /* CombinedTableViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +92,8 @@
 		0AA85DE7169FFB4C00090FB5 /* atmadatabase */ = {isa = PBXFileReference; lastKnownFileType = file; name = atmadatabase; path = ../../atmadatabase; sourceTree = "<group>"; };
 		0AF5B60616B2237D0043479B /* FolderCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderCollectionViewCell.h; sourceTree = "<group>"; };
 		0AF5B60716B2237D0043479B /* FolderCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderCollectionViewCell.m; sourceTree = "<group>"; };
+		50A593B616CEDCA800A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "App%20icon%202.png"; path = "Images/App%20icon%202.png"; sourceTree = SOURCE_ROOT; };
+		50A593B816CEDD1900A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App%20icon%202.png"; sourceTree = "<group>"; };
 		A07B417A16AF24B8000C10C9 /* CombinedTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CombinedTableViewController.h; sourceTree = "<group>"; };
 		A07B417C16AF2522000C10C9 /* CombinedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombinedTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,6 +126,7 @@
 		0235FCC21669423F008F136B = {
 			isa = PBXGroup;
 			children = (
+				50A593B816CEDD1900A778B8 /* App%20icon%202.png */,
 				020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */,
 				0235FCD71669423F008F136B /* TrackApp */,
 				0235FD011669423F008F136B /* TrackAppTests */,
@@ -185,6 +190,7 @@
 		0235FCD81669423F008F136B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				50A593B616CEDCA800A778B8 /* App%20icon%202.png */,
 				0A46D11216A7461900E278D4 /* Plus%20button.png */,
 				0206C5FF168117CF00559975 /* folder.png */,
 				0235FCD91669423F008F136B /* TrackApp-Info.plist */,
@@ -305,6 +311,8 @@
 				0206C600168117CF00559975 /* folder.png in Resources */,
 				0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */,
 				0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */,
+				50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */,
+				50A593B916CEDD1900A778B8 /* App%20icon%202.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +426,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1.0;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -433,6 +442,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "";
 			};
 			name = Debug;
 		};
@@ -445,32 +455,36 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Patrick Swisher (74RQ2S56LV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: James Veatch (2SCWH5ZZDU)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1.0;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "BE3629BC-E8F1-4A1D-A7FF-0819A3F29441";
+				PROVISIONING_PROFILE = "3CCA3571-3E1B-4759-88D8-949B2C1BA411";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "";
 			};
 			name = Release;
 		};
 		0235FD0D16694240008F136B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: James Veatch (2SCWH5ZZDU)";
 				DSTROOT = /Desktop;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TrackApp/TrackApp-Prefix.pch";
 				INFOPLIST_FILE = "TrackApp/TrackApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				PROVISIONING_PROFILE = "3CCA3571-3E1B-4759-88D8-949B2C1BA411";
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -479,14 +493,17 @@
 		0235FD0E16694240008F136B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: James Veatch (2SCWH5ZZDU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Veatch (2SCWH5ZZDU)";
 				DSTROOT = /Desktop;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TrackApp/TrackApp-Prefix.pch";
 				INFOPLIST_FILE = "TrackApp/TrackApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				PROVISIONING_PROFILE = "3CCA3571-3E1B-4759-88D8-949B2C1BA411";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3CCA3571-3E1B-4759-88D8-949B2C1BA411";
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -526,6 +543,69 @@
 			};
 			name = Release;
 		};
+		503A2A4816D2BEF300C1AA0F /* Ad Hoc Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: James Veatch (2SCWH5ZZDU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1.0;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "3CCA3571-3E1B-4759-88D8-949B2C1BA411";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "";
+			};
+			name = "Ad Hoc Distribution";
+		};
+		503A2A4916D2BEF300C1AA0F /* Ad Hoc Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: James Veatch (2SCWH5ZZDU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Veatch (2SCWH5ZZDU)";
+				DSTROOT = /Desktop;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TrackApp/TrackApp-Prefix.pch";
+				INFOPLIST_FILE = "TrackApp/TrackApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3CCA3571-3E1B-4759-88D8-949B2C1BA411";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3CCA3571-3E1B-4759-88D8-949B2C1BA411";
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc Distribution";
+		};
+		503A2A4A16D2BEF300C1AA0F /* Ad Hoc Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TrackApp.app/TrackApp";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TrackApp/TrackApp-Prefix.pch";
+				INFOPLIST_FILE = "TrackAppTests/TrackAppTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = "Ad Hoc Distribution";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -534,6 +614,7 @@
 			buildConfigurations = (
 				0235FD0A16694240008F136B /* Debug */,
 				0235FD0B16694240008F136B /* Release */,
+				503A2A4816D2BEF300C1AA0F /* Ad Hoc Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -543,6 +624,7 @@
 			buildConfigurations = (
 				0235FD0D16694240008F136B /* Debug */,
 				0235FD0E16694240008F136B /* Release */,
+				503A2A4916D2BEF300C1AA0F /* Ad Hoc Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -552,6 +634,7 @@
 			buildConfigurations = (
 				0235FD1016694240008F136B /* Debug */,
 				0235FD1116694240008F136B /* Release */,
+				503A2A4A16D2BEF300C1AA0F /* Ad Hoc Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

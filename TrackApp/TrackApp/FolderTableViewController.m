@@ -31,11 +31,18 @@
     if(alertView.tag == TAG_NEWFOLDER){
         if (buttonIndex != [alertView cancelButtonIndex]) {
             NSString *folderName = folderNameTextField.text;
-            //Add name to database HERE
-            [self.folderNames removeLastObject];
-            [self.folderNames addObject:folderName];
-            [self insertAddRowIntoArray];
-            [self.tableView reloadData];
+            if (folderName != NULL && ![self.folderNames containsObject:folderName])
+            {
+                [self.folderNames removeLastObject];
+                [self.folderNames addObject:folderName];
+                [self insertAddRowIntoArray];
+                [self saveNameInDatabase:folderName];
+                [self.tableView reloadData];
+            } else
+            {
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Folders must have a unique name." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [errorAlert show];
+            }
         }
     }
     else if(alertView.tag == TAG_SETUP){
@@ -62,7 +69,12 @@
     }
 }
 
-
+- (NSIndexPath*) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([indexPath row] == self.folderNames.count - 1)
+        return nil;
+    return indexPath;
+}
 
 - (void)viewDidLoad
 {
@@ -231,6 +243,7 @@
         [folderNameTextField becomeFirstResponder];
     }
 }
+
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
