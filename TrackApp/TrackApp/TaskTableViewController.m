@@ -101,19 +101,19 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 }
 
 //Brian's method
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"showFolderTitle"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        CreateTaskViewController *destViewController = segue.destinationViewController;
-        int row = indexPath.row;
-        
-        [destViewController setEditExistingTask: TRUE];
-        [destViewController setTaskName: [self.taskNames objectAtIndex:row]];
-        [destViewController setUnitName: [self.taskUnits objectAtIndex:row]];
-        [destViewController setGoalNumber: [self.taskCurrents objectAtIndex:row]];
-        [destViewController setCdate: [[self.taskEndDates objectAtIndex:row] integerValue]];
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    if ([segue.identifier isEqualToString:@"showFolderTitle"]) {
+//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//        CreateTaskViewController *destViewController = segue.destinationViewController;
+//        int row = indexPath.row;
+//        
+////        [destViewController setEditExistingTask: TRUE];
+////        [destViewController setTaskName: [self.taskNames objectAtIndex:row]];
+////        [destViewController setUnitName: [self.taskUnits objectAtIndex:row]];
+////        [destViewController setGoalNumber: [self.taskCurrents objectAtIndex:row]];
+////        [destViewController setCdate: [[self.taskEndDates objectAtIndex:row] integerValue]];
+//    }
+//}
 
 //CALL THIS METHOD WHENEVER CHANGING THE SIZE OF THE TABLE
 - (void) insertAddRowIntoArray
@@ -158,12 +158,14 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     else if(alertView.tag == TAG_TASK_CHANGE){
         if(buttonIndex == 1){
             //Reset Task Progress
-            printf("Reset Task");
+            printf("Reset Task\n");
+            [self resetTaskButtonTouched:cellIndex];
             //error;
         }
         else if(buttonIndex == 2){
             //Edit Task
-            printf("Editing task");
+            //printf("Editing task\n");
+            //[self editTaskButtonTouched];
             //error;
         }
     }
@@ -184,6 +186,26 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
     [vc setFolderName:folderName];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void) resetTaskButtonTouched:(NSInteger*) index
+{
+    selectedTaskName = [taskNames objectAtIndex:index];
+    int period = [_taskPeriods objectAtIndex:index];
+    [self resetTaskWithName:selectedTaskName];
+    [self resetPeriod:period ForTaskWithName:selectedTaskName];
+    [self.tableView reloadData];
+    
+}
+
+- (void) editTaskButtonTouched:(NSInteger*) index
+{
+    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
+    [vc setFolderName:folderName];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+    [vc populateFields:folderName];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -232,9 +254,15 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     
     cell.plusButton.tag = indexPath.row;
+    cell.tag = indexPath.row;
     [cell.plusButton addTarget:self action:@selector(incrementTask:) forControlEvents:UIControlEventTouchUpInside];
     
     [cell.plusButton addTarget:self action:@selector(plusButtonHelper:) forControlEvents:UIControlEventTouchDown];
+    
+    //[cell addTarget:self action:@selector(cellIndexHelper:) forControlEvents:UIControlEventTouchDown];
+    //UIGestureRecognizer* cellIndexGetter = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(cellIndexHelper:)];
+    //[cell addGestureRecognizer:cellIndexGetter];
+    
     
     //Task Edit Long Press
     UILongPressGestureRecognizer *editLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskEditAlert:)];
@@ -247,17 +275,16 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [cell.plusButton addGestureRecognizer:incremenLongPress];
     
     
-    
     if(cell.progress.progress < 0.40){
         cell.progress.progressTintColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
     }
-    else if(cell.progress.progress >= 0.40 && current/total < 0.80){
+    else if(current/total >= 0.40 && current/total < 0.80){
         cell.progress.progressTintColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:1];
     }
-    else if(cell.progress.progress >= 0.80 && current/total <= 1){
+    else if(current/total >= 0.80 && current/total <= 1){
         cell.progress.progressTintColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:1];
     }
-    else if(cell.progress.progress > 1){
+    else if(current/total >= 1){
         cell.progress.progressTintColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
     }
     
@@ -295,6 +322,11 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     plusButtonIndex = button.tag;
 }
 
+- (void) cellIndexHelper: (UIButton*) cell
+{
+    cellIndex = cell.tag;
+}
+
 - (void) taskAlert:(UILongPressGestureRecognizer*)sender
 {
     if(taskAlertView == nil){
@@ -312,6 +344,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 -(void) taskEditAlert:(UILongPressGestureRecognizer*)sender
 {
+    
     if(taskAlertView == nil){
         taskAlertView = [[UIAlertView alloc] initWithTitle:@"Select an option for this task" message:@"\n" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reset Task", @"Edit Task", nil];
         taskAlertView.tag = TAG_TASK_CHANGE;

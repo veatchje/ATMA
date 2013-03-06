@@ -28,17 +28,17 @@
     editExistingTask = eet;
 }
 
-- (void) setTaskName: (NSString*) name {
-    [taskName setText: name];
-}
+//- (void) setTaskName: (NSString*) name {
+//    [taskName setText: name];
+//}
 
 - (void) setUnitName: (NSString*) name {
     [unitName setText: name];
 }
 
-- (void) setGoalNumber: (int) num {
-    [goalNumber setText: [NSString stringWithFormat:@"%d", num]];
-}
+//- (void) setGoalNumber: (int) num {
+//    [goalNumber setText: [NSString stringWithFormat:@"%d", num]];
+//}
 //Brian's code end
 
 - (IBAction)cancel {
@@ -155,6 +155,13 @@
 	// Do any additional setup after loading the view.
     
     
+}
+
+- (void)populateFields:(NSString*) currentTaskName
+{
+    printf("Populating fields: %s\n",[currentTaskName UTF8String]);
+    //[taskName setText:currentTaskName];
+    taskName.text = currentTaskName;
 }
 
 - (void)didReceiveMemoryWarning

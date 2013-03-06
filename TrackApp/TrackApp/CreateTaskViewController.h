@@ -42,8 +42,10 @@
 
 
 @property (retain, nonatomic) IBOutlet UILabel *status;
+@property (nonatomic, retain) UITextField *taskName;
 //Ahmed's code ends here
 - (void)setFolderName: (NSString*) name;
+- (void)populateFields: (NSString*) currentTaskName;
 - (IBAction)openSetupMenu;
 - (IBAction)cancel;
 - (IBAction)save;
@@ -53,7 +55,7 @@
 - (void) setEditExistingTask: (Boolean) eet;
 - (void) setTaskName: (NSString*) name;
 - (void) setUnitName: (NSString*) name;
-- (void) setGoalNumber: (int) num;
+//- (void) setGoalNumber: (int) num;
 - (void) setCdate: (double) time;
 //TODO: setRecurrence
 

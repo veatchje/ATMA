@@ -18,11 +18,12 @@
     UILabel *status;
     NSString *databasePath;
     sqlite3 *atmaDB;
+    NSString* selectedTaskName;
     
     UITextField *taskNumberTextField;
     UIAlertView *taskAlertView;
-    UIAlertView *taskEditView;
     NSInteger *plusButtonIndex;
+    NSInteger *cellIndex;
 }
 
 

@@ -299,6 +299,7 @@ tableView
     }
     
     cell.plusButton.tag = indexPath.row;
+    cell.tag = indexPath.row;
     [cell.plusButton addTarget:self action:@selector(incrementTask:) forControlEvents:UIControlEventTouchUpInside];
     
     if(current/total < 0.40){
