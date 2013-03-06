@@ -156,12 +156,12 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         }
     }
     else if(alertView.tag == TAG_TASK_CHANGE){
-        if(buttonIndex == 0){
+        if(buttonIndex == 1){
             //Reset Task Progress
             printf("Reset Task");
             //error;
         }
-        else if(buttonIndex == 1){
+        else if(buttonIndex == 2){
             //Edit Task
             printf("Editing task");
             //error;
