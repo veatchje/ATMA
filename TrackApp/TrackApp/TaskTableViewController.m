@@ -237,7 +237,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [cell.plusButton addTarget:self action:@selector(plusButtonHelper:) forControlEvents:UIControlEventTouchDown];
     
     //Task Edit Long Press
-    UILongPressGestureRecognizer *editLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskAlert:)];
+    UILongPressGestureRecognizer *editLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskEditAlert:)];
     editLongPress.minimumPressDuration=1.0;
     [cell addGestureRecognizer:editLongPress];
     
