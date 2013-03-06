@@ -23,6 +23,24 @@
     folderName = name;
 }
 
+//Brian's code start
+- (void) setEditExistingTask: (Boolean) eet {
+    editExistingTask = eet;
+}
+
+- (void) setTaskName: (NSString*) name {
+    [taskName setText: name];
+}
+
+- (void) setUnitName: (NSString*) name {
+    [unitName setText: name];
+}
+
+- (void) setGoalNumber: (int) num {
+    [goalNumber setText: [NSString stringWithFormat:@"%d", num]];
+}
+//Brian's code end
+
 - (IBAction)cancel {
     //Clear fields
     [self.navigationController popViewControllerAnimated:YES];
@@ -57,12 +75,27 @@
     return self;
 }
 
+-(void)setCdate:(double) time
+{
+    NSDate *date=[NSDate dateWithTimeIntervalSince1970:time];
+    Cdate=date;
+    NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
+    //[myFormatter stringFromDate:Cdate]
+    [myFormatter setDateFormat:@"dd"];
+    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]-1  inComponent:0 animated:FALSE];
+    [myFormatter setDateFormat:@"MM"];
+    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]-1 inComponent:1  animated:FALSE];
+    [myFormatter setDateFormat:@"yyyy"];
+    [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]-1 inComponent:2 animated:FALSE];}
+
 - (void)viewDidLoad
 {
     //scrollView.frame = CGRectMMake(0,0.320.460);
     [scrollview setScrollEnabled:NO];
     [scrollview setContentSize:CGSizeMake(320, 900)];
-    Cdate=[NSDate date];
+    if (Cdate==NULL) {
+        Cdate=[NSDate date];
+    }
     NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
     //[myFormatter stringFromDate:Cdate]
     [myFormatter setDateFormat:@"dd"];

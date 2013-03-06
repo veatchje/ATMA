@@ -35,6 +35,7 @@
 		0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A46D11216A7461900E278D4 /* Plus%20button.png */; };
 		0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */ = {isa = PBXBuildFile; fileRef = 0AA85DE7169FFB4C00090FB5 /* atmadatabase */; };
 		0AF5B60816B2237D0043479B /* FolderCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5B60716B2237D0043479B /* FolderCollectionViewCell.m */; };
+		5022050A16E685B30077F983 /* Plus_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5022050916E685B30077F983 /* Plus_button.png */; };
 		50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B616CEDCA800A778B8 /* App%20icon%202.png */; };
 		50A593B916CEDD1900A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B816CEDD1900A778B8 /* App%20icon%202.png */; };
 		A07B417D16AF2522000C10C9 /* CombinedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A07B417C16AF2522000C10C9 /* CombinedTableViewController.m */; };
@@ -92,6 +93,7 @@
 		0AA85DE7169FFB4C00090FB5 /* atmadatabase */ = {isa = PBXFileReference; lastKnownFileType = file; name = atmadatabase; path = ../../atmadatabase; sourceTree = "<group>"; };
 		0AF5B60616B2237D0043479B /* FolderCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderCollectionViewCell.h; sourceTree = "<group>"; };
 		0AF5B60716B2237D0043479B /* FolderCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderCollectionViewCell.m; sourceTree = "<group>"; };
+		5022050916E685B30077F983 /* Plus_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Plus_button.png; path = Images/Plus_button.png; sourceTree = SOURCE_ROOT; };
 		50A593B616CEDCA800A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "App%20icon%202.png"; path = "Images/App%20icon%202.png"; sourceTree = SOURCE_ROOT; };
 		50A593B816CEDD1900A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App%20icon%202.png"; sourceTree = "<group>"; };
 		A07B417A16AF24B8000C10C9 /* CombinedTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CombinedTableViewController.h; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 		0235FCD81669423F008F136B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5022050916E685B30077F983 /* Plus_button.png */,
 				50A593B616CEDCA800A778B8 /* App%20icon%202.png */,
 				0A46D11216A7461900E278D4 /* Plus%20button.png */,
 				0206C5FF168117CF00559975 /* folder.png */,
@@ -313,6 +316,7 @@
 				0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */,
 				50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */,
 				50A593B916CEDD1900A778B8 /* App%20icon%202.png in Resources */,
+				5022050A16E685B30077F983 /* Plus_button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

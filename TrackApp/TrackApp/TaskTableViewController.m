@@ -100,6 +100,21 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
 }
 
+//Brian's method
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"showFolderTitle"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        CreateTaskViewController *destViewController = segue.destinationViewController;
+        int row = indexPath.row;
+        
+        [destViewController setEditExistingTask: TRUE];
+        [destViewController setTaskName: [self.taskNames objectAtIndex:row]];
+        [destViewController setUnitName: [self.taskUnits objectAtIndex:row]];
+        [destViewController setGoalNumber: [self.taskCurrents objectAtIndex:row]];
+        [destViewController setCdate: [[self.taskEndDates objectAtIndex:row] integerValue]];
+    }
+}
+
 //CALL THIS METHOD WHENEVER CHANGING THE SIZE OF THE TABLE
 - (void) insertAddRowIntoArray
 {
@@ -134,10 +149,22 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
             [self resetTasks];
         }
     }
-    else if(alertView.tag == TAG_TASK_CHANGE){
+    else if(alertView.tag == TAG_INCREMENT){
         if(buttonIndex != [alertView cancelButtonIndex]){
             float newNumb = [taskNumberTextField.text floatValue];
             [self incrementTaskLong:newNumb plusButtonIndex:plusButtonIndex];
+        }
+    }
+    else if(alertView.tag == TAG_TASK_CHANGE){
+        if(buttonIndex == 0){
+            //Reset Task Progress
+            printf("Reset Task");
+            //error;
+        }
+        else if(buttonIndex == 1){
+            //Edit Task
+            printf("Editing task");
+            //error;
         }
     }
 }
@@ -209,9 +236,17 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     [cell.plusButton addTarget:self action:@selector(plusButtonHelper:) forControlEvents:UIControlEventTouchDown];
     
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskAlert:)];
-    longPress.minimumPressDuration=1.0;
-    [cell.plusButton addGestureRecognizer:longPress];
+    //Task Edit Long Press
+    UILongPressGestureRecognizer *editLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskAlert:)];
+    editLongPress.minimumPressDuration=1.0;
+    [cell addGestureRecognizer:editLongPress];
+    
+    //Custom Increment Long Press
+    UILongPressGestureRecognizer *incremenLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskAlert:)];
+    incremenLongPress.minimumPressDuration=1.0;
+    [cell.plusButton addGestureRecognizer:incremenLongPress];
+    
+    
     
     if(cell.progress.progress < 0.40){
         cell.progress.progressTintColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
@@ -263,21 +298,31 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 - (void) taskAlert:(UILongPressGestureRecognizer*)sender
 {
     if(taskAlertView == nil){
-        taskAlertView = [[UIAlertView alloc] initWithTitle:@"New Task Number" message:@"\n" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        taskAlertView = [[UIAlertView alloc] initWithTitle:@"New Task Progress" message:@"\n" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
         taskNumberTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
         [taskNumberTextField setBackgroundColor:[UIColor whiteColor]];
         taskNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
         [taskAlertView addSubview:taskNumberTextField];
-        taskAlertView.tag = TAG_TASK_CHANGE;
+        taskAlertView.tag = TAG_INCREMENT;
         [taskAlertView show];
         [taskNumberTextField becomeFirstResponder];        
         taskAlertView = nil;
     }
 }
 
+-(void) taskEditAlert:(UILongPressGestureRecognizer*)sender
+{
+    if(taskAlertView == nil){
+        taskAlertView = [[UIAlertView alloc] initWithTitle:@"Select an option for this task" message:@"\n" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reset Task", @"Edit Task", nil];
+        taskAlertView.tag = TAG_TASK_CHANGE;
+        [taskAlertView show];
+        taskAlertView = nil;
+    }
+}
+
 - (void) incrementTaskLong:(float)newCurrentFloat plusButtonIndex:(NSInteger*) index
 {
-    printf("%f swag %d", newCurrentFloat, (int)index);
+    //printf("%f swag %d", newCurrentFloat, (int)index);
     //Used to stop incrementation past the threshhold
     //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
     NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];

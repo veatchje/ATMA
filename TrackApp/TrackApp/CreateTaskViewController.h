@@ -14,6 +14,9 @@
 #pragma mark PickerView DataSorce
 
 @interface CreateTaskViewController : UIViewController {
+    //Brian's line of code
+    Boolean editExistingTask;
+    
     IBOutlet UIScrollView *scrollview;
     IBOutlet UIPickerView* datePicker;
     IBOutlet UILabel* lblDate;
@@ -45,6 +48,13 @@
 - (IBAction)cancel;
 - (IBAction)save;
 
-@end
-
 ///////MITCH CODE END
+//Brian's code
+- (void) setEditExistingTask: (Boolean) eet;
+- (void) setTaskName: (NSString*) name;
+- (void) setUnitName: (NSString*) name;
+- (void) setGoalNumber: (int) num;
+- (void) setCdate: (double) time;
+//TODO: setRecurrence
+
+@end

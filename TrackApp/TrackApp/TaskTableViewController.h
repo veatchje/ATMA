@@ -21,6 +21,7 @@
     
     UITextField *taskNumberTextField;
     UIAlertView *taskAlertView;
+    UIAlertView *taskEditView;
     NSInteger *plusButtonIndex;
 }
 
