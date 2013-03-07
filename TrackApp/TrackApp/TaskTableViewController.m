@@ -165,7 +165,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         else if(buttonIndex == 2){
             //Edit Task
             //printf("Editing task\n");
-            //[self editTaskButtonTouched];
+            [self editTaskButtonTouched:cellIndex];
             //error;
         }
     }
@@ -205,7 +205,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [vc setFolderName:folderName];
     
     [self.navigationController pushViewController:vc animated:YES];
-    [vc populateFields:folderName];
+    //[vc populateFields:folderName];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -322,10 +322,10 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     plusButtonIndex = button.tag;
 }
 
-- (void) cellIndexHelper: (UIButton*) cell
-{
-    cellIndex = cell.tag;
-}
+//- (void) cellIndexHelper: (UIButton*) cell
+//{
+//    cellIndex = cell.tag;
+//}
 
 - (void) taskAlert:(UILongPressGestureRecognizer*)sender
 {
@@ -386,6 +386,12 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     {
         [self deleteTaskWithName:[self.taskNames objectAtIndex:indexPath.row]];
         [self.taskNames removeObjectAtIndex:indexPath.row];
+        [self.taskPeriods removeObjectAtIndex:indexPath.row];
+        [self.taskCurrents removeObjectAtIndex:indexPath.row];
+        [self.taskEndDates removeObjectAtIndex:indexPath.row];
+        [self.visibleBools removeObjectAtIndex:indexPath.row];
+        [self.taskTargets removeObjectAtIndex:indexPath.row];
+        [self.taskUnits removeObjectAtIndex:indexPath.row];
         
         [tableView reloadData];
     }

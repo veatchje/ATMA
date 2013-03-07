@@ -42,7 +42,7 @@
 
 
 @property (retain, nonatomic) IBOutlet UILabel *status;
-@property (nonatomic, retain) UITextField *taskName;
+//@property (nonatomic, retain) UITextField *taskName;
 //Ahmed's code ends here
 - (void)setFolderName: (NSString*) name;
 - (void)populateFields: (NSString*) currentTaskName;

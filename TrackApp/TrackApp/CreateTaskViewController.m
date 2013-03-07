@@ -24,22 +24,22 @@
 }
 
 //Brian's code start
-- (void) setEditExistingTask: (Boolean) eet {
-    editExistingTask = eet;
-}
-
-//- (void) setTaskName: (NSString*) name {
-//    [taskName setText: name];
+//- (void) setEditExistingTask: (Boolean) eet {
+//    editExistingTask = eet;
 //}
-
-- (void) setUnitName: (NSString*) name {
-    [unitName setText: name];
-}
-
-//- (void) setGoalNumber: (int) num {
-//    [goalNumber setText: [NSString stringWithFormat:@"%d", num]];
+//
+////- (void) setTaskName: (NSString*) name {
+////    [taskName setText: name];
+////}
+//
+//- (void) setUnitName: (NSString*) name {
+//    [unitName setText: name];
 //}
-//Brian's code end
+//
+////- (void) setGoalNumber: (int) num {
+////    [goalNumber setText: [NSString stringWithFormat:@"%d", num]];
+////}
+////Brian's code end
 
 - (IBAction)cancel {
     //Clear fields
@@ -47,7 +47,6 @@
 }
 
 - (IBAction)save {
-    
     //Date is integer???
     if(taskName.text.length < 1 || goalNumber.text.length < 1){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please make sure that the task name and goal number are filled in." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -363,6 +362,7 @@
 
 - (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(double)theDate withTarget:(NSInteger *)theTarget  {
 	
+    
 	const char *filePath = [databasePath UTF8String];
     
     sqlite3_stmt *statement;
