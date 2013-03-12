@@ -425,22 +425,6 @@
                 <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
             </relationships>
         </class>
-        <class className="CreateTaskViewControllerIpad" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CreateTaskViewControllerIpad.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel"/>
-                <relationship kind="action" name="openSetupMenu"/>
-                <relationship kind="action" name="save"/>
-                <relationship kind="outlet" name="datePicker" candidateClass="UIPickerView"/>
-                <relationship kind="outlet" name="goalNumber" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="lblDate" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="recurrence" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="scrollview" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="taskName" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="unitName" candidateClass="UITextField"/>
-            </relationships>
-        </class>
         <class className="FolderCollectionViewCell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderCollectionViewCell.h"/>
             <relationships>
@@ -469,6 +453,7 @@
         <class className="TaskTableViewCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewCell.h"/>
             <relationships>
+                <relationship kind="outlet" name="cellButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="plusButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="progress" candidateClass="UIProgressView"/>
@@ -490,6 +475,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
