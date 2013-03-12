@@ -15,7 +15,7 @@
 
 @interface CreateTaskViewController : UIViewController {
     //Brian's line of code
-    Boolean editExistingTask;
+    Boolean editingTask;
     
     IBOutlet UIScrollView *scrollview;
     IBOutlet UIPickerView* datePicker;
@@ -45,18 +45,18 @@
 //@property (nonatomic, retain) UITextField *taskName;
 //Ahmed's code ends here
 - (void)setFolderName: (NSString*) name;
-- (void)populateFields: (NSString*) currentTaskName;
+- (void)populateFields: (NSString*) currentTaskName WithUnits:(NSString*) currentUnits WithGoal:(NSString*) currentGoal WithRecurrance:(int) currentDays EndingOn:(NSString*)currentEnd;
 - (IBAction)openSetupMenu;
 - (IBAction)cancel;
 - (IBAction)save;
 
 ///////MITCH CODE END
 //Brian's code
-- (void) setEditExistingTask: (Boolean) eet;
-- (void) setTaskName: (NSString*) name;
-- (void) setUnitName: (NSString*) name;
-//- (void) setGoalNumber: (int) num;
-- (void) setCdate: (double) time;
+- (void) setEditingTask: (Boolean) editing;
+//- (void) setTaskName: (NSString*) name;
+//- (void) setUnitName: (NSString*) name;
+////- (void) setGoalNumber: (int) num;
+//- (void) setCdate: (double) time;
 //TODO: setRecurrence
 
 @end

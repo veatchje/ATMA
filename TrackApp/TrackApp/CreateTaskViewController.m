@@ -23,24 +23,6 @@
     folderName = name;
 }
 
-//Brian's code start
-//- (void) setEditExistingTask: (Boolean) eet {
-//    editExistingTask = eet;
-//}
-//
-////- (void) setTaskName: (NSString*) name {
-////    [taskName setText: name];
-////}
-//
-//- (void) setUnitName: (NSString*) name {
-//    [unitName setText: name];
-//}
-//
-////- (void) setGoalNumber: (int) num {
-////    [goalNumber setText: [NSString stringWithFormat:@"%d", num]];
-////}
-////Brian's code end
-
 - (IBAction)cancel {
     //Clear fields
     [self.navigationController popViewControllerAnimated:YES];
@@ -56,7 +38,7 @@
     else{        
         //The idea here is to save it to the DB then load it once back at the Tasks screen
         //This boolean is true if we are editing an existing task
-        if (TRUE)
+        if (editingTask)
         {
             [self deleteExistingTaskInDatabaseWithName:taskName.text withFolder:folderName];
         }
@@ -64,6 +46,8 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -156,11 +140,26 @@
     
 }
 
-- (void)populateFields:(NSString*) currentTaskName
+- (void) setEditingTask:(Boolean)editing
+{
+    editingTask = editing;
+}
+
+- (void)populateFields:(NSString*) currentTaskName WithUnits:(NSString*) currentUnits WithGoal:(NSString*) currentGoal WithRecurrance:(int) currentDays EndingOn:(NSString*)currentEnd
 {
     printf("Populating fields: %s\n",[currentTaskName UTF8String]);
-    //[taskName setText:currentTaskName];
     taskName.text = currentTaskName;
+    unitName.text = currentUnits;
+    goalNumber.text = currentGoal;
+//    switch (currentDays) {
+//        case 7:
+//            //daily
+//            
+//        default:
+//            break;
+//    }
+    //datePicker
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -343,7 +342,7 @@
 	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
     {
         printf("DB open.\n");
-		NSString *insertSQL = [NSString stringWithFormat:@"delete from tasks where name = \"%@\" and folder = \"%@\")", theName, theFolder];
+		NSString *insertSQL = [NSString stringWithFormat:@"delete from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
         const char *insert_stmt = [insertSQL UTF8String];
         
         sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
@@ -358,6 +357,32 @@
         sqlite3_close(atmaDB);
 	}
 
+}
+
+- (void)checkUniquenessForTaskInDatabaseWithName:(NSString*)theName withFolder:(NSString *)theFolder {
+    const char *filePath = [databasePath UTF8String];
+    
+    sqlite3_stmt *statement;
+    
+    if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
+    {
+        
+        NSString *insertSQL = [NSString stringWithFormat:@"select * from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
+        const char *insert_stmt = [insertSQL UTF8String];
+        
+        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        int a = sqlite3_step(statement);
+        printf("%d\n", a);
+        
+        if(sqlite3_data_count(statement) == 0 ) {
+            printf("No task with that name exists.\n");
+        } else {
+            printf("A task with that name exists.\n");
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(atmaDB);
+    }
 }
 
 - (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(double)theDate withTarget:(NSInteger *)theTarget  {

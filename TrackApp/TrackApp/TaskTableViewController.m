@@ -100,20 +100,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
 }
 
-//Brian's method
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    if ([segue.identifier isEqualToString:@"showFolderTitle"]) {
-//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//        CreateTaskViewController *destViewController = segue.destinationViewController;
-//        int row = indexPath.row;
-//        
-////        [destViewController setEditExistingTask: TRUE];
-////        [destViewController setTaskName: [self.taskNames objectAtIndex:row]];
-////        [destViewController setUnitName: [self.taskUnits objectAtIndex:row]];
-////        [destViewController setGoalNumber: [self.taskCurrents objectAtIndex:row]];
-////        [destViewController setCdate: [[self.taskEndDates objectAtIndex:row] integerValue]];
-//    }
-//}
 
 //CALL THIS METHOD WHENEVER CHANGING THE SIZE OF THE TABLE
 - (void) insertAddRowIntoArray
@@ -192,6 +178,13 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     selectedTaskName = [taskNames objectAtIndex:index];
     int period = [_taskPeriods objectAtIndex:index];
+    int i;
+    for(i=0; i<self.taskCurrents.count; i++){
+        if([self.taskNames objectAtIndex:i] == selectedTaskName){
+            break;
+        }
+    }
+    [self.taskCurrents replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:0]];
     [self resetTaskWithName:selectedTaskName];
     [self resetPeriod:period ForTaskWithName:selectedTaskName];
     [self.tableView reloadData];
@@ -205,6 +198,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [vc setFolderName:folderName];
     
     [self.navigationController pushViewController:vc animated:YES];
+    [vc setTitle:@"Edit Task"];
+    [vc setEditingTask:TRUE];
+    [vc populateFields:[taskNames objectAtIndex:index] WithUnits:[_taskUnits objectAtIndex:index] WithGoal:[_taskTargets objectAtIndex:index] WithRecurrance:[_taskPeriods  objectAtIndex:index] EndingOn:[_taskEndDates  objectAtIndex:index]];
     //[vc populateFields:folderName];
 }
 
@@ -246,6 +242,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     cell.progress.progress = current/total;
     cell.progressText.text = [NSString stringWithFormat:@"%@/%@", currentStr, totalStr];
     [self.visibleBools addObject:cell.plusButton];
+    [self.visibleBools addObject:cell.cellButton];
     if([self.visibleBools objectAtIndex: [indexPath row]] == @"true"){
         cell.plusButton.alpha = 0.0;
     }
@@ -254,20 +251,17 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     
     cell.plusButton.tag = indexPath.row;
-    cell.tag = indexPath.row;
+    cell.cellButton.tag = indexPath.row;
     [cell.plusButton addTarget:self action:@selector(incrementTask:) forControlEvents:UIControlEventTouchUpInside];
     
     [cell.plusButton addTarget:self action:@selector(plusButtonHelper:) forControlEvents:UIControlEventTouchDown];
     
-    //[cell addTarget:self action:@selector(cellIndexHelper:) forControlEvents:UIControlEventTouchDown];
-    //UIGestureRecognizer* cellIndexGetter = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(cellIndexHelper:)];
-    //[cell addGestureRecognizer:cellIndexGetter];
-    
+    [cell.cellButton addTarget:self action:@selector(cellIndexHelper:) forControlEvents:UIControlEventTouchDown];
     
     //Task Edit Long Press
     UILongPressGestureRecognizer *editLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskEditAlert:)];
     editLongPress.minimumPressDuration=1.0;
-    [cell addGestureRecognizer:editLongPress];
+    [cell.cellButton addGestureRecognizer:editLongPress];
     
     //Custom Increment Long Press
     UILongPressGestureRecognizer *incremenLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskAlert:)];
@@ -322,10 +316,10 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     plusButtonIndex = button.tag;
 }
 
-//- (void) cellIndexHelper: (UIButton*) cell
-//{
-//    cellIndex = cell.tag;
-//}
+- (void) cellIndexHelper: (UIButton*) cellButton
+{
+    cellIndex = cellButton.tag;
+}
 
 - (void) taskAlert:(UILongPressGestureRecognizer*)sender
 {
@@ -754,14 +748,14 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     NSDate *date=[NSDate dateWithTimeIntervalSince1970:time];
     NSDate *today=[NSDate date];
     NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:today];
-    printf("%f today1\n ",[today timeIntervalSince1970]);
+    //printf("%f today1\n ",[today timeIntervalSince1970]);
     today = [calendar dateFromComponents:dateComponents];
-    printf("%f today2\n ",[today timeIntervalSince1970]);
-    printf("%f, time\n",time);
-    printf("%f",time-[today timeIntervalSince1970]);
-    if ([today timeIntervalSince1970]+86399>=time) {
+    //printf("%f today2\n ",[today timeIntervalSince1970]);
+    //printf("%f, time\n",time);
+    //printf("%f",time-[today timeIntervalSince1970]);
+    if ([today timeIntervalSince1970]+86399>=time && [today timeIntervalSince1970] < time) {
         return @"Today";
-    }else if ([today timeIntervalSince1970]+2*86399+1>=time){
+    }else if ([today timeIntervalSince1970]+2*86399+1>=time && [today timeIntervalSince1970]+86399<=time){
         return @"Tom.";
         
     }else{

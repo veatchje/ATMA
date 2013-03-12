@@ -14,6 +14,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *taskName;
 @property (nonatomic, strong) NSNumber *taskTotal;
 @property (nonatomic, strong) IBOutlet UIButton *plusButton;
+@property (nonatomic, strong) IBOutlet UIButton *cellButton;
 @property (nonatomic, strong) IBOutlet UILabel *dateLabel;
 @property (nonatomic, strong) IBOutlet UIProgressView *progress;
 @property (nonatomic, strong) IBOutlet UILabel *progressText;
