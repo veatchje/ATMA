@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="eHa-kU-KxO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="eHa-kU-KxO">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Combined Table View Controller - Tasks-->
@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="133" height="133"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="folder.png" translatesAutoresizingMaskIntoConstraints="NO" id="C80-Zm-W5W">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="folder.png" highlightedImage="Selected_background-1.png" translatesAutoresizingMaskIntoConstraints="NO" id="C80-Zm-W5W">
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="119" id="8xI-Uq-AmE"/>
                                                     <constraint firstAttribute="height" constant="113" id="JwY-cF-3Pg"/>
@@ -300,125 +300,92 @@
             </objects>
             <point key="canvasLocation" x="-718" y="253"/>
         </scene>
-        <!--Create Task View Controller - New Task-->
+        <!--Create Task View Controller Ipad - New Task-->
         <scene sceneID="d7q-iZ-UDF">
             <objects>
-                <viewController storyboardIdentifier="CreateTaskViewController" id="l7A-qH-Air" customClass="CreateTaskViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateTaskViewController" id="l7A-qH-Air" customClass="CreateTaskViewControllerIpad" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="JYY-CA-gjg">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kss-8c-uIB">
+                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Task Name" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="qQV-9F-ZVA">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="140" id="Hza-Ti-2a8"/>
-                                    <constraint firstAttribute="width" constant="140" id="tXq-gB-MIf"/>
+                                    <constraint firstAttribute="height" constant="60" type="user" id="qvB-mX-PoR"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                <state key="normal" title="Create Task">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="save" destination="l7A-qH-Air" eventType="touchUpInside" id="WOX-1T-pAI"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Task Here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qQV-9F-ZVA">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="FDZ-Oj-Xre"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                             </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Task Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jlp-iw-ub6">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Recurrence" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psZ-Cc-xvE">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="h7W-h2-VYc">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" type="user" id="SAf-Mt-pUB"/>
+                                </constraints>
                                 <segments>
                                     <segment title="Daily"/>
                                     <segment title="Weekly"/>
                                     <segment title="Monthly"/>
+                                    <segment title="Other"/>
                                 </segments>
                             </segmentedControl>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Completed by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kz4-EW-RPa">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Units" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NbQ-jh-64w">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Unit of Mesurment" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tg6-1Q-5NZ">
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
-                            </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Goal number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cWJ-fT-tZu">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="0" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Y6-p3-Z7g">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="End Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kz4-EW-RPa">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="279" id="jlo-zY-eUA"/>
+                                    <constraint firstAttribute="height" constant="38" id="mbp-Xs-dHS"/>
+                                    <constraint firstAttribute="width" constant="153" id="zRO-Uj-7HW"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" enablesReturnKeyAutomatically="YES"/>
-                            </textField>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <pickerView contentMode="scaleToFill" restorationIdentifier="DatePicker" translatesAutoresizingMaskIntoConstraints="NO" id="rta-UR-tch">
                                 <connections>
                                     <outlet property="dataSource" destination="l7A-qH-Air" id="PmG-NU-TwF"/>
                                     <outlet property="delegate" destination="l7A-qH-Air" id="pUT-qc-jX6"/>
                                 </connections>
                             </pickerView>
+                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Unit of Measurement" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="IKb-fw-0q9">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" type="user" id="ksm-AJ-POW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Goal Number" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="dle-mV-hCl">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" type="user" id="TeF-YF-Atj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="kss-8c-uIB" firstAttribute="centerX" secondItem="rta-UR-tch" secondAttribute="centerX" type="default" id="0tg-zG-D0h"/>
-                            <constraint firstItem="cWJ-fT-tZu" firstAttribute="leading" secondItem="7Y6-p3-Z7g" secondAttribute="leading" type="default" id="1Ys-Sf-UIf"/>
-                            <constraint firstItem="7Y6-p3-Z7g" firstAttribute="leading" secondItem="h7W-h2-VYc" secondAttribute="leading" type="default" id="2ji-vl-kVe"/>
-                            <constraint firstItem="h7W-h2-VYc" firstAttribute="trailing" secondItem="tg6-1Q-5NZ" secondAttribute="trailing" type="default" id="8K2-nL-k4Q"/>
-                            <constraint firstItem="NbQ-jh-64w" firstAttribute="top" secondItem="qQV-9F-ZVA" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Fww-P9-i5u"/>
-                            <constraint firstItem="rta-UR-tch" firstAttribute="centerX" secondItem="JYY-CA-gjg" secondAttribute="centerX" type="default" id="IeL-UG-k74"/>
-                            <constraint firstItem="rta-UR-tch" firstAttribute="top" secondItem="kz4-EW-RPa" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="NLl-MG-E8c"/>
-                            <constraint firstItem="7Y6-p3-Z7g" firstAttribute="top" secondItem="cWJ-fT-tZu" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="QMv-3O-88D"/>
-                            <constraint firstItem="kss-8c-uIB" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="592" id="RFQ-jF-XkS"/>
-                            <constraint firstItem="tg6-1Q-5NZ" firstAttribute="leading" secondItem="cWJ-fT-tZu" secondAttribute="leading" type="default" id="VZ1-Ks-BpS"/>
-                            <constraint firstItem="qQV-9F-ZVA" firstAttribute="leading" secondItem="NbQ-jh-64w" secondAttribute="leading" type="default" id="WNX-aq-Jtl"/>
-                            <constraint firstAttribute="bottom" secondItem="kss-8c-uIB" secondAttribute="bottom" constant="272" id="Y85-O2-pyg"/>
-                            <constraint firstItem="jlp-iw-ub6" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="20" symbolic="YES" type="default" id="aOq-Tg-kE3"/>
-                            <constraint firstItem="cWJ-fT-tZu" firstAttribute="top" secondItem="tg6-1Q-5NZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="e2n-0b-F2e"/>
-                            <constraint firstItem="psZ-Cc-xvE" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="112" id="fXx-gE-zD7"/>
-                            <constraint firstItem="NbQ-jh-64w" firstAttribute="leading" secondItem="tg6-1Q-5NZ" secondAttribute="leading" type="default" id="fnT-ke-D28"/>
-                            <constraint firstItem="qQV-9F-ZVA" firstAttribute="top" secondItem="jlp-iw-ub6" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="jpR-1P-LEG"/>
-                            <constraint firstItem="psZ-Cc-xvE" firstAttribute="leading" secondItem="kz4-EW-RPa" secondAttribute="leading" type="default" id="mic-zd-wLY"/>
-                            <constraint firstItem="psZ-Cc-xvE" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="223" id="nS9-8E-Sjj"/>
-                            <constraint firstItem="jlp-iw-ub6" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="110" id="nYM-j9-PIm"/>
+                            <constraint firstItem="qQV-9F-ZVA" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="6xW-kZ-Bf2"/>
+                            <constraint firstItem="dle-mV-hCl" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="CGg-9T-fNO"/>
+                            <constraint firstItem="IKb-fw-0q9" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="FOk-WM-iwy"/>
+                            <constraint firstItem="qQV-9F-ZVA" firstAttribute="centerX" secondItem="JYY-CA-gjg" secondAttribute="centerX" type="default" id="RLS-34-aaU"/>
+                            <constraint firstItem="kz4-EW-RPa" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="401" id="Y6H-Pp-N3t"/>
+                            <constraint firstItem="h7W-h2-VYc" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="316" id="Zfw-VE-Y4a"/>
+                            <constraint firstAttribute="trailing" secondItem="dle-mV-hCl" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="cDM-g9-91p"/>
+                            <constraint firstAttribute="trailing" secondItem="IKb-fw-0q9" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="dlp-Af-xHy"/>
+                            <constraint firstItem="kz4-EW-RPa" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="h6w-gf-U0J"/>
+                            <constraint firstItem="qQV-9F-ZVA" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="20" symbolic="YES" type="default" id="jSd-yd-ieh"/>
+                            <constraint firstItem="h7W-h2-VYc" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="l7h-m7-F8v"/>
+                            <constraint firstItem="rta-UR-tch" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="462" id="n5f-m8-m0x"/>
+                            <constraint firstItem="IKb-fw-0q9" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="119" id="niW-wS-WhJ"/>
                             <constraint firstItem="rta-UR-tch" firstAttribute="trailing" secondItem="JYY-CA-gjg" secondAttribute="trailing" type="default" id="pGB-GU-3Ww"/>
-                            <constraint firstItem="kz4-EW-RPa" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="303" id="sco-o4-SsT"/>
+                            <constraint firstAttribute="trailing" secondItem="qQV-9F-ZVA" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="qyg-Hl-eQQ"/>
+                            <constraint firstItem="dle-mV-hCl" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="217" id="r75-5i-NwH"/>
+                            <constraint firstAttribute="trailing" secondItem="h7W-h2-VYc" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="rBE-OO-ovr"/>
                             <constraint firstItem="rta-UR-tch" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" type="default" id="sg7-87-4rf"/>
-                            <constraint firstItem="qQV-9F-ZVA" firstAttribute="leading" secondItem="jlp-iw-ub6" secondAttribute="leading" type="default" id="v0N-01-GmP"/>
-                            <constraint firstItem="tg6-1Q-5NZ" firstAttribute="trailing" secondItem="qQV-9F-ZVA" secondAttribute="trailing" type="default" id="vfg-90-72A"/>
-                            <constraint firstItem="h7W-h2-VYc" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="253" id="vmS-iW-HhM"/>
-                            <constraint firstItem="tg6-1Q-5NZ" firstAttribute="top" secondItem="NbQ-jh-64w" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="wJC-AV-lox"/>
+                            <constraint firstAttribute="bottom" secondItem="rta-UR-tch" secondAttribute="bottom" constant="326" id="u0D-fM-dnW"/>
                         </constraints>
                     </scrollView>
                     <navigationItem key="navigationItem" title="New Task" id="A3l-Et-6SN"/>
                     <connections>
-                        <outlet property="datePicker" destination="rta-UR-tch" id="FwF-vJ-qsn"/>
-                        <outlet property="goalNumber" destination="7Y6-p3-Z7g" id="Gbi-XV-Ola"/>
-                        <outlet property="taskName" destination="qQV-9F-ZVA" id="wYE-Y8-SDr"/>
-                        <outlet property="unitName" destination="tg6-1Q-5NZ" id="st5-fh-AHA"/>
+                        <outlet property="datePicker" destination="rta-UR-tch" id="yaK-7a-iJw"/>
+                        <outlet property="goalNumber" destination="dle-mV-hCl" id="wLm-1I-dPQ"/>
+                        <outlet property="recurrence" destination="h7W-h2-VYc" id="Lhb-mJ-lmO"/>
+                        <outlet property="taskName" destination="qQV-9F-ZVA" id="6HS-06-dYx"/>
+                        <outlet property="unitName" destination="IKb-fw-0q9" id="Rnj-wt-nCG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T9A-49-Od0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -443,8 +410,88 @@
     </scenes>
     <resources>
         <image name="Plus%20button.png" width="126" height="126"/>
+        <image name="Selected_background-1.png" width="128" height="128"/>
         <image name="folder.png" width="128" height="128"/>
     </resources>
+    <classes>
+        <class className="CombinedTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CombinedTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="alert"/>
+                <relationship kind="action" name="sendTitle:"/>
+                <relationship kind="outlet" name="folderCollectionView" candidateClass="UICollectionView"/>
+                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="CreateTaskViewControllerIpad" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CreateTaskViewControllerIpad.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel"/>
+                <relationship kind="action" name="openSetupMenu"/>
+                <relationship kind="action" name="save"/>
+                <relationship kind="outlet" name="datePicker" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="goalNumber" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="lblDate" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="recurrence" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="scrollview" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="taskName" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="unitName" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="FolderCollectionViewCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderCollectionViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="folderImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FolderTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="folderImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FolderTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="sendTitle:"/>
+                <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="TaskTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plusButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="progress" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="progressText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="taskName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="TaskTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
