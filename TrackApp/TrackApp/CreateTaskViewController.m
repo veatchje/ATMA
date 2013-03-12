@@ -42,8 +42,14 @@
         {
             [self deleteExistingTaskInDatabaseWithName:taskName.text withFolder:folderName];
         }
-        [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:[self calculatePeriod] withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
-        [self.navigationController popViewControllerAnimated:YES];
+        if ([self checkUniquenessForTaskInDatabaseWithName:taskName.text withFolder:folderName])
+        {
+            [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:[self calculatePeriod] withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"A task with that name already exists in the folder." message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+        }
     }
 }
 
@@ -117,7 +123,7 @@
         if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
         {
             char *errMsg;
-            const char *sql_stmt = "create table tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
+            const char *sql_stmt = "create table tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
             
             if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
             {
@@ -311,7 +317,7 @@
 }
 
 - (int) calculatePeriod{
-    int period = recurrence.selectedSegmentIndex;
+    int period = [recurrence selectedSegmentIndex];
     switch (period) {
         case 0:
             return 1;
@@ -324,12 +330,14 @@
             //            int day = [datePicker selectedRowInComponent:0];
             //            period = day*(-1);
             return 30;
+            break;
         case 3:
             //custom
         default:
             return 0;
             break;
     }
+    printf("NOTHING IS SUPPOSED TO BE HERE ERROR\n");
 }
 
 //More DBstuff -Ahmed
@@ -338,10 +346,8 @@
     
     sqlite3_stmt *statement;
 	
-    printf("in AddTask.\n");
 	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
     {
-        printf("DB open.\n");
 		NSString *insertSQL = [NSString stringWithFormat:@"delete from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
         const char *insert_stmt = [insertSQL UTF8String];
         
@@ -359,7 +365,8 @@
 
 }
 
-- (void)checkUniquenessForTaskInDatabaseWithName:(NSString*)theName withFolder:(NSString *)theFolder {
+- (Boolean)checkUniquenessForTaskInDatabaseWithName:(NSString*)theName withFolder:(NSString *)theFolder {
+    Boolean toReturn = FALSE;
     const char *filePath = [databasePath UTF8String];
     
     sqlite3_stmt *statement;
@@ -373,34 +380,33 @@
         sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
         
         int a = sqlite3_step(statement);
-        printf("%d\n", a);
         
         if(sqlite3_data_count(statement) == 0 ) {
-            printf("No task with that name exists.\n");
+            toReturn = TRUE;
         } else {
-            printf("A task with that name exists.\n");
+            toReturn = FALSE;
         }
         sqlite3_finalize(statement);
         sqlite3_close(atmaDB);
     }
+    return toReturn;
 }
 
-- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(NSInteger *)thePeriod withDate:(double)theDate withTarget:(NSInteger *)theTarget  {
+- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(int)thePeriod withDate:(double)theDate withTarget:(NSInteger *)theTarget  {
 	
     
 	const char *filePath = [databasePath UTF8String];
     
     sqlite3_stmt *statement;
 	
-    printf("in AddTask.\n");
 	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
     {
-        printf("DB open.\n");
         //This may cause issues with deletion; nonunique priorities. Can change to just highest priority+1.
         int a = 0;
         sqlite3_exec(atmaDB, "select max(priority) from tasks;", NULL, (int*)a, NULL);
         a++;
-		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO tasks (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %d, %f, %d, %d, %d)", theName, theUnits, theFolder, (int)thePeriod, theDate, 0, (int)theTarget, a];
+        //printf("Value of period is %d\n", thePeriod);
+		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO tasks (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %d, %f, %d, %d, %d)", theName, theUnits, theFolder, thePeriod, theDate, 0, (int)theTarget, a];
         const char *insert_stmt = [insertSQL UTF8String];
         
 		//sqlite3_stmt *compiledStatement;
