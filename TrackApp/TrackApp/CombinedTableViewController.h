@@ -28,6 +28,8 @@
     
     IBOutlet UICollectionView *folderCollectionView;
     
+    Boolean isShowingLandscapeView;
+    
     // Task screen portion
     UIBarButtonItem *resetTasksButton;
     NSString* folderName;

@@ -151,6 +151,7 @@
                     <navigationItem key="navigationItem" title="Tasks" id="X61-99-iUz"/>
                     <connections>
                         <outlet property="folderCollectionView" destination="lNr-KE-b2c" id="cXM-V2-GB8"/>
+                        <segue destination="EpP-DQ-Efl" kind="custom" identifier="DisplayAlternateView" id="pwz-kr-pbK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bHs-Y4-TLp" userLabel="First Responder" sceneMemberID="firstResponder"/>
