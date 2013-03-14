@@ -103,7 +103,11 @@
     UIBarButtonItem *createTaskButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
                                                                      target:self
                                                                      action:@selector(save)];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                  target:self
+                                                                                  action:@selector(cancel)];
     self.navigationItem.rightBarButtonItem = createTaskButton;
+    self.navigationItem.leftBarButtonItem = cancelButton;
     
     //Stuff for initializing the database -Ahmed
     NSString *docsDir;
