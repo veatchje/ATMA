@@ -17,18 +17,13 @@
 @interface CombinedTableViewController : UITableViewController<UICollectionViewDataSource, UICollectionViewDelegate>{
     // Folder screen portion
 	IBOutlet UITextView *textView;
-	IBOutlet UITextField *textField;
+	IBOutlet UITextField *textField;    
 	
 	NSMutableArray *_namesArray;
     
-    UIBarButtonItem *newFolderButton;
     UIBarButtonItem *setupButton;
     
     UITextField *folderNameTextField;
-    
-    IBOutlet UICollectionView *folderCollectionView;
-    
-    Boolean isShowingLandscapeView;
     
     // Task screen portion
     UIBarButtonItem *resetTasksButton;
@@ -36,9 +31,15 @@
     UILabel *status;
     NSString *databasePath;
     sqlite3 *atmaDB;
+    NSString* selectedTaskName;
     
     UITextField *taskNumberTextField;
     UIAlertView *taskAlertView;
+    NSInteger *plusButtonIndex;
+    NSInteger *cellIndex;
+    
+    //Collection view portion
+    IBOutlet UICollectionView *folderCollectionView;
 }
 
 

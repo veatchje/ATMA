@@ -61,7 +61,7 @@
                             </connections>
                         </collectionView>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taskTableViewCellPortrait" rowHeight="60" id="4gG-DJ-KWM" customClass="TaskTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taskTableCell" rowHeight="60" id="4gG-DJ-KWM" customClass="TaskTableViewCell">
                                 <rect key="frame" x="0.0" y="156" width="768" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -83,7 +83,7 @@
                                                 <constraint firstAttribute="width" constant="40" id="Zhl-Z5-jNy"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="Verdana-BoldItalic" family="Verdana" pointSize="44"/>
-                                            <state key="normal" image="Plus%20button.png" backgroundImage="Plus%20button.png">
+                                            <state key="normal" image="Plus_button.png" backgroundImage="Plus_button.png">
                                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -148,7 +148,13 @@
                             <outlet property="delegate" destination="Ihz-b6-Uat" id="DBd-WN-rhO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Tasks" id="X61-99-iUz"/>
+                    <navigationItem key="navigationItem" title="Tasks" id="X61-99-iUz">
+                        <barButtonItem key="leftBarButtonItem" title="Setup" id="3F5-A2-k4Q">
+                            <connections>
+                                <action selector="setupAlert" destination="Ihz-b6-Uat" id="ldc-vL-Rg3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="folderCollectionView" destination="lNr-KE-b2c" id="cXM-V2-GB8"/>
                         <segue destination="EpP-DQ-Efl" kind="custom" identifier="DisplayAlternateView" id="pwz-kr-pbK"/>
@@ -301,10 +307,10 @@
             </objects>
             <point key="canvasLocation" x="-718" y="253"/>
         </scene>
-        <!--Create Task View Controller Ipad - New Task-->
+        <!--Create Task View Controller - New Task-->
         <scene sceneID="d7q-iZ-UDF">
             <objects>
-                <viewController storyboardIdentifier="CreateTaskViewController" id="l7A-qH-Air" customClass="CreateTaskViewControllerIpad" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateTaskViewController" id="l7A-qH-Air" customClass="CreateTaskViewController" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="JYY-CA-gjg">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -338,8 +344,8 @@
                             </label>
                             <pickerView contentMode="scaleToFill" restorationIdentifier="DatePicker" translatesAutoresizingMaskIntoConstraints="NO" id="rta-UR-tch">
                                 <connections>
-                                    <outlet property="dataSource" destination="l7A-qH-Air" id="PmG-NU-TwF"/>
-                                    <outlet property="delegate" destination="l7A-qH-Air" id="pUT-qc-jX6"/>
+                                    <outlet property="dataSource" destination="l7A-qH-Air" id="FTG-EK-K18"/>
+                                    <outlet property="delegate" destination="l7A-qH-Air" id="dgh-tG-F2r"/>
                                 </connections>
                             </pickerView>
                             <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Unit of Measurement" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="IKb-fw-0q9">
@@ -362,11 +368,11 @@
                             <constraint firstItem="qQV-9F-ZVA" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="6xW-kZ-Bf2"/>
                             <constraint firstItem="dle-mV-hCl" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="CGg-9T-fNO"/>
                             <constraint firstItem="IKb-fw-0q9" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="FOk-WM-iwy"/>
-                            <constraint firstItem="qQV-9F-ZVA" firstAttribute="centerX" secondItem="JYY-CA-gjg" secondAttribute="centerX" type="default" id="RLS-34-aaU"/>
                             <constraint firstItem="kz4-EW-RPa" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="401" id="Y6H-Pp-N3t"/>
                             <constraint firstItem="h7W-h2-VYc" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="316" id="Zfw-VE-Y4a"/>
                             <constraint firstAttribute="trailing" secondItem="dle-mV-hCl" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="cDM-g9-91p"/>
                             <constraint firstAttribute="trailing" secondItem="IKb-fw-0q9" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="dlp-Af-xHy"/>
+                            <constraint firstItem="h7W-h2-VYc" firstAttribute="centerX" secondItem="JYY-CA-gjg" secondAttribute="centerX" type="default" id="emo-jE-6Ey"/>
                             <constraint firstItem="kz4-EW-RPa" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="h6w-gf-U0J"/>
                             <constraint firstItem="qQV-9F-ZVA" firstAttribute="top" secondItem="JYY-CA-gjg" secondAttribute="top" constant="20" symbolic="YES" type="default" id="jSd-yd-ieh"/>
                             <constraint firstItem="h7W-h2-VYc" firstAttribute="leading" secondItem="JYY-CA-gjg" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="l7h-m7-F8v"/>
@@ -382,11 +388,12 @@
                     </scrollView>
                     <navigationItem key="navigationItem" title="New Task" id="A3l-Et-6SN"/>
                     <connections>
-                        <outlet property="datePicker" destination="rta-UR-tch" id="yaK-7a-iJw"/>
-                        <outlet property="goalNumber" destination="dle-mV-hCl" id="wLm-1I-dPQ"/>
-                        <outlet property="recurrence" destination="h7W-h2-VYc" id="Lhb-mJ-lmO"/>
-                        <outlet property="taskName" destination="qQV-9F-ZVA" id="6HS-06-dYx"/>
-                        <outlet property="unitName" destination="IKb-fw-0q9" id="Rnj-wt-nCG"/>
+                        <outlet property="datePicker" destination="rta-UR-tch" id="KTA-L9-Koo"/>
+                        <outlet property="goalNumber" destination="dle-mV-hCl" id="TrD-7S-l2X"/>
+                        <outlet property="recurrence" destination="h7W-h2-VYc" id="ALe-Y9-FIH"/>
+                        <outlet property="scrollview" destination="JYY-CA-gjg" id="naM-zk-h2Z"/>
+                        <outlet property="taskName" destination="qQV-9F-ZVA" id="UL6-wm-Nvi"/>
+                        <outlet property="unitName" destination="IKb-fw-0q9" id="MCo-8x-mu8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T9A-49-Od0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -410,10 +417,90 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Plus%20button.png" width="126" height="126"/>
+        <image name="Plus_button.png" width="126" height="126"/>
         <image name="Selected_background-1.png" width="128" height="128"/>
         <image name="folder.png" width="128" height="128"/>
     </resources>
+    <classes>
+        <class className="CombinedTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CombinedTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="alert"/>
+                <relationship kind="action" name="sendTitle:"/>
+                <relationship kind="outlet" name="folderCollectionView" candidateClass="UICollectionView"/>
+                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="CreateTaskViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CreateTaskViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel"/>
+                <relationship kind="action" name="openSetupMenu"/>
+                <relationship kind="action" name="save"/>
+                <relationship kind="outlet" name="datePicker" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="goalNumber" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="lblDate" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="recurrence" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="scrollview" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="taskName" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="unitName" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="FolderCollectionViewCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderCollectionViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="folderImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FolderTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="folderImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FolderTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="sendTitle:"/>
+                <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="TaskTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="cellButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plusButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="progress" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="progressText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="taskName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="TaskTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
