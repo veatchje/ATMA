@@ -337,7 +337,6 @@
             return 0;
             break;
     }
-    printf("NOTHING IS SUPPOSED TO BE HERE ERROR\n");
 }
 
 //More DBstuff -Ahmed

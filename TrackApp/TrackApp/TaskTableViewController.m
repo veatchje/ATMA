@@ -179,14 +179,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     selectedTaskName = [taskNames objectAtIndex:index];
     
     printf("New Period Data: %s.\n", [[_taskPeriods objectAtIndex:index] UTF8String]);
+    //TODO
     int period = [[_taskPeriods objectAtIndex:index] integerValue];
-    int i;
-    for(i=0; i<self.taskCurrents.count; i++){
-        if([self.taskNames objectAtIndex:i] == selectedTaskName){
-            break;
-        }
-    }
-    [self.taskCurrents replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:0]];
+    
     [self resetTaskWithName:selectedTaskName];
     //printf("About to reset time period with value %s.\n", [_taskPeriods objectAtIndex:index]);
     [self resetPeriod:period ForTaskWithName:selectedTaskName];
