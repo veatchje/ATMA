@@ -86,6 +86,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     self.taskTargets = [[NSMutableArray alloc] init];
     self.taskCurrents = [[NSMutableArray alloc] init];
     self.taskEndDates = [[NSMutableArray alloc] init];
+    self.taskPeriods = [[NSMutableArray alloc] init];
     [self loadTasksFromDatabase];
     //[self insertAddRowIntoArray];
     [self.tableView reloadData];
@@ -178,13 +179,15 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     selectedTaskName = [taskNames objectAtIndex:index];
     
-    printf("New Period Data: %s.\n", [[_taskPeriods objectAtIndex:index] UTF8String]);
+    //printf("New Period Data: %s.\n", [[_taskPeriods objectAtIndex:index] UTF8String]);
     //TODO
     int period = [[_taskPeriods objectAtIndex:index] integerValue];
     
     [self resetTaskWithName:selectedTaskName];
     //printf("About to reset time period with value %s.\n", [_taskPeriods objectAtIndex:index]);
     [self resetPeriod:period ForTaskWithName:selectedTaskName];
+    //NOTE: HIGHLY INELEGANT SOLUTION, TAKES SOME TIME
+    [self loadTasksFromDatabase];
     [self.tableView reloadData];
     
 }
@@ -483,7 +486,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority;", [self.navigationItem.title UTF8String]];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority DESC;", [self.navigationItem.title UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
 
         if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) != SQLITE_OK)
@@ -523,7 +526,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                 
                 NSString *periodField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
                 [self.taskPeriods addObject:periodField];
-                printf("PeriodData: %s.\n", [periodField UTF8String]);
+                //printf("PeriodData: %s.\n", [periodField UTF8String]);
                 
                 NSString *endField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
                 [self.taskEndDates addObject:[self DayFormat:[endField integerValue]]];
@@ -550,7 +553,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
-    
+    [self prepareDatabase];
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
         NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+1 where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
@@ -573,6 +576,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
     
+    [self prepareDatabase];
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
         NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =%d where name = \"%s\" and folder = \"%s\";", theValue, [theName UTF8String], [self.navigationItem.title UTF8String]];
@@ -596,6 +600,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
+    [self prepareDatabase];
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
@@ -618,6 +623,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
+    [self prepareDatabase];
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
@@ -639,6 +645,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
+    [self prepareDatabase];
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
@@ -659,6 +666,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
+    [self prepareDatabase];
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
@@ -684,6 +692,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
+    [self prepareDatabase];
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
@@ -702,20 +711,20 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                 sqlite3_finalize(statement);
             }
         } else {
-            querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [self.navigationItem.title UTF8String]];
+            querySQL = [NSString stringWithFormat:@"select min(priority) from tasks where folder = \"%s\";", [self.navigationItem.title UTF8String]];
             query_stmt = [querySQL UTF8String];
             if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
             {
                 sqlite3_step(statement);
                 NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
-                priority = [priorityRaw intValue] + 1;
+                priority = [priorityRaw intValue] - 1;
                 sqlite3_finalize(statement);
             }
             
         }
         
 
-        querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= %d and folder = \"%s\";", priority, [self.navigationItem.title UTF8String]];
+        querySQL = [NSString stringWithFormat:@"update tasks set priority = priority-1 where priority <= %d and folder = \"%s\";", priority, [self.navigationItem.title UTF8String]];
         query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -739,6 +748,27 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
+- (void)prepareDatabase {
+    NSError *err=nil;
+    NSFileManager *fm=[NSFileManager defaultManager];
+    
+    NSArray *arrPaths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, -1);
+    NSString *path=[arrPaths objectAtIndex:0];
+    NSString *path2= [path stringByAppendingPathComponent:@"ProductDatabase.sql"];
+    
+    
+    if(![fm fileExistsAtPath:path2])
+    {
+        
+        bool success=[fm copyItemAtPath:databasePath toPath:path2 error:&err];
+        if(success)
+            NSLog(@"file copied successfully");
+        else
+            NSLog(@"file not copied");
+        
+    }
+}
+
 //Database stuff ends here
 //AHMED CODE END
 
@@ -753,17 +783,17 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //printf("%f today2\n ",[today timeIntervalSince1970]);
     //printf("%f, time\n",time);
     //printf("%f",time-[today timeIntervalSince1970]);
-    if ([today timeIntervalSince1970]+86399>=time && [today timeIntervalSince1970] < time) {
+    /*if ([today timeIntervalSince1970]+86399>=time && [today timeIntervalSince1970] < time) {
         return @"Today";
     }else if ([today timeIntervalSince1970]+2*86399+1>=time && [today timeIntervalSince1970]+86399<=time){
         return @"Tom.";
         
-    }else{
+    }else{*/
         NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
         //[myFormatter stringFromDate:Cdate]
         [myFormatter setDateFormat:@"MMM dd"];
         return [myFormatter stringFromDate:date];
-    }
+   // }
     
     
 }

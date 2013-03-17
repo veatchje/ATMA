@@ -382,7 +382,7 @@
         
         sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
         
-        int a = sqlite3_step(statement);
+        sqlite3_step(statement);
         
         if(sqlite3_data_count(statement) == 0 ) {
             toReturn = TRUE;
@@ -404,20 +404,31 @@
 	
 	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
     {
-        //This may cause issues with deletion; nonunique priorities. Can change to just highest priority+1.
+        NSString* b;
         int a = 0;
-        sqlite3_exec(atmaDB, "select max(priority) from tasks;", NULL, (int*)a, NULL);
+        //sqlite3_exec(atmaDB, "select max(priority) from tasks;", NULL, (__bridge void *)(b), NULL);
+        NSString* querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [theFolder UTF8String]];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            if (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                b = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                a = [b integerValue];
+            } else {
+                printf("Error Occured Here.\n");
+            }
+            sqlite3_finalize(statement);
+        }
         a++;
-        //printf("Value of period is %d\n", thePeriod);
 		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO tasks (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %d, %f, %d, %d, %d)", theName, theUnits, theFolder, thePeriod, theDate, 0, (int)theTarget, a];
         const char *insert_stmt = [insertSQL UTF8String];
         
-		//sqlite3_stmt *compiledStatement;
 		sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
         
         if(sqlite3_step(statement) == SQLITE_DONE ) {
 			status.text = @"Contact added";
-            printf("Added task.\n");
+            //printf("Added task.\n");
 		} else {
             //fail state
         }

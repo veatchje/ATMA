@@ -307,7 +307,7 @@
     const char *filePath = [databasePath UTF8String];
     
     sqlite3_stmt *statement;
-	
+	[self prepareDatabase];
 	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
     {
         NSString *insertSQL = [NSString stringWithFormat:@"insert into folders values(\"%@\");", theName];
@@ -329,7 +329,26 @@
     [self saveNameInDatabase:@"Pleasure"];
 }
 
-
+- (void)prepareDatabase {
+    NSError *err=nil;
+    NSFileManager *fm=[NSFileManager defaultManager];
+    
+    NSArray *arrPaths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, -1);
+    NSString *path=[arrPaths objectAtIndex:0];
+    NSString *path2= [path stringByAppendingPathComponent:@"ProductDatabase.sql"];
+    
+    
+    if(![fm fileExistsAtPath:path2])
+    {
+        
+        bool success=[fm copyItemAtPath:databasePath toPath:path2 error:&err];
+        if(success)
+            NSLog(@"file copied successfully");
+        else
+            NSLog(@"file not copied");
+        
+    }
+}
  
 //Database stuff ends here
 
