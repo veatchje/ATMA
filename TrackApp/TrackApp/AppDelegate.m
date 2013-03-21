@@ -10,8 +10,18 @@
 
 #import "AppDelegate.h"
 #import "TaskMenuViewController.h"
+#import "CreateTaskViewController.h"
 
 @implementation AppDelegate
+
+@synthesize window;
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+    UISplitViewController *splitViewController = (UISplitViewController *) self.window.rootViewController;
+    splitViewController.delegate = [splitViewController.viewControllers lastObject];
+        
+    return YES;
+}
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {
