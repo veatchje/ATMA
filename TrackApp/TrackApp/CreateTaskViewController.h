@@ -32,8 +32,9 @@
     UILabel *status;
     NSString *databasePath;
     sqlite3 *atmaDB;
-    
+    NSString* origTaskName;
     NSString* folderName;
+    int taskPriority;
 }
 
 

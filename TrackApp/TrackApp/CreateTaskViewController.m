@@ -40,7 +40,7 @@
         //This boolean is true if we are editing an existing task
         if (editingTask)
         {
-            [self deleteExistingTaskInDatabaseWithName:taskName.text withFolder:folderName];
+            [self deleteExistingTaskInDatabaseWithName:origTaskName withFolder:folderName];
         }
         if ([self checkUniquenessForTaskInDatabaseWithName:taskName.text withFolder:folderName])
         {
@@ -158,6 +158,8 @@
 - (void)populateFields:(NSString*) currentTaskName WithUnits:(NSString*) currentUnits WithGoal:(NSString*) currentGoal WithRecurrance:(int) currentDays EndingOn:(NSString*)currentEnd
 {
     printf("Populating fields: %s\n",[currentTaskName UTF8String]);
+    origTaskName = currentTaskName;
+    taskPriority = 0;
     taskName.text = currentTaskName;
     unitName.text = currentUnits;
     goalNumber.text = currentGoal;

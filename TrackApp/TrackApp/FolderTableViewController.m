@@ -350,7 +350,7 @@
 		}
         sqlite3_finalize(statement);
         
-        insertSQL = [NSString stringWithFormat:@"delete from taskss where folder = \"%@\";", theName];
+        insertSQL = [NSString stringWithFormat:@"delete from tasks where folder = \"%@\";", theName];
         insert_stmt = [insertSQL UTF8String];
         
         sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
