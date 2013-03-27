@@ -23,22 +23,22 @@
 		0235FCE61669423F008F136B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0235FCE51669423F008F136B /* Default@2x.png */; };
 		0235FCE81669423F008F136B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0235FCE71669423F008F136B /* Default-568h@2x.png */; };
 		0235FCEB1669423F008F136B /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */; };
-		0235FCEE1669423F008F136B /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0235FCEC1669423F008F136B /* MainStoryboard_iPad.storyboard */; };
 		0235FCFC1669423F008F136B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCFB1669423F008F136B /* SenTestingKit.framework */; };
 		0235FCFD1669423F008F136B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD11669423F008F136B /* UIKit.framework */; };
 		0235FCFE1669423F008F136B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD31669423F008F136B /* Foundation.framework */; };
 		0235FD0616694240008F136B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD0416694240008F136B /* InfoPlist.strings */; };
 		0235FD0916694240008F136B /* TrackAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD0816694240008F136B /* TrackAppTests.m */; };
 		0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD3816695750008F136B /* CreateTaskViewController.m */; };
+		02FB027517037E2200406120 /* CombinedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02FB027117037E2200406120 /* CombinedController.m */; };
+		02FB027617037E2200406120 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02FB027217037E2200406120 /* MainStoryboard_iPad.storyboard */; };
+		02FB027717037E2200406120 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02FB027417037E2200406120 /* TaskDetailViewController.m */; };
 		0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */; };
 		0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A321674FBCC007E7F08 /* UITaskViewCell.m */; };
 		0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A46D11216A7461900E278D4 /* Plus%20button.png */; };
 		0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */ = {isa = PBXBuildFile; fileRef = 0AA85DE7169FFB4C00090FB5 /* atmadatabase */; };
-		0AF5B60816B2237D0043479B /* FolderCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5B60716B2237D0043479B /* FolderCollectionViewCell.m */; };
 		5022050A16E685B30077F983 /* Plus_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5022050916E685B30077F983 /* Plus_button.png */; };
 		50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B616CEDCA800A778B8 /* App%20icon%202.png */; };
 		50A593B916CEDD1900A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B816CEDD1900A778B8 /* App%20icon%202.png */; };
-		A07B417D16AF2522000C10C9 /* CombinedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A07B417C16AF2522000C10C9 /* CombinedTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +76,6 @@
 		0235FCE51669423F008F136B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0235FCE71669423F008F136B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		0235FCEA1669423F008F136B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		0235FCED1669423F008F136B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		0235FCFA1669423F008F136B /* TrackAppTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackAppTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0235FCFB1669423F008F136B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		0235FD0316694240008F136B /* TrackAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TrackAppTests-Info.plist"; sourceTree = "<group>"; };
@@ -85,19 +84,20 @@
 		0235FD0816694240008F136B /* TrackAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrackAppTests.m; sourceTree = "<group>"; };
 		0235FD35166956D1008F136B /* CreateTaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateTaskViewController.h; sourceTree = "<group>"; };
 		0235FD3816695750008F136B /* CreateTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTaskViewController.m; sourceTree = "<group>"; };
+		02FB027017037E2200406120 /* CombinedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombinedController.h; path = "../../../iPad Stuff/CombinedController.h"; sourceTree = "<group>"; };
+		02FB027117037E2200406120 /* CombinedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CombinedController.m; path = "../../../iPad Stuff/CombinedController.m"; sourceTree = "<group>"; };
+		02FB027217037E2200406120 /* MainStoryboard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MainStoryboard_iPad.storyboard; path = "../../../iPad Stuff/MainStoryboard_iPad.storyboard"; sourceTree = "<group>"; };
+		02FB027317037E2200406120 /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskDetailViewController.h; path = "../../../iPad Stuff/TaskDetailViewController.h"; sourceTree = "<group>"; };
+		02FB027417037E2200406120 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = "../../../iPad Stuff/TaskDetailViewController.m"; sourceTree = "<group>"; };
 		0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITaskListViewControllerIPad.h; path = ../UITaskListViewControllerIPad.h; sourceTree = "<group>"; };
 		0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITaskListViewControllerIPad.m; path = ../UITaskListViewControllerIPad.m; sourceTree = "<group>"; };
 		0A241A311674FBCC007E7F08 /* UITaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITaskViewCell.h; sourceTree = "<group>"; };
 		0A241A321674FBCC007E7F08 /* UITaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITaskViewCell.m; sourceTree = "<group>"; };
 		0A46D11216A7461900E278D4 /* Plus%20button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plus%20button.png"; sourceTree = "<group>"; };
 		0AA85DE7169FFB4C00090FB5 /* atmadatabase */ = {isa = PBXFileReference; lastKnownFileType = file; name = atmadatabase; path = ../../atmadatabase; sourceTree = "<group>"; };
-		0AF5B60616B2237D0043479B /* FolderCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderCollectionViewCell.h; sourceTree = "<group>"; };
-		0AF5B60716B2237D0043479B /* FolderCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderCollectionViewCell.m; sourceTree = "<group>"; };
 		5022050916E685B30077F983 /* Plus_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Plus_button.png; path = Images/Plus_button.png; sourceTree = SOURCE_ROOT; };
 		50A593B616CEDCA800A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "App%20icon%202.png"; path = "Images/App%20icon%202.png"; sourceTree = SOURCE_ROOT; };
 		50A593B816CEDD1900A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App%20icon%202.png"; sourceTree = "<group>"; };
-		A07B417A16AF24B8000C10C9 /* CombinedTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CombinedTableViewController.h; sourceTree = "<group>"; };
-		A07B417C16AF2522000C10C9 /* CombinedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombinedTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +160,11 @@
 		0235FCD71669423F008F136B /* TrackApp */ = {
 			isa = PBXGroup;
 			children = (
+				02FB027017037E2200406120 /* CombinedController.h */,
+				02FB027117037E2200406120 /* CombinedController.m */,
+				02FB027217037E2200406120 /* MainStoryboard_iPad.storyboard */,
+				02FB027317037E2200406120 /* TaskDetailViewController.h */,
+				02FB027417037E2200406120 /* TaskDetailViewController.m */,
 				0A241A311674FBCC007E7F08 /* UITaskViewCell.h */,
 				0A241A321674FBCC007E7F08 /* UITaskViewCell.m */,
 				0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */,
@@ -179,11 +184,6 @@
 				0235FD3816695750008F136B /* CreateTaskViewController.m */,
 				0AA85DE5169FFB3100090FB5 /* Database */,
 				0235FCD81669423F008F136B /* Supporting Files */,
-				0235FCEC1669423F008F136B /* MainStoryboard_iPad.storyboard */,
-				A07B417A16AF24B8000C10C9 /* CombinedTableViewController.h */,
-				A07B417C16AF2522000C10C9 /* CombinedTableViewController.m */,
-				0AF5B60616B2237D0043479B /* FolderCollectionViewCell.h */,
-				0AF5B60716B2237D0043479B /* FolderCollectionViewCell.m */,
 			);
 			path = TrackApp;
 			sourceTree = "<group>";
@@ -310,13 +310,13 @@
 				0235FCE61669423F008F136B /* Default@2x.png in Resources */,
 				0235FCE81669423F008F136B /* Default-568h@2x.png in Resources */,
 				0235FCEB1669423F008F136B /* MainStoryboard_iPhone.storyboard in Resources */,
-				0235FCEE1669423F008F136B /* MainStoryboard_iPad.storyboard in Resources */,
 				0206C600168117CF00559975 /* folder.png in Resources */,
 				0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */,
 				0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */,
 				50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */,
 				50A593B916CEDD1900A778B8 /* App%20icon%202.png in Resources */,
 				5022050A16E685B30077F983 /* Plus_button.png in Resources */,
+				02FB027617037E2200406120 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,8 +360,8 @@
 				0206C5F81680FFE500559975 /* FolderTableViewCell.m in Sources */,
 				0206C5FB16810CD900559975 /* TaskTableViewController.m in Sources */,
 				0206C5FE16810CF400559975 /* TaskTableViewCell.m in Sources */,
-				A07B417D16AF2522000C10C9 /* CombinedTableViewController.m in Sources */,
-				0AF5B60816B2237D0043479B /* FolderCollectionViewCell.m in Sources */,
+				02FB027517037E2200406120 /* CombinedController.m in Sources */,
+				02FB027717037E2200406120 /* TaskDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,14 +398,6 @@
 				0235FCEA1669423F008F136B /* en */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		0235FCEC1669423F008F136B /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0235FCED1669423F008F136B /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		0235FD0416694240008F136B /* InfoPlist.strings */ = {
