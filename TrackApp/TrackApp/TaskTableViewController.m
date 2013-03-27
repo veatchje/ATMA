@@ -486,7 +486,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority DESC;", [self.navigationItem.title UTF8String]];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority ASC;", [self.navigationItem.title UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
 
         if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) != SQLITE_OK)
@@ -711,20 +711,20 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                 sqlite3_finalize(statement);
             }
         } else {
-            querySQL = [NSString stringWithFormat:@"select min(priority) from tasks where folder = \"%s\";", [self.navigationItem.title UTF8String]];
+            querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [self.navigationItem.title UTF8String]];
             query_stmt = [querySQL UTF8String];
             if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
             {
                 sqlite3_step(statement);
                 NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
-                priority = [priorityRaw intValue] - 1;
+                priority = [priorityRaw intValue] + 1;
                 sqlite3_finalize(statement);
             }
             
         }
         
 
-        querySQL = [NSString stringWithFormat:@"update tasks set priority = priority-1 where priority <= %d and folder = \"%s\";", priority, [self.navigationItem.title UTF8String]];
+        querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= %d and folder = \"%s\";", priority, [self.navigationItem.title UTF8String]];
         query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)

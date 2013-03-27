@@ -353,6 +353,17 @@
 	
 	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
     {
+        NSString *querySQL = [NSString stringWithFormat:@"select priority from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
+        const char *query_stmt = [querySQL UTF8String];
+        printf("query made\n");
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            sqlite3_step(statement);
+            NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
+            taskPriority = [priorityRaw intValue];
+            sqlite3_finalize(statement);
+        }
+        printf("Priority set: %d", taskPriority);
 		NSString *insertSQL = [NSString stringWithFormat:@"delete from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
         const char *insert_stmt = [insertSQL UTF8String];
         
@@ -408,37 +419,41 @@
     {
         NSString* b, *countStr;
         int a = 0, count = 0;
-        //sqlite3_exec(atmaDB, "select max(priority) from tasks;", NULL, (__bridge void *)(b), NULL);
-        NSString* querySQL = [NSString stringWithFormat:@"select count(*) from tasks where folder = \"%s\";", [theFolder UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            if (sqlite3_step(statement) == SQLITE_ROW)
-            {
-                countStr = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                count = [countStr integerValue];
-            } else {
-                printf("Error Occured Here.\n");
-            }
-            sqlite3_finalize(statement);
-        }
-        if (count > 0)
-        {
-            querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [theFolder UTF8String]];
-            query_stmt = [querySQL UTF8String];
+        if (editingTask) {
+            a = taskPriority;
+        } else {
+            //sqlite3_exec(atmaDB, "select max(priority) from tasks;", NULL, (__bridge void *)(b), NULL);
+            NSString* querySQL = [NSString stringWithFormat:@"select count(*) from tasks where folder = \"%s\";", [theFolder UTF8String]];
+            const char *query_stmt = [querySQL UTF8String];
             if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
             {
                 if (sqlite3_step(statement) == SQLITE_ROW)
                 {
-                    b = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                    a = [b integerValue];
+                    countStr = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                    count = [countStr integerValue];
                 } else {
                     printf("Error Occured Here.\n");
                 }
                 sqlite3_finalize(statement);
             }
+            if (count > 0)
+            {
+                querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [theFolder UTF8String]];
+                query_stmt = [querySQL UTF8String];
+                if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+                {
+                    if (sqlite3_step(statement) == SQLITE_ROW)
+                    {
+                        b = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                        a = [b integerValue];
+                    } else {
+                        printf("Error Occured Here.\n");
+                    }
+                    sqlite3_finalize(statement);
+                }
+            }
+            a++;
         }
-        a++;
 		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO tasks (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %d, %f, %d, %d, %d)", theName, theUnits, theFolder, thePeriod, theDate, 0, (int)theTarget, a];
         const char *insert_stmt = [insertSQL UTF8String];
         
