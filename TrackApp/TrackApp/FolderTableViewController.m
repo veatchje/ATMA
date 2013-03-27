@@ -124,13 +124,22 @@
                     printf("Folder added");
                 }
                 
-                insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Pleasure\")"];
+                insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Personal\")"];
                 insert_stmt = [insertSQL UTF8String];
                 sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
                 
                 if(sqlite3_step(statement) == SQLITE_DONE ) {
                     printf("Folder added");
                 }
+            }
+            
+            sql_stmt = "create table if not exists tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
+            
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                printf("Failed to create Tasks table");
+            } else {
+                
             }
             
             
@@ -229,6 +238,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         //database call?
+        [self deleteFolder:[self.folderNames objectAtIndex:indexPath.row]];
         [self.folderNames removeObjectAtIndex:indexPath.row];
         [tableView reloadData];
     }
@@ -323,10 +333,35 @@
     }
 }
 
-- (void)populateDatabase {
-	
-	[self saveNameInDatabase:@"Business"];
-    [self saveNameInDatabase:@"Pleasure"];
+- (void) deleteFolder:(NSString *) theName {
+    const char *filePath = [databasePath UTF8String];
+    
+    sqlite3_stmt *statement;
+	[self prepareDatabase];
+	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:@"delete from folders where name = \"%@\";", theName];
+        const char *insert_stmt = [insertSQL UTF8String];
+        
+        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement) == SQLITE_DONE ) {
+			printf("Folder deleted.\n");
+		}
+        sqlite3_finalize(statement);
+        
+        insertSQL = [NSString stringWithFormat:@"delete from taskss where folder = \"%@\";", theName];
+        insert_stmt = [insertSQL UTF8String];
+        
+        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement) == SQLITE_DONE ) {
+			printf("Multiple tasks deleted.\n");
+		}
+        sqlite3_finalize(statement);
+        
+        sqlite3_close(atmaDB);
+    }
 }
 
 - (void)prepareDatabase {
