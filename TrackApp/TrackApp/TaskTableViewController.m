@@ -667,14 +667,56 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
     [self prepareDatabase];
+    int enddate = 0;
+    unsigned long interval;
+    double total = 0;
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
         //No longer need to add current time, this code preserved in case of future need
-        //NSDate* today = [NSDate date];
-        //double seconds = [today timeIntervalSince1970];
-        NSString *querySQL = [NSString stringWithFormat:@"update tasks set enddate = enddate + %d where name = \"%s\" and folder = \"%s\";", thePeriod*24*3600, [theName UTF8String], [self.navigationItem.title UTF8String]];
+        NSDate* today = [NSDate date];
+        double today_in_seconds = [today timeIntervalSince1970];
+        
+        NSString *querySQL = [NSString stringWithFormat:@"select enddate from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            sqlite3_step(statement);
+            NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
+            enddate = [priorityRaw intValue];
+            sqlite3_finalize(statement);
+        }
+        
+        if (thePeriod < 0)
+        {
+            thePeriod += (-1);
+            //TODO: Do some date checking here
+            //basically, take the min of the period and the number of days next month, then set thePeriod to be the number of days difference between the two.
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            NSDate *nextPeriod=[NSDate date];
+            NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit  | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:today];
+            [dateComponents setMonth:[dateComponents month]+1];
+            nextPeriod = [calendar dateFromComponents:dateComponents];
+            int daysInNextMonth = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:nextPeriod].length;
+            
+            thePeriod = MIN(daysInNextMonth, thePeriod);
+            [dateComponents setDay:thePeriod];
+            nextPeriod = [calendar dateFromComponents:dateComponents];
+            total = [nextPeriod timeIntervalSince1970];
+            
+            //printf("%f today1\n ",[today timeIntervalSince1970]);
+           
+        } else {
+            interval = thePeriod*24*3600;
+            total = enddate + interval;
+            while (total < today_in_seconds)
+            {
+                total += interval;
+            }
+        }
+        
+        querySQL = [NSString stringWithFormat:@"update tasks set enddate = %f where name = \"%s\" and folder = \"%s\";", total, [theName UTF8String], [self.navigationItem.title UTF8String]];
+        query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
