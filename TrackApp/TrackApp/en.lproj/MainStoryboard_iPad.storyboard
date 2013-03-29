@@ -366,6 +366,115 @@
             </objects>
             <point key="canvasLocation" x="1150" y="-215"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="9iz-Qz-IPX">
+            <objects>
+                <viewController id="AQo-vj-TAb" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CwA-OV-W1B">
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbD-5s-GHb">
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1004" id="Ebq-vo-dcq"/>
+                                </constraints>
+                                <mutableString key="text">MAPP User Guide
+
+MAPP is a productivity app developed by a group of students at 
+Rose-Hulman Institute of Technology. It's purpose is to help YOU 
+remember daily, weekly, monthly, or any other time frame you care to 
+mention, chores and duties. To help you do this, please read the 
+following tips.
+
+Creating a Folder
+
+To create a new folder to put tasks in, just tap the edit button, then 
+the plus button at the end of the list of folders. You will be prompted 
+for the name of the new folder; remember that the name cannot be blank, 
+and it must be unique!
+
+The folder will be made with a default task inside. To enter it, just tap.
+
+Creating a Task
+
+Well, you have all the folders you want; now what? It's time to populate 
+them! Just as with creating a folder, all you have to do here is tap on 
+the edit button, then the plus button. You'll be taken to a different 
+screen, where you will have to input the name of the task (again, 
+non-empty and unique), the goal number, the type of recurrence, and the 
+due date.
+
+Recurrence is the time frame needed to finish the task. For example, if 
+you wanted to remind yourself to walk the dog every day, you would use 
+the daily recurrence. Note that monthly recurrence is set to the date, 
+not a specific number of days; if a task with monthly recurrence would 
+be due on the 31st of March, it would set the next due date to the 30th 
+of April. The one after that would be the 31st of May.
+
+The due date you give is just the first time the task is due; this 
+allows you to create, for example, on Tuesday a task that recurs weekly, 
+but is due on Friday.
+
+After you've completed the input of your information, just hit "Save" 
+and the task will be created in the folder!
+
+Progressing a Task
+
+When you achieve progress towards some task, you should let MAPP 
+know. To do this, just tap the big green plus button next to the task! 
+This increments your current progress by 1. If you want to manually set 
+the progress, hold down the plus button. This allows you to specify what 
+the current progress should be.
+
+Resetting Tasks
+
+If you need to reset a task (for example, you've completed your progress 
+for the week and want to start on next week's quota), just tap and hold 
+the task name. This pops up a menu that allows you to reset the task.
+
+If you need to reset the progress of all tasks in a folder, there's a 
+button for that too. Just tap the edit button in the top right, then the 
+refresh button in the top left.
+
+Editing a Task
+
+To edit a task (including renaming it, changing the due date, 
+recurrence, or target number), just long press on it. A menu opens, and 
+one of the buttons is "Edit Task." This takes you to a screen very much 
+like the one for creating a new task, but with the information already 
+filled in. Save any changes you make and they'll be shown in the folder.
+
+Moving a Task
+
+To move a task up or down in relation to other tasks in the folder, just 
+enter Edit mode (by tapping the edit button) then drag the handle bars 
+(the three bars on the right side of the tasks) up or down.
+
+Deleting Tasks and Folders
+
+To delete a task or folder, enter Editing mode by clicking the Edit 
+button, then click on the red button on the left side of whatever you 
+are trying to delete, then on the delete button.</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zbD-5s-GHb" firstAttribute="trailing" secondItem="CwA-OV-W1B" secondAttribute="trailing" type="default" id="GO0-V9-Mdz"/>
+                            <constraint firstItem="zbD-5s-GHb" firstAttribute="leading" secondItem="CwA-OV-W1B" secondAttribute="leading" type="default" id="MyL-6J-N3m"/>
+                            <constraint firstItem="zbD-5s-GHb" firstAttribute="top" secondItem="CwA-OV-W1B" secondAttribute="top" constant="20" symbolic="YES" type="default" id="kog-NM-FCD"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pHg-f6-fNn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1802" y="-215"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="kse-WE-vOP">
             <objects>
@@ -497,7 +606,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T9A-49-Od0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1512" y="-1736"/>
+            <point key="canvasLocation" x="1802" y="-1444"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zBc-x1-7wS">
@@ -521,10 +630,13 @@
         <image name="folder.png" width="128" height="128"/>
     </resources>
     <classes>
-        <class className="CombinedController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CombinedController.h"/>
+        <class className="CombinedTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CombinedTableViewController.h"/>
             <relationships>
+                <relationship kind="action" name="alert"/>
                 <relationship kind="action" name="sendTitle:"/>
+                <relationship kind="outlet" name="folderCollectionView" candidateClass="UICollectionView"/>
+                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
             </relationships>
@@ -554,13 +666,6 @@
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="TaskDetailViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
-            </relationships>
         </class>
         <class className="TaskTableViewCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskTableViewCell.h"/>
