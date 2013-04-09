@@ -258,11 +258,11 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [cell.plusButton addTarget:self action:@selector(plusButtonHelper:) forControlEvents:UIControlEventTouchDown];
     
     [cell.cellButton addTarget:self action:@selector(cellIndexHelper:) forControlEvents:UIControlEventTouchDown];
-    
+    [cell.cellButton addTarget:self action:@selector(taskEditAlert:) forControlEvents:UIControlEventTouchUpInside];
     //Task Edit Long Press
-    UILongPressGestureRecognizer *editLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskEditAlert:)];
-    editLongPress.minimumPressDuration=1.0;
-    [cell.cellButton addGestureRecognizer:editLongPress];
+//    UILongPressGestureRecognizer *editLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskEditAlert:)];
+//    editLongPress.minimumPressDuration=1.0;
+//    [cell.cellButton addGestureRecognizer:editLongPress];
     
     //Custom Increment Long Press
     UILongPressGestureRecognizer *incremenLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(taskAlert:)];

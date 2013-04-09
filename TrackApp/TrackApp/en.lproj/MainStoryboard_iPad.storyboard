@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="EpP-DQ-Efl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="EpP-DQ-Efl">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -382,7 +382,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1004" id="Ebq-vo-dcq"/>
                                 </constraints>
-                                <mutableString key="text">MAPP User Guide
+                                <string key="text">MAPP User Guide
 
 MAPP is a productivity app developed by a group of students at 
 Rose-Hulman Institute of Technology. It's purpose is to help YOU 
@@ -458,7 +458,7 @@ Deleting Tasks and Folders
 
 To delete a task or folder, enter Editing mode by clicking the Edit 
 button, then click on the red button on the left side of whatever you 
-are trying to delete, then on the delete button.</mutableString>
+are trying to delete, then on the delete button.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>

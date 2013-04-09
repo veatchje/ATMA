@@ -27,6 +27,9 @@
     //Ethan's code
     IBOutlet UISegmentedControl* recurrence;
     NSDate *Cdate;
+    int selectedRecur;
+    UIAlertView* recurAlert;
+    UITextField* customRecurTextField;
     
     //Ahmed's code
     UILabel *status;
@@ -35,6 +38,7 @@
     NSString* origTaskName;
     NSString* folderName;
     int taskPriority;
+    
 }
 
 
@@ -47,7 +51,6 @@
 //Ahmed's code ends here
 - (void)setFolderName: (NSString*) name;
 - (void)populateFields: (NSString*) currentTaskName WithUnits:(NSString*) currentUnits WithGoal:(NSString*) currentGoal WithRecurrance:(int) currentDays EndingOn:(NSString*)currentEnd;
-- (IBAction)openSetupMenu;
 - (IBAction)cancel;
 - (IBAction)save;
 

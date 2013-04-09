@@ -10,15 +10,14 @@
 
 #import "CreateTaskViewController.h"
 
+#define TAG_RECUR 1
+#define TAG_CUSTOM 2
+
 @interface CreateTaskViewController ()
 
 @end
 
 @implementation CreateTaskViewController
-- (IBAction)openSetupMenu {
-    //put code here
-}
-
 - (void) setFolderName: (NSString*) name {
     folderName = name;
 }
@@ -44,7 +43,8 @@
         }
         if ([self checkUniquenessForTaskInDatabaseWithName:taskName.text withFolder:folderName])
         {
-            [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:[self calculatePeriod] withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
+//            [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:[self calculatePeriod] withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
+            [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:selectedRecur withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"A task with that name already exists in the folder." message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -53,6 +53,56 @@
     }
 }
 
+- (void) setRecur: (id) sender {
+    
+    int period = [sender selectedSegmentIndex];
+    switch (period) {
+        case 0:
+            selectedRecur = 1;
+            break;
+        case 1:
+            selectedRecur = 7;
+            break;
+        case 2:
+            //Need to fix datePicker here
+            //            int day = [datePicker selectedRowInComponent:0];
+            //            period = day*(-1);
+            selectedRecur = 30;
+            break;
+        case 3:
+            [recurAlert show];
+            break;
+        default:
+            selectedRecur = 0;
+            break;
+    }
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(alertView.tag == TAG_RECUR){    
+        if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"None"]){
+            selectedRecur = 0;
+        } else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Custom"]){
+            UIAlertView *customAlert = [[UIAlertView alloc] initWithTitle:@"Number of days:" message:@"\n" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"OK", nil];
+            customRecurTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
+            [customRecurTextField setBackgroundColor:[UIColor whiteColor]];
+            customRecurTextField.keyboardType = UIKeyboardTypeNumberPad;
+            [customAlert addSubview:customRecurTextField];
+            customAlert.tag = TAG_CUSTOM;
+            [customRecurTextField becomeFirstResponder];
+            [customAlert show];
+        } else {
+            recurrence.selectedSegmentIndex = 0;
+        }
+    } else if(alertView.tag == TAG_CUSTOM){
+        if (buttonIndex != [alertView cancelButtonIndex]) {
+            selectedRecur = [customRecurTextField.text intValue];
+        } else {
+            recurrence.selectedSegmentIndex = 0;
+        }
+    }
+}
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -95,6 +145,11 @@
     [datePicker selectRow:[[myFormatter stringFromDate:Cdate] intValue]-1 inComponent:2 animated:FALSE];
 
     goalNumber.keyboardType = UIKeyboardTypeNumberPad;
+    
+    //adds the action listener to the recurence segemented control
+    [recurrence addTarget:self action:@selector(setRecur:) forControlEvents:UIControlEventValueChanged];
+    recurAlert = [[UIAlertView alloc] initWithTitle:@"Recurrence Options" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"None", @"Custom", nil];
+    recurAlert.tag = TAG_RECUR;
     
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [scrollview addGestureRecognizer:gestureRecognizer];
@@ -140,7 +195,9 @@
         }
         
     }
-     
+    
+
+    
      //[filemgr release];
      //The DB stuff ends here
     
@@ -339,6 +396,8 @@
             break;
         case 3:
             //custom
+            return 0;
+            break;
         default:
             return 0;
             break;
