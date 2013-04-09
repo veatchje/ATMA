@@ -10,14 +10,20 @@
 
 @implementation FileIoAppDelegate
 
+- (NSMutableArray*) getDatabaseRows {
+    //return a mutable array of arrays of strings. (NS)
+    return nil;
+}
+
 - (NSString*) stringFromDatabase {
     NSMutableString* result = @"";
     
-    NSArray* row;
     NSString* rowText;
-    // Fix the code so that it reads the database and formats the string correctly.
-    while(false) {
-        //row = [self getDatabaseRow];
+    //NSArray* row;
+    NSMutableArray* rows = [self getDatabaseRows];
+    
+    // Fix the code so that it formats the string correctly.
+    for(NSArray* row in rows) {
         rowText = [NSString stringWithFormat:@"%@,%@,%@\n", row[0], row[1], row[2]];
         [result appendString:rowText];
     }

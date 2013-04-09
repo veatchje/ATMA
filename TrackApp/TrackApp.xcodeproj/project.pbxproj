@@ -36,6 +36,7 @@
 		5022050A16E685B30077F983 /* Plus_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5022050916E685B30077F983 /* Plus_button.png */; };
 		50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B616CEDCA800A778B8 /* App%20icon%202.png */; };
 		50A593B916CEDD1900A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B816CEDD1900A778B8 /* App%20icon%202.png */; };
+		A00898011714944B00DF409B /* FileIoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A00898001714944B00DF409B /* FileIoAppDelegate.m */; };
 		A03CAEEE1705FF2F00507FA1 /* HelpDocController.m in Sources */ = {isa = PBXBuildFile; fileRef = A03CAEED1705FF2F00507FA1 /* HelpDocController.m */; };
 		A04E0B481705F5070067BC8A /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A04E0B461705F5070067BC8A /* MainStoryboard_iPad.storyboard */; };
 /* End PBXBuildFile section */
@@ -92,6 +93,8 @@
 		5022050916E685B30077F983 /* Plus_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Plus_button.png; path = Images/Plus_button.png; sourceTree = SOURCE_ROOT; };
 		50A593B616CEDCA800A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "App%20icon%202.png"; path = "Images/App%20icon%202.png"; sourceTree = SOURCE_ROOT; };
 		50A593B816CEDD1900A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App%20icon%202.png"; sourceTree = "<group>"; };
+		A00897FF1714944B00DF409B /* FileIoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileIoAppDelegate.h; sourceTree = "<group>"; };
+		A00898001714944B00DF409B /* FileIoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileIoAppDelegate.m; sourceTree = "<group>"; };
 		A03CAEEC1705FF2F00507FA1 /* HelpDocController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpDocController.h; sourceTree = "<group>"; };
 		A03CAEED1705FF2F00507FA1 /* HelpDocController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpDocController.m; sourceTree = "<group>"; };
 		A04E0B471705F5070067BC8A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
@@ -163,6 +166,8 @@
 				0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */,
 				0235FCE01669423F008F136B /* AppDelegate.h */,
 				0235FCE11669423F008F136B /* AppDelegate.m */,
+				A00897FF1714944B00DF409B /* FileIoAppDelegate.h */,
+				A00898001714944B00DF409B /* FileIoAppDelegate.m */,
 				0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */,
 				A04E0B461705F5070067BC8A /* MainStoryboard_iPad.storyboard */,
 				0206C5F21680FFD000559975 /* FolderTableViewController.h */,
@@ -356,6 +361,7 @@
 				0206C5FB16810CD900559975 /* TaskTableViewController.m in Sources */,
 				0206C5FE16810CF400559975 /* TaskTableViewCell.m in Sources */,
 				A03CAEEE1705FF2F00507FA1 /* HelpDocController.m in Sources */,
+				A00898011714944B00DF409B /* FileIoAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
