@@ -86,10 +86,10 @@
 		0235FD0816694240008F136B /* TrackAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrackAppTests.m; sourceTree = "<group>"; };
 		0235FD35166956D1008F136B /* CreateTaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateTaskViewController.h; sourceTree = "<group>"; };
 		0235FD3816695750008F136B /* CreateTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTaskViewController.m; sourceTree = "<group>"; };
-		02B3B705171603ED00A9908B /* CombinedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombinedController.h; path = TrackApp/CombinedController.h; sourceTree = "<group>"; };
-		02B3B706171603ED00A9908B /* CombinedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CombinedController.m; path = TrackApp/CombinedController.m; sourceTree = "<group>"; };
-		02B3B707171603ED00A9908B /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskDetailViewController.h; path = TrackApp/TaskDetailViewController.h; sourceTree = "<group>"; };
-		02B3B708171603ED00A9908B /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = TrackApp/TaskDetailViewController.m; sourceTree = "<group>"; };
+		02B3B705171603ED00A9908B /* CombinedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombinedController.h; sourceTree = "<group>"; };
+		02B3B706171603ED00A9908B /* CombinedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombinedController.m; sourceTree = "<group>"; };
+		02B3B707171603ED00A9908B /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailViewController.h; sourceTree = "<group>"; };
+		02B3B708171603ED00A9908B /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailViewController.m; sourceTree = "<group>"; };
 		0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITaskListViewControllerIPad.h; path = ../UITaskListViewControllerIPad.h; sourceTree = "<group>"; };
 		0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITaskListViewControllerIPad.m; path = ../UITaskListViewControllerIPad.m; sourceTree = "<group>"; };
 		0A241A311674FBCC007E7F08 /* UITaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITaskViewCell.h; sourceTree = "<group>"; };
@@ -134,10 +134,6 @@
 		0235FCC21669423F008F136B = {
 			isa = PBXGroup;
 			children = (
-				02B3B705171603ED00A9908B /* CombinedController.h */,
-				02B3B706171603ED00A9908B /* CombinedController.m */,
-				02B3B707171603ED00A9908B /* TaskDetailViewController.h */,
-				02B3B708171603ED00A9908B /* TaskDetailViewController.m */,
 				50A593B816CEDD1900A778B8 /* App%20icon%202.png */,
 				020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */,
 				0235FCD71669423F008F136B /* TrackApp */,
@@ -174,6 +170,10 @@
 				0A241A321674FBCC007E7F08 /* UITaskViewCell.m */,
 				0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */,
 				0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */,
+				02B3B705171603ED00A9908B /* CombinedController.h */,
+				02B3B706171603ED00A9908B /* CombinedController.m */,
+				02B3B707171603ED00A9908B /* TaskDetailViewController.h */,
+				02B3B708171603ED00A9908B /* TaskDetailViewController.m */,
 				0235FCE01669423F008F136B /* AppDelegate.h */,
 				0235FCE11669423F008F136B /* AppDelegate.m */,
 				A00897FF1714944B00DF409B /* FileIoAppDelegate.h */,
