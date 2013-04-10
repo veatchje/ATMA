@@ -10,6 +10,7 @@
 #import "TaskTableViewCell.h"
 #import "CreateTaskViewController.h"
 #import "AppDelegate.h"
+#import "CombinedController.h"
 
 #define TAG_INCREMENT 1
 #define TAG_RESET_ALL 2
@@ -93,7 +94,7 @@
     [self.tableView reloadData];
     //end initialization
     
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     resetTasksButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                      target:self
@@ -108,8 +109,9 @@
 
 - (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
 {
-    barButtonItem.title = @"Tasks";
+    barButtonItem.title = @"Folders";
     NSMutableArray *items = [[self.toolbar items] mutableCopy];
+    [items removeAllObjects];
     [items insertObject:barButtonItem atIndex:0];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [items insertObject:flexibleSpace atIndex:1];
@@ -481,8 +483,14 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
-        AppDelegate *myAppDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [myAppDelegate newTaskButtonTouched];
+        UIViewController *navigationViewController = [self.splitViewController.viewControllers objectAtIndex:0];
+        
+        UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+        CreateTaskViewController* newTaskViewController = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
+        
+        NSArray *viewControllers = [[NSArray alloc] initWithObjects:navigationViewController, newTaskViewController, nil];
+        self.splitViewController.viewControllers = viewControllers;
+        
     }
 }
 
@@ -576,7 +584,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority DESC;", [self.navigationItem.title UTF8String]];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority ASC;", [self.navigationItem.title UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) != SQLITE_OK)
@@ -801,20 +809,20 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
                 sqlite3_finalize(statement);
             }
         } else {
-            querySQL = [NSString stringWithFormat:@"select min(priority) from tasks where folder = \"%s\";", [self.navigationItem.title UTF8String]];
+            querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [self.navigationItem.title UTF8String]];
             query_stmt = [querySQL UTF8String];
             if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
             {
                 sqlite3_step(statement);
                 NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
-                priority = [priorityRaw intValue] - 1;
+                priority = [priorityRaw intValue] + 1;
                 sqlite3_finalize(statement);
             }
             
         }
         
         
-        querySQL = [NSString stringWithFormat:@"update tasks set priority = priority-1 where priority <= %d and folder = \"%s\";", priority, [self.navigationItem.title UTF8String]];
+        querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= %d and folder = \"%s\";", priority, [self.navigationItem.title UTF8String]];
         query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)

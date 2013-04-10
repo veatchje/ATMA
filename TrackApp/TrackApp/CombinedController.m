@@ -17,6 +17,8 @@
 
 @interface CombinedController ()
 
+- (void)newTaskButtonTouched;
+
 @end
 
 @implementation CombinedController
@@ -87,13 +89,22 @@
                     printf("Folder added");
                 }
                 
-                insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Pleasure\")"];
+                insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Personal\")"];
                 insert_stmt = [insertSQL UTF8String];
                 sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
                 
                 if(sqlite3_step(statement) == SQLITE_DONE ) {
                     printf("Folder added");
                 }
+            }
+            
+            sql_stmt = "create table if not exists tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
+            
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                printf("Failed to create Tasks table");
+            } else {
+                
             }
             
             
@@ -113,14 +124,11 @@
 
 - (void)newTaskButtonTouched
 {
-//    UINavigationController *navController = [[UINavigationController alloc] init];
-//    
-//    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
-//    CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
-//    
-//    [navController pushViewController:vc animated:YES];
-//    AppDelegate *delegate=[[UIApplication sharedApplication] delegate];
-//    NSArray *viewControllers = [[NSArray alloc] initWithObjects:[delegate], nil]
+    printf("fdsa");
+    UIViewController *navigationViewController = [self.splitViewController.viewControllers objectAtIndex:0];
+    CreateTaskViewController *newTaskViewController = [[CreateTaskViewController alloc] initWithNibName:@"CreateTaskViewController" bundle:nil];
+    NSArray *viewControllers = [[NSArray alloc] initWithObjects:navigationViewController, newTaskViewController, nil];
+    self.splitViewController.viewControllers = viewControllers;
 }
 
 - (void)didReceiveMemoryWarning
@@ -334,10 +342,35 @@
     }
 }
 
-- (void)populateDatabase {
-	
-	[self saveNameInDatabase:@"Business"];
-    [self saveNameInDatabase:@"Pleasure"];
+- (void) deleteFolder:(NSString *) theName {
+    const char *filePath = [databasePath UTF8String];
+    
+    sqlite3_stmt *statement;
+	[self prepareDatabase];
+	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:@"delete from folders where name = \"%@\";", theName];
+        const char *insert_stmt = [insertSQL UTF8String];
+        
+        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement) == SQLITE_DONE ) {
+			printf("Folder deleted.\n");
+		}
+        sqlite3_finalize(statement);
+        
+        insertSQL = [NSString stringWithFormat:@"delete from tasks where folder = \"%@\";", theName];
+        insert_stmt = [insertSQL UTF8String];
+        
+        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement) == SQLITE_DONE ) {
+			printf("Multiple tasks deleted.\n");
+		}
+        sqlite3_finalize(statement);
+        
+        sqlite3_close(atmaDB);
+    }
 }
 
 - (void)prepareDatabase {
@@ -362,5 +395,6 @@
 }
 
 //Database stuff ends here
+
 
 @end

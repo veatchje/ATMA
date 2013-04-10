@@ -13,8 +13,6 @@
 		0206C5FE16810CF400559975 /* TaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0206C5FD16810CF400559975 /* TaskTableViewCell.m */; };
 		0206C600168117CF00559975 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 0206C5FF168117CF00559975 /* folder.png */; };
 		020C5F3516A0AEC300EEF68D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */; };
-		0220AC881715D9B000A894A6 /* CombinedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0220AC851715D9B000A894A6 /* CombinedController.m */; };
-		0220AC891715D9B000A894A6 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0220AC871715D9B000A894A6 /* TaskDetailViewController.m */; };
 		0235FCD21669423F008F136B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD11669423F008F136B /* UIKit.framework */; };
 		0235FCD41669423F008F136B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD31669423F008F136B /* Foundation.framework */; };
 		0235FCD61669423F008F136B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0235FCD51669423F008F136B /* CoreGraphics.framework */; };
@@ -31,6 +29,8 @@
 		0235FD0616694240008F136B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0235FD0416694240008F136B /* InfoPlist.strings */; };
 		0235FD0916694240008F136B /* TrackAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD0816694240008F136B /* TrackAppTests.m */; };
 		0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD3816695750008F136B /* CreateTaskViewController.m */; };
+		02B3B709171603ED00A9908B /* CombinedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B3B706171603ED00A9908B /* CombinedController.m */; };
+		02B3B70A171603ED00A9908B /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B3B708171603ED00A9908B /* TaskDetailViewController.m */; };
 		0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */; };
 		0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A321674FBCC007E7F08 /* UITaskViewCell.m */; };
 		0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A46D11216A7461900E278D4 /* Plus%20button.png */; };
@@ -64,10 +64,6 @@
 		0206C5FD16810CF400559975 /* TaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTableViewCell.m; sourceTree = "<group>"; };
 		0206C5FF168117CF00559975 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = SOURCE_ROOT; };
 		020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		0220AC841715D9B000A894A6 /* CombinedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombinedController.h; path = "../../../iPad Stuff/CombinedController.h"; sourceTree = "<group>"; };
-		0220AC851715D9B000A894A6 /* CombinedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CombinedController.m; path = "../../../iPad Stuff/CombinedController.m"; sourceTree = "<group>"; };
-		0220AC861715D9B000A894A6 /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskDetailViewController.h; path = "../../../iPad Stuff/TaskDetailViewController.h"; sourceTree = "<group>"; };
-		0220AC871715D9B000A894A6 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = "../../../iPad Stuff/TaskDetailViewController.m"; sourceTree = "<group>"; };
 		0235FCCD1669423F008F136B /* TrackApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0235FCD11669423F008F136B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0235FCD31669423F008F136B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -90,6 +86,10 @@
 		0235FD0816694240008F136B /* TrackAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrackAppTests.m; sourceTree = "<group>"; };
 		0235FD35166956D1008F136B /* CreateTaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateTaskViewController.h; sourceTree = "<group>"; };
 		0235FD3816695750008F136B /* CreateTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTaskViewController.m; sourceTree = "<group>"; };
+		02B3B705171603ED00A9908B /* CombinedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombinedController.h; path = TrackApp/CombinedController.h; sourceTree = "<group>"; };
+		02B3B706171603ED00A9908B /* CombinedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CombinedController.m; path = TrackApp/CombinedController.m; sourceTree = "<group>"; };
+		02B3B707171603ED00A9908B /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskDetailViewController.h; path = TrackApp/TaskDetailViewController.h; sourceTree = "<group>"; };
+		02B3B708171603ED00A9908B /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = TrackApp/TaskDetailViewController.m; sourceTree = "<group>"; };
 		0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITaskListViewControllerIPad.h; path = ../UITaskListViewControllerIPad.h; sourceTree = "<group>"; };
 		0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITaskListViewControllerIPad.m; path = ../UITaskListViewControllerIPad.m; sourceTree = "<group>"; };
 		0A241A311674FBCC007E7F08 /* UITaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITaskViewCell.h; sourceTree = "<group>"; };
@@ -134,6 +134,10 @@
 		0235FCC21669423F008F136B = {
 			isa = PBXGroup;
 			children = (
+				02B3B705171603ED00A9908B /* CombinedController.h */,
+				02B3B706171603ED00A9908B /* CombinedController.m */,
+				02B3B707171603ED00A9908B /* TaskDetailViewController.h */,
+				02B3B708171603ED00A9908B /* TaskDetailViewController.m */,
 				50A593B816CEDD1900A778B8 /* App%20icon%202.png */,
 				020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */,
 				0235FCD71669423F008F136B /* TrackApp */,
@@ -172,10 +176,6 @@
 				0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */,
 				0235FCE01669423F008F136B /* AppDelegate.h */,
 				0235FCE11669423F008F136B /* AppDelegate.m */,
-				0220AC841715D9B000A894A6 /* CombinedController.h */,
-				0220AC851715D9B000A894A6 /* CombinedController.m */,
-				0220AC861715D9B000A894A6 /* TaskDetailViewController.h */,
-				0220AC871715D9B000A894A6 /* TaskDetailViewController.m */,
 				A00897FF1714944B00DF409B /* FileIoAppDelegate.h */,
 				A00898001714944B00DF409B /* FileIoAppDelegate.m */,
 				0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */,
@@ -372,8 +372,8 @@
 				0206C5FE16810CF400559975 /* TaskTableViewCell.m in Sources */,
 				A03CAEEE1705FF2F00507FA1 /* HelpDocController.m in Sources */,
 				A00898011714944B00DF409B /* FileIoAppDelegate.m in Sources */,
-				0220AC881715D9B000A894A6 /* CombinedController.m in Sources */,
-				0220AC891715D9B000A894A6 /* TaskDetailViewController.m in Sources */,
+				02B3B709171603ED00A9908B /* CombinedController.m in Sources */,
+				02B3B70A171603ED00A9908B /* TaskDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
