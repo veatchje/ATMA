@@ -17,8 +17,8 @@
 @synthesize window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    UISplitViewController *splitViewController = (UISplitViewController *) self.window.rootViewController;
-    splitViewController.delegate = [splitViewController.viewControllers lastObject];
+    self.splitViewController = (UISplitViewController *) self.window.rootViewController;
+    self.splitViewController.delegate = [self.splitViewController.viewControllers lastObject];
     
     return YES;
 }
