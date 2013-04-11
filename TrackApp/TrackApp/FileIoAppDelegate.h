@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <sqlite3.h>
 
 @interface FileIoAppDelegate : NSObject <UIApplicationDelegate> {
-    
+    NSString *databasePath;
+    sqlite3 *atmaDB;
 }
 
 @end
