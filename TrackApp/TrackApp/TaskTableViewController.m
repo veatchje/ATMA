@@ -472,13 +472,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 //Database stuff starts here - Ahmed
 //AHMED CODE START
 
-- (NSString *) getWritableDBPath {
-	
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
-	NSString *documentsDir = [paths objectAtIndex:0];
-	return [documentsDir stringByAppendingPathComponent:DATABASE_NAME];
-}
-
+//Loads all relevant task information into the appropriate arrays.
 - (void)loadTasksFromDatabase
 {
     const char *dbPath = [databasePath UTF8String];
@@ -489,6 +483,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority ASC;", [self.navigationItem.title UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
 
+        //This should never be entered.
         if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) != SQLITE_OK)
         {
             printf("Now creating Tasks table.\n");
@@ -548,6 +543,65 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [self insertAddRowIntoArray];
 }
 
+//This is used to grab names for export later to graph.
+- (NSMutableArray *) loadTaskNamesFromDatabase:(NSString *) theFolderName
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    NSMutableArray* names;
+    
+    names = [[NSMutableArray alloc] init];
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name from tasks where folder = \"%s\";", [theFolderName UTF8String]];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                [names addObject:nameField];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+    return names;
+}
+
+//This returns a 2D array of the history of a given task.
+- (NSMutableArray *) loadCompletedTasksFromDatabase:(NSString *) theTaskName FromFolder:(NSString*) theFolderName
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    NSMutableArray* allRows;
+    NSArray* row;
+    
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT current, target, completed from completedtasks where name = \"%s\" and folder = \"%s\";", [theTaskName UTF8String],[theFolderName UTF8String]];
+        const char *query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                NSString *currentField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                NSString *targetField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                NSString *completedField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
+                
+                row = [NSArray arrayWithObjects:currentField, targetField, completedField, nil];
+                [allRows addObject:row];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+    return allRows;
+}
+
+//Increments a task by 1.
 - (void)incrementTaskWithName:(NSString*)theName
 {
     
@@ -571,6 +625,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
+//Changes the current value of a task to the indicated amount.
 - (void)incrementTaskWithName:(NSString*)theName WithValue:(int)theValue
 {
     const char *dbPath = [databasePath UTF8String];
@@ -641,6 +696,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
+// Deletes a task and it's associated completedTasks from the database.
 - (void)deleteTaskWithName:(NSString*)theName
 {
     const char *dbPath = [databasePath UTF8String];
@@ -658,10 +714,22 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
             }
             sqlite3_finalize(statement);
         }
+        
+        querySQL = [NSString stringWithFormat:@"delete from completedtasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
+        query_stmt = [querySQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+            }
+            sqlite3_finalize(statement);
+        }
+        
         sqlite3_close(atmaDB);
     }
 }
 
+//This indicates that a task has been completed and resets it, incrementing the end date appropriately and adding it to the completedTasks table.
 - (void)resetPeriod:(int)thePeriod ForTaskWithName:(NSString*)theName
 {
     const char *dbPath = [databasePath UTF8String];
@@ -676,6 +744,21 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         //No longer need to add current time, this code preserved in case of future need
         NSDate* today = [NSDate date];
         double today_in_seconds = [today timeIntervalSince1970];
+        
+        //Don't have time to finish this right now. Will get down to it. TODO
+        /*NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO completedtasks (name, folder, period, current, target) values (\"%@\", \"%@\", %d, %d, %d)", theName, [self.navigationItem.title UTF8String], thePeriod, theDate, 0, (int)theTarget, a];
+        const char *insert_stmt = [insertSQL UTF8String];
+        
+		sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement) == SQLITE_DONE ) {
+			status.text = @"Contact added";
+            //printf("Added task.\n");
+		} else {
+            //fail state
+        }
+		sqlite3_finalize(statement);*/
+
         
         NSString *querySQL = [NSString stringWithFormat:@"select enddate from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
         const char *query_stmt = [querySQL UTF8String];

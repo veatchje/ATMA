@@ -109,12 +109,14 @@
         if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
         {
             char *errMsg;
+            //Creates the folders table.
             const char *sql_stmt = "create table if not exists folders(name TEXT);";
             
             if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
             {
                 //status.text = @"Failed to create Folders table";
             } else {
+                //Here we load the initial values into the folders table.
                 sqlite3_stmt *statement;
                 NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Business\")"];
                 const char *insert_stmt = [insertSQL UTF8String];
@@ -133,6 +135,7 @@
                 }
             }
             
+            //Creates the tasks table.
             sql_stmt = "create table if not exists tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
             
             if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
@@ -142,6 +145,15 @@
                 
             }
             
+            //Creates the completedTasks table.
+            sql_stmt = "create table if not exists completedtasks(name TEXT, units TEXT, folder TEXT, period INTEGER, completed TIME, current INTEGER, target INTEGER);";
+            
+            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                printf("Failed to create completedTasks table");
+            } else {
+                
+            }
             
             sqlite3_close(atmaDB);
         } else {
@@ -288,6 +300,8 @@
 //AHMED CODE START
 
 //Database stuff starts here - Ahmed
+
+//Loads a list of all folder names into the folderNames array
 - (void) loadNamesFromDatabase
 {
     const char *dbPath = [databasePath UTF8String];
@@ -312,6 +326,7 @@
     [self.tableView reloadData];
 }
 
+//Saves a given folder name into the folders table.
 - (void)saveNameInDatabase:(NSString *)theName {
 	
     const char *filePath = [databasePath UTF8String];
@@ -333,6 +348,7 @@
     }
 }
 
+//Deletes a given folder from the folders table. Also deletes all tasks in that folder, and all completedTasks from that folder.
 - (void) deleteFolder:(NSString *) theName {
     const char *filePath = [databasePath UTF8String];
     
@@ -360,17 +376,28 @@
 		}
         sqlite3_finalize(statement);
         
+        insertSQL = [NSString stringWithFormat:@"delete from completedtasks where folder = \"%@\";", theName];
+        insert_stmt = [insertSQL UTF8String];
+        
+        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement) == SQLITE_DONE ) {
+			printf("Multiple completedtasks deleted.\n");
+		}
+        sqlite3_finalize(statement);
+        
         sqlite3_close(atmaDB);
     }
 }
 
+//Prepares the database for change. Probably magic.
 - (void)prepareDatabase {
     NSError *err=nil;
     NSFileManager *fm=[NSFileManager defaultManager];
     
     NSArray *arrPaths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, -1);
     NSString *path=[arrPaths objectAtIndex:0];
-    NSString *path2= [path stringByAppendingPathComponent:@"ProductDatabase.sql"];
+    NSString *path2= [path stringByAppendingPathComponent:@"atmadatabase.sql"];
     
     
     if(![fm fileExistsAtPath:path2])
