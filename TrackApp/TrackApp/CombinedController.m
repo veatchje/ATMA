@@ -167,7 +167,7 @@
     }
     
     // Configure the cell...
-    printf("%s!!!", [[self.folderNames objectAtIndex: [indexPath row]] textLabel]);
+    //printf("%s!!!", [[self.folderNames objectAtIndex: [indexPath row]] textLabel]);
     cell.folderName.text = [self.folderNames
                             objectAtIndex: [indexPath row]];
     [cell.folderName setHidden:FALSE];
