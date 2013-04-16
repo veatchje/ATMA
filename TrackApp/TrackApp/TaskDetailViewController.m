@@ -94,7 +94,7 @@
     [self.tableView reloadData];
     //end initialization
     
-    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     resetTasksButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                      target:self
@@ -231,6 +231,13 @@
     return cell;
 }
 
+- (void) updateTaskTable:(NSString *) folder
+{
+    [self loadTaskNamesFromDatabase:folder];
+    //Update the TableView
+    [self.tableView reloadData];
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -294,6 +301,14 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         [names addObject:[NSString stringWithUTF8String:nameCString]];
     }
     return SQLITE_OK;
+}
+
+- (void) newTaskButtonTouched
+{
+    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+    CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
+    [vc setFolderName:folderName];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 //CALL THIS METHOD WHENEVER CHANGING THE SIZE OF THE TABLE
@@ -380,7 +395,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void) editTaskButtonTouched:(NSInteger*) index
 {
-    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    printf("hello?");
+    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
     CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
     [vc setFolderName:folderName];
     
@@ -483,13 +499,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
-        UIViewController *navigationViewController = [self.splitViewController.viewControllers objectAtIndex:0];
-        
-        UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
-        CreateTaskViewController* newTaskViewController = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
-        
-        NSArray *viewControllers = [[NSArray alloc] initWithObjects:navigationViewController, newTaskViewController, nil];
-        self.splitViewController.viewControllers = viewControllers;
+        [self newTaskButtonTouched];
         
     }
 }
@@ -866,6 +876,33 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         
     }
 }
+     //This is used to grab names for export later to graph.
+     - (NSMutableArray *) loadTaskNamesFromDatabase:(NSString *) theFolderName
+    {
+        const char *dbPath = [databasePath UTF8String];
+        sqlite3_stmt *statement;
+        NSMutableArray* names;
+        
+        names = [[NSMutableArray alloc] init];
+        
+        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+        {
+            NSString *querySQL = [NSString stringWithFormat:@"SELECT name from tasks where folder = \"%s\";", [theFolderName UTF8String]];
+            const char *query_stmt = [querySQL UTF8String];
+            
+            if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+            {
+                while (sqlite3_step(statement) == SQLITE_ROW) {
+                    NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                    [names addObject:nameField];
+                }
+                sqlite3_finalize(statement);
+            }
+            sqlite3_close(atmaDB);
+        }
+        return names;
+    }
+
 
 //Database stuff ends here
 //AHMED CODE END

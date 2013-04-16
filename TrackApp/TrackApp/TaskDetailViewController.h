@@ -49,4 +49,6 @@
 @property (nonatomic, strong) NSMutableArray *taskTargets;
 @property (retain, nonatomic) IBOutlet UILabel *status;
 
+-(void) updateTaskTable: (NSString *) folder;
+
 @end

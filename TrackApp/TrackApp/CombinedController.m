@@ -11,6 +11,7 @@
 #import "TaskTableViewController.h"
 #import "CreateTaskViewController.h"
 #import "AppDelegate.h"
+#import "TaskDetailViewController.h"
 
 #define TAG_SETUP 1
 #define TAG_NEWFOLDER 2
@@ -166,6 +167,7 @@
     }
     
     // Configure the cell...
+    printf("%s!!!", [[self.folderNames objectAtIndex: [indexPath row]] textLabel]);
     cell.folderName.text = [self.folderNames
                             objectAtIndex: [indexPath row]];
     [cell.folderName setHidden:FALSE];
@@ -222,13 +224,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     // Navigation logic may go here. Create and push another view controller.
     /*
      <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
      // ...
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+     
+    TaskDetailViewController *detailVC = [self.splitViewController.viewControllers objectAtIndex:1];
+    [detailVC updateTaskTable:[self.folderNames objectAtIndex: [indexPath row]]];*/
 }
 
 /////////////All Pulled From FolderTableViewController.m/////////////
