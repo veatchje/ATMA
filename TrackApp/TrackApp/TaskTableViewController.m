@@ -738,6 +738,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     int enddate = 0;
     unsigned long interval;
     double total = 0;
+    int current = 0;
+    int target = 0;
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
@@ -745,31 +747,61 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         NSDate* today = [NSDate date];
         double today_in_seconds = [today timeIntervalSince1970];
         
-        //Don't have time to finish this right now. Will get down to it. TODO
-        /*NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO completedtasks (name, folder, period, current, target) values (\"%@\", \"%@\", %d, %d, %d)", theName, [self.navigationItem.title UTF8String], thePeriod, theDate, 0, (int)theTarget, a];
+        //Retrieves current.
+//        NSString *querySQL = [NSString stringWithFormat:@"select current from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
+//        const char *query_stmt = [querySQL UTF8String];
+//        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+//        {
+//            sqlite3_step(statement);
+//            NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
+//            current = [priorityRaw intValue];
+//            sqlite3_finalize(statement);
+//        }
+        
+        current = [[self retrieveValue:@"current" FromTask:theName] intValue];
+        
+        //Retrieves target for the given task.
+//        querySQL = [NSString stringWithFormat:@"select target from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
+//        query_stmt = [querySQL UTF8String];
+//        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+//        {
+//            sqlite3_step(statement);
+//            NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
+//            target = [priorityRaw intValue];
+//            sqlite3_finalize(statement);
+//        }
+        
+        target = [[self retrieveValue:@"target" FromTask:theName] intValue];
+        
+        //Inserts the completed tasks into the completedTasks table.
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO completedtasks (name, folder, period, current, target, completed) values (\"%@\", \"%s\", %d, %d, %d, %f)", theName, [self.navigationItem.title UTF8String], thePeriod, current, target, today_in_seconds];
         const char *insert_stmt = [insertSQL UTF8String];
         
 		sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
         
         if(sqlite3_step(statement) == SQLITE_DONE ) {
-			status.text = @"Contact added";
+			status.text = @"Task completed.";
             //printf("Added task.\n");
 		} else {
             //fail state
         }
-		sqlite3_finalize(statement);*/
+		sqlite3_finalize(statement);
 
+        //Retrieves enddate
+//        querySQL = [NSString stringWithFormat:@"select enddate from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
+//        query_stmt = [querySQL UTF8String];
+//        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+//        {
+//            sqlite3_step(statement);
+//            NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
+//            enddate = [priorityRaw intValue];
+//            sqlite3_finalize(statement);
+//        }
         
-        NSString *querySQL = [NSString stringWithFormat:@"select enddate from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            sqlite3_step(statement);
-            NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
-            enddate = [priorityRaw intValue];
-            sqlite3_finalize(statement);
-        }
+        enddate = [[self retrieveValue:@"enddate" FromTask:theName] intValue];
         
+        
+        //Correctly increments time using current date and period.
         if (thePeriod < 0)
         {
             thePeriod += (-1);
@@ -798,10 +830,11 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
             }
         }
         
-        querySQL = [NSString stringWithFormat:@"update tasks set enddate = %f where name = \"%s\" and folder = \"%s\";", total, [theName UTF8String], [self.navigationItem.title UTF8String]];
-        query_stmt = [querySQL UTF8String];
         
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        insertSQL = [NSString stringWithFormat:@"update tasks set enddate = %f where name = \"%s\" and folder = \"%s\";", total, [theName UTF8String], [self.navigationItem.title UTF8String]];
+        insert_stmt = [insertSQL UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, insert_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             if (sqlite3_step(statement) == SQLITE_DONE) {
                 printf("Time period reset was successful for task %s with period %d.", [theName UTF8String], thePeriod);
@@ -826,15 +859,17 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         int priority = 0;
         if (![theSecondName isEqualToString:@""]) {
             
-            querySQL = [NSString stringWithFormat:@"select priority from tasks where name = \"%s\" and folder = \"%s\";", [theSecondName UTF8String], [self.navigationItem.title UTF8String]];
-            query_stmt = [querySQL UTF8String];
-            if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-            {
-                sqlite3_step(statement);
-                NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
-                priority = [priorityRaw intValue];
-                sqlite3_finalize(statement);
-            }
+//            querySQL = [NSString stringWithFormat:@"select priority from tasks where name = \"%s\" and folder = \"%s\";", [theSecondName UTF8String], [self.navigationItem.title UTF8String]];
+//            query_stmt = [querySQL UTF8String];
+//            if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+//            {
+//                sqlite3_step(statement);
+//                NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
+//                priority = [priorityRaw intValue];
+//                sqlite3_finalize(statement);
+//            }
+            
+            priority = [[self retrieveValue:@"priority" FromTask:theSecondName] intValue];
         } else {
             querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [self.navigationItem.title UTF8String]];
             query_stmt = [querySQL UTF8String];
@@ -892,6 +927,28 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
             NSLog(@"file not copied");
         
     }
+}
+
+- (NSString*) retrieveValue:(NSString*) theValue FromTask:(NSString*) theName
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    [self prepareDatabase];
+    NSString* toReturn = @"";
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"select %s from tasks where name = \"%s\" and folder = \"%s\";", [theValue UTF8String], [theName UTF8String], [self.navigationItem.title UTF8String]];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            sqlite3_step(statement);
+            toReturn = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+    return toReturn;
 }
 
 //Database stuff ends here
