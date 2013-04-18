@@ -6,11 +6,34 @@
 //  Copyright (c) 2013 ATMA. All rights reserved.
 //
 
+//Brian's code start
+
 #import "FileIoAppDelegate.h"
 
 @implementation FileIoAppDelegate
 
+// A constructor for ease of use.
+- (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email
+{
+    return [[FileIoAppDelegate alloc] initWithFolderName: folderName Email: email];
+}
 
+- (FileIoAppDelegate *) initWithFolderName:(NSString *) folderName Email:(NSString *) email
+{
+    self = [super init];
+    
+    if (self)
+    {
+        [self setFolder: folderName];
+        [self setEmail: email];
+    }
+    
+    return self;
+}
+
+// Static methods start
+
+// Ahmed's code start
 - (NSMutableArray *) loadTaskNamesFromDatabase:(NSString *) theFolderName
 {
     const char *dbPath = [databasePath UTF8String];
@@ -66,6 +89,7 @@
     }
     return allRows;
 }
+// Ahmed's code end
 
 - (NSString*) stringFromDatabase:(NSString *) theFolderName
 {
@@ -115,4 +139,30 @@
     return fileAtPath;
 }
 
+- (void) collectAndSendDataToEmail:(NSString *) email FromFolder:(NSString *) folder
+{
+    NSString* fileAtPath = [self writeFolderToFile:folder];
+    // TODO: get email sending function
+    //sendEmail(email, fileAtPath)
+}
+
+// End static methods
+
+- (void) setFolder:(NSString *) folder
+{
+    folderToCollectFrom = folder;
+}
+
+- (void) setEmail:(NSString *) email
+{
+    emailToSendTo = email;
+}
+
+- (void) collectAndSendData
+{
+    [self collectAndSendDataToEmail:emailToSendTo FromFolder:folderToCollectFrom];
+}
+
 @end
+
+//Brian's code end

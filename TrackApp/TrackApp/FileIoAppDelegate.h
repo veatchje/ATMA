@@ -6,12 +6,22 @@
 //  Copyright (c) 2013 ATMA. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+//Brian's code start
+
+#import <Foundation/Foundation.h>
 #import <sqlite3.h>
 
 @interface FileIoAppDelegate : NSObject <UIApplicationDelegate> {
     NSString *databasePath;
     sqlite3 *atmaDB;
+    
+    NSString *folderToCollectFrom;
+    NSString *emailToSendTo;
 }
 
+- (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email;
+- (void) collectAndSendData;
+
 @end
+
+//Brian's code end
