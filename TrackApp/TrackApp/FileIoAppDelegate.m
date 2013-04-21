@@ -93,7 +93,7 @@
 
 - (NSString*) stringFromDatabase:(NSString *) theFolderName
 {
-    NSMutableString* result = @"";
+    NSMutableString* result = [[NSMutableString alloc] init];
     
     NSString* fileHead = [NSString stringWithFormat:@"Folder Name:%@\n", theFolderName];
     [result appendString:fileHead];
