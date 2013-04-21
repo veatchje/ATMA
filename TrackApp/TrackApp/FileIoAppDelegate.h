@@ -19,8 +19,12 @@
     NSString *emailToSendTo;
 }
 
-- (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email;
++ (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email;
 - (void) collectAndSendData;
+
+// For testing
+- (NSString *) stringFromDatabase:(NSString *) theFolderName;
+- (NSString *) writeFolderToFile:(NSString *) theFolderName;
 
 @end
 

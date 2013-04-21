@@ -13,7 +13,7 @@
 @implementation FileIoAppDelegate
 
 // A constructor for ease of use.
-- (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email
++ (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email
 {
     return [[FileIoAppDelegate alloc] initWithFolderName: folderName Email: email];
 }
@@ -132,9 +132,9 @@
     NSString* data = [self stringFromDatabase:theFolderName];
     NSError *error = nil;
     [data writeToFile:fileAtPath
-            atomically:YES
-            encoding:NSUTF8StringEncoding
-            error:&error];
+           atomically:YES
+             encoding:NSUTF8StringEncoding
+                error:&error];
     
     return fileAtPath;
 }
