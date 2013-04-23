@@ -21,7 +21,11 @@
 - (FileIoAppDelegate *) initWithFolderName:(NSString *) folderName Email:(NSString *) email
 {
     self = [super init];
-    
+    NSString *docsDir;
+    NSArray *dirPaths;
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
     if (self)
     {
         [self setFolder: folderName];
@@ -36,6 +40,7 @@
 // Ahmed's code start
 - (NSMutableArray *) loadTaskNamesFromDatabase:(NSString *) theFolderName
 {
+    printf("In loadTaskNamesFromDatabase\n");
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
     NSMutableArray* names;
@@ -46,14 +51,18 @@
     {
         NSString *querySQL = [NSString stringWithFormat:@"SELECT name from tasks where folder = \"%s\";", [theFolderName UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
-        
+        printf("DB is open\n");
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
+            printf("Statement prepared\n");
             while (sqlite3_step(statement) == SQLITE_ROW) {
+                printf("Statement correct\n");
                 NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                 [names addObject:nameField];
             }
             sqlite3_finalize(statement);
+        } else {
+            printf("%d\n", sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL));
         }
         sqlite3_close(atmaDB);
     }

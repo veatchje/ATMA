@@ -19,6 +19,9 @@
     NSString *emailToSendTo;
 }
 
+#define DATABASE_NAME @"atmadatabase.db"
+#define DATABASE_TITLE @"atmadatabase"
+
 + (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email;
 - (void) collectAndSendData;
 
