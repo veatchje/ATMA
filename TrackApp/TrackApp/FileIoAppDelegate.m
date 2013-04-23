@@ -106,6 +106,7 @@
     for(NSString* name in names) {
         NSArray* rows = [self loadCompletedTasksFromDatabase:name FromFolder:theFolderName];
         headString = [NSString stringWithFormat:@"Task Name:%@\nCurrent Progress,Target Goal,Completed Date\n", name];
+        //NSLog(headString);
         [result appendString:headString];
         for(NSArray* row in rows) {
             rowText = [NSString stringWithFormat:@"%@,%@,%@\n", row[0], row[1], row[2]];
