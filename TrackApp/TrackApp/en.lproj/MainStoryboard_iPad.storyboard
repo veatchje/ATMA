@@ -219,8 +219,9 @@
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5/10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAa-gt-fgH">
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="73" id="LGg-a0-BKn"/>
+                                                <constraint firstAttribute="height" constant="18" id="x7f-1J-YEZ"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
@@ -264,6 +265,7 @@
                                 <constraints>
                                     <constraint firstItem="8di-lu-vqD" firstAttribute="top" secondItem="KHX-4r-9if" secondAttribute="bottom" constant="8" symbolic="YES" type="user" id="26U-5r-743"/>
                                     <constraint firstItem="U73-vl-ogV" firstAttribute="centerY" secondItem="npy-0a-uvg" secondAttribute="centerY" type="default" id="7eV-ni-Odb"/>
+                                    <constraint firstAttribute="bottom" secondItem="cAa-gt-fgH" secondAttribute="bottom" constant="1" id="7fH-8q-h7u"/>
                                     <constraint firstItem="npy-0a-uvg" firstAttribute="leading" secondItem="8di-lu-vqD" secondAttribute="trailing" constant="8" symbolic="YES" type="user" id="FSL-vy-saL"/>
                                     <constraint firstItem="8di-lu-vqD" firstAttribute="leading" secondItem="Gb4-pM-GEN" secondAttribute="leading" constant="20" type="user" id="G2g-l3-OTP"/>
                                     <constraint firstItem="AWd-6N-d2x" firstAttribute="baseline" secondItem="KHX-4r-9if" secondAttribute="baseline" type="user" id="Iv8-Vd-Z9g"/>
@@ -271,7 +273,6 @@
                                     <constraint firstItem="KHX-4r-9if" firstAttribute="leading" secondItem="Gb4-pM-GEN" secondAttribute="leading" constant="20" type="user" id="LFs-0V-xHz"/>
                                     <constraint firstItem="npy-0a-uvg" firstAttribute="leading" secondItem="AWd-6N-d2x" secondAttribute="trailing" constant="8" symbolic="YES" type="user" id="SXa-gZ-Foh"/>
                                     <constraint firstItem="AWd-6N-d2x" firstAttribute="top" secondItem="npy-0a-uvg" secondAttribute="top" type="user" id="bf8-ib-vZj"/>
-                                    <constraint firstAttribute="bottom" secondItem="cAa-gt-fgH" secondAttribute="bottom" constant="3" id="hF9-7V-6XJ"/>
                                     <constraint firstItem="cAa-gt-fgH" firstAttribute="centerX" secondItem="Gb4-pM-GEN" secondAttribute="centerX" type="default" id="hq9-P0-wF3"/>
                                     <constraint firstItem="AWd-6N-d2x" firstAttribute="top" secondItem="KHX-4r-9if" secondAttribute="top" type="user" id="y4d-CM-HzK"/>
                                     <constraint firstItem="npy-0a-uvg" firstAttribute="leading" secondItem="U73-vl-ogV" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="zK7-xN-qxm"/>
@@ -674,9 +675,6 @@ are trying to delete, then on the delete button.</string>
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

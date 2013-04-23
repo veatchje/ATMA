@@ -121,6 +121,8 @@
     setupButton = [[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStylePlain
                                                   target:self
                                                   action:@selector(setupAlert)];
+    
+    self.navigationItem.leftBarButtonItem = setupButton;
 }
 
 - (void)newTaskButtonTouched

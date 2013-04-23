@@ -99,6 +99,7 @@
     resetTasksButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                      target:self
                                                                      action:@selector(resetTasksButtonTouched)];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -110,24 +111,15 @@
 - (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
 {
     barButtonItem.title = @"Folders";
-    NSMutableArray *items = [[self.toolbar items] mutableCopy];
-    [items removeAllObjects];
-    [items insertObject:barButtonItem atIndex:0];
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    [items insertObject:flexibleSpace atIndex:1];
-    [items insertObject:resetTasksButton atIndex:2];
-    [items insertObject:self.editButtonItem atIndex:3];
-
-    [self.toolbar setItems:items animated:YES];
+    self.navigationItem.leftBarButtonItem = barButtonItem;
     
     masterPopoverController = pc;
 }
 
 - (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
-    NSMutableArray *items = [[self.toolbar items] mutableCopy];
-    [items removeObject:barButtonItem];
-    [self.toolbar setItems:items animated:YES];
+    
+    self.navigationItem.leftBarButtonItem = nil;
     
     masterPopoverController = nil;
 }
