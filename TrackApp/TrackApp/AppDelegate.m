@@ -37,10 +37,7 @@
         self.splitViewController.viewControllers = [NSArray arrayWithObjects:navigationViewController, detailNavigationController, nil];
         self.window.rootViewController = self.splitViewController;
         [self.window makeKeyAndVisible];
-    }
-    
-    
-    
+    }   
     
     return YES;
 }

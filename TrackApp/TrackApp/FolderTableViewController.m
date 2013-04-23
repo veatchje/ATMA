@@ -11,6 +11,7 @@
 #import "FolderTableViewController.h"
 #import "FolderTableViewCell.h"
 #import "TaskTableViewController.h"
+#import "HelpDocController.h"
 
 #define TAG_SETUP 1
 #define TAG_NEWFOLDER 2
@@ -55,8 +56,12 @@
             [settingsAlert show];
         }
         else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Help"]){
-            UIAlertView *helpAlert = [[UIAlertView alloc] initWithTitle:@"Help" message:@"This is the folder screen.  Its used to organize your tasks.  Touch a folder to see its tasks.  To add, reorder, or delete your folders or tasks, press the edit button on the top right of either screen." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [helpAlert show];
+            //UIAlertView *helpAlert = [[UIAlertView alloc] initWithTitle:@"Help" message:@"This is the folder screen.  Its used to organize your tasks.  Touch a folder to see its tasks.  To add, reorder, or delete your folders or tasks, press the edit button on the top right of either screen." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            //[helpAlert show];
+            
+            UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+            HelpDocController* vc = [sb instantiateViewControllerWithIdentifier:@"HelpDocController"];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
 }

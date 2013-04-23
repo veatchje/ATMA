@@ -12,6 +12,7 @@
 #import "CreateTaskViewController.h"
 #import "AppDelegate.h"
 #import "TaskDetailViewController.h"
+#import "HelpDocController.h"
 
 #define TAG_SETUP 1
 #define TAG_NEWFOLDER 2
@@ -123,11 +124,12 @@
                                                   action:@selector(setupAlert)];
     
     self.navigationItem.leftBarButtonItem = setupButton;
+    
+    
 }
 
 - (void)newTaskButtonTouched
 {
-    printf("fdsa");
     UIViewController *navigationViewController = [self.splitViewController.viewControllers objectAtIndex:0];
     CreateTaskViewController *newTaskViewController = [[CreateTaskViewController alloc] initWithNibName:@"CreateTaskViewController" bundle:nil];
     NSArray *viewControllers = [[NSArray alloc] initWithObjects:navigationViewController, newTaskViewController, nil];
@@ -282,8 +284,12 @@
             [settingsAlert show];
         }
         else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Help"]){
-            UIAlertView *helpAlert = [[UIAlertView alloc] initWithTitle:@"Help" message:@"This is the folder screen.  Its used to organize your tasks.  Touch a folder to see its tasks.  To add, reorder, or delete your folders or tasks, press the edit button on the top right of either screen." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [helpAlert show];
+            //UIAlertView *helpAlert = [[UIAlertView alloc] initWithTitle:@"Help" message:@"This is the folder screen.  Its used to organize your tasks.  Touch a folder to see its tasks.  To add, reorder, or delete your folders or tasks, press the edit button on the top right of either screen." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            //[helpAlert show];
+            
+            UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+            HelpDocController* vc = [sb instantiateViewControllerWithIdentifier:@"HelpDocController"];
+            [self.splitViewController.viewControllers[1] pushViewController:vc animated:YES];
         }
     }
 }
