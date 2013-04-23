@@ -18,20 +18,28 @@
 @synthesize window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    self.splitViewController = (UISplitViewController *) self.window.rootViewController;
-    self.splitViewController.delegate = [self.splitViewController.viewControllers lastObject];
     
-    UIViewController *navigationViewController = [self.splitViewController.viewControllers objectAtIndex:0];
+    NSString *deviceType = [UIDevice currentDevice].model;
     
-    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
-    TaskDetailViewController* taskDetailViewController = [sb instantiateViewControllerWithIdentifier:@"TaskTableViewController"];
+    if([deviceType isEqualToString:@"iPad"] || [deviceType isEqualToString:@"iPad Simulator"])
+    {
+        self.splitViewController = (UISplitViewController *) self.window.rootViewController;
+        self.splitViewController.delegate = [self.splitViewController.viewControllers lastObject];
+        
+        UIViewController *navigationViewController = [self.splitViewController.viewControllers objectAtIndex:0];
+        
+        UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+        TaskDetailViewController* taskDetailViewController = [sb instantiateViewControllerWithIdentifier:@"TaskTableViewController"];
+        
+        UINavigationController *detailNavigationController = [[UINavigationController alloc]initWithRootViewController:taskDetailViewController];
+        
+        self.splitViewController.delegate = taskDetailViewController;
+        self.splitViewController.viewControllers = [NSArray arrayWithObjects:navigationViewController, detailNavigationController, nil];
+        self.window.rootViewController = self.splitViewController;
+        [self.window makeKeyAndVisible];
+    }
     
-    UINavigationController *detailNavigationController = [[UINavigationController alloc]initWithRootViewController:taskDetailViewController];
     
-    self.splitViewController.delegate = taskDetailViewController;
-    self.splitViewController.viewControllers = [NSArray arrayWithObjects:navigationViewController, detailNavigationController, nil];
-    self.window.rootViewController = self.splitViewController;
-    [self.window makeKeyAndVisible];
     
     
     return YES;
