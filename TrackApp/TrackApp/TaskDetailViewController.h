@@ -25,6 +25,8 @@
     UIAlertView *taskAlertView;
     NSInteger *plusButtonIndex;
     NSInteger *cellIndex;
+    
+    UIBarButtonItem* folderButton;
 }
 
 

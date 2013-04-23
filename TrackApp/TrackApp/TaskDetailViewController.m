@@ -99,6 +99,7 @@
     resetTasksButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                      target:self
                                                                      action:@selector(resetTasksButtonTouched)];
+    self.navigationItem.leftBarButtonItem = folderButton;
 
 }
 
@@ -111,7 +112,9 @@
 - (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
 {
     barButtonItem.title = @"Folders";
-    self.navigationItem.leftBarButtonItem = barButtonItem;
+    folderButton = barButtonItem;
+    self.navigationItem.leftBarButtonItem = folderButton;
+    
     
     masterPopoverController = pc;
 }
@@ -387,7 +390,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void) editTaskButtonTouched:(NSInteger*) index
 {
-    printf("hello?");
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
     CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
     [vc setFolderName:folderName];
@@ -559,7 +561,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         [self.tableView reloadData];
     }
     else{
-        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem = folderButton;
         int count =visibleBools.count;
         [visibleBools removeAllObjects];
         for(int i = 0;i<count-1;i++){

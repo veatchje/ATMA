@@ -128,6 +128,7 @@
     
 }
 
+
 - (void)newTaskButtonTouched
 {
     UIViewController *navigationViewController = [self.splitViewController.viewControllers objectAtIndex:0];
@@ -229,15 +230,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
+    
      
     TaskDetailViewController *detailVC = [self.splitViewController.viewControllers objectAtIndex:1];
-    [detailVC updateTaskTable:[self.folderNames objectAtIndex: [indexPath row]]];*/
+    [detailVC updateTaskTable:[self.folderNames objectAtIndex: [indexPath row]]];
 }
 
 /////////////All Pulled From FolderTableViewController.m/////////////
