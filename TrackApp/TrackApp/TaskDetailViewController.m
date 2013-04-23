@@ -228,9 +228,7 @@
 
 - (void) updateTaskTable:(NSString *) folder
 {
-    [self loadTaskNamesFromDatabase:folder];
-    //Update the TableView
-    [self.tableView reloadData];
+    [self viewDidLoad];
 }
 
 /*

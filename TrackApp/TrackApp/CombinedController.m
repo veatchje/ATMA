@@ -125,6 +125,9 @@
     
     self.navigationItem.leftBarButtonItem = setupButton;
     
+    NSIndexPath* path = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView selectRowAtIndexPath:path animated:YES scrollPosition:UITableViewScrollPositionNone];
+    [self tableView:self.tableView didSelectRowAtIndexPath:path];
     
 }
 
@@ -229,10 +232,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UINavigationController *navDetailVC = [self.splitViewController.viewControllers objectAtIndex:1];
+    TaskDetailViewController *detailVC = navDetailVC.visibleViewController;
     
-    
-     
-    TaskDetailViewController *detailVC = [self.splitViewController.viewControllers objectAtIndex:1];
+    detailVC.navigationItem.title = [self.folderNames objectAtIndex: [indexPath row]];
     [detailVC updateTaskTable:[self.folderNames objectAtIndex: [indexPath row]]];
 }
 
