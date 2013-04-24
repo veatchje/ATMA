@@ -66,11 +66,18 @@
             selectedRecur = 7;
             break;
         case 2:
-            //Need to fix datePicker here
-            //            int day = [datePicker selectedRowInComponent:0];
-            //            period = day*(-1);
-            selectedRecur = 30;
-            break;
+            
+            if ([datePicker selectedRowInComponent:0]>=[datePicker numberOfRowsInComponent:0]-1) {
+                printf("\ntest ");
+                printf("%i",[datePicker selectedRowInComponent:0]);
+                selectedRecur=-40;
+                break;
+            }
+            else{
+                selectedRecur=-1*[datePicker selectedRowInComponent:0];
+                break;
+            }
+          
         case 3:
             [recurAlert show];
             break;
@@ -346,8 +353,9 @@
         [datePicker selectRow:month-1 inComponent:1 animated:FALSE];
         [datePicker selectRow:row inComponent:2 animated:FALSE];
         
+        
     }
-    
+    [self setRecur:recurrence];
     
     
 }
@@ -391,10 +399,18 @@
             return 7;
             break;
         case 2:
-            //Need to fix datePicker here
-            //            int day = [datePicker selectedRowInComponent:0];
-            //            period = day*(-1);
-            return 30;
+            
+            if ([datePicker selectedRowInComponent:0]>=[datePicker numberOfRowsInComponent:0]-1) {
+                printf("\ntest ");
+                printf("%i",[datePicker selectedRowInComponent:0]);
+                return -40;
+                break;
+            }
+            else{
+                return -1*[datePicker selectedRowInComponent:0];
+                break;
+            }
+            
             break;
         case 3:
             //custom

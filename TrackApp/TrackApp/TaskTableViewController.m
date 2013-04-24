@@ -802,7 +802,19 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         
         
         //Correctly increments time using current date and period.
-        if (thePeriod < 0)
+        if (thePeriod==-40){
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            NSDate *nextPeriod=[NSDate date];
+            NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit  | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:today];
+            [dateComponents setMonth:[dateComponents month]+1];
+            nextPeriod = [calendar dateFromComponents:dateComponents];
+            int daysInNextMonth = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:nextPeriod].length;
+            [dateComponents setDay:daysInNextMonth];
+            nextPeriod = [calendar dateFromComponents:dateComponents];
+            total = [nextPeriod timeIntervalSince1970];
+            
+        }
+        else if (thePeriod < 0)
         {
             thePeriod += (-1);
             //TODO: Do some date checking here
@@ -818,7 +830,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
             [dateComponents setDay:thePeriod];
             nextPeriod = [calendar dateFromComponents:dateComponents];
             total = [nextPeriod timeIntervalSince1970];
-            
             //printf("%f today1\n ",[today timeIntervalSince1970]);
            
         } else {
