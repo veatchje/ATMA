@@ -76,6 +76,7 @@
     NSMutableArray* allRows;
     NSArray* row;
     
+    allRows = [[NSMutableArray alloc] init];
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {

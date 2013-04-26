@@ -416,6 +416,56 @@
         
     }
 }
+
+- (void) executeSQL:(NSString*) theStatement
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    [self prepareDatabase];
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        const char *query_stmt = [theStatement UTF8String];
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            sqlite3_step(statement);
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+}
+
+- (NSMutableArray *) executeSQL:(NSString*) theStatement ReturningRows:(int)numRows
+{
+    const char *dbPath = [databasePath UTF8String];
+    sqlite3_stmt *statement;
+    NSMutableArray* allRows;
+    NSArray* row;
+    NSString* stringArray[numRows];
+    
+    allRows = [[NSMutableArray alloc] init];
+    
+    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    {
+        const char *query_stmt = [theStatement UTF8String];
+        
+        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                for (int i  = 0; i < numRows; i++)
+                {
+                    stringArray[i] = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, i)];
+                }
+                
+                row = [NSArray arrayWithObjects:stringArray count:numRows];
+                [allRows addObject:row];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(atmaDB);
+    }
+    return allRows;
+}
  
 //Database stuff ends here
 
