@@ -11,7 +11,7 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 
-@interface FileIoAppDelegate : NSObject <UIApplicationDelegate> {
+@interface FileIoAppDelegate : NSObject <UIApplicationDelegate> { //UIViewController <MFMailComposeViewControllerDelegate> {
     NSString *databasePath;
     sqlite3 *atmaDB;
     
@@ -24,6 +24,8 @@
 
 + (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email;
 - (void) collectAndSendData;
+- (void) setFolder:(NSString *) folder;
+- (void) setEmail:(NSString *) email;
 
 // For testing
 - (NSString *) stringFromDatabase:(NSString *) theFolderName;

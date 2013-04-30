@@ -84,7 +84,7 @@
         const char *query_stmt = [querySQL UTF8String];
         
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
+        {   // TODO: The code doesn't reach inside this if statement. Fix that plz.
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 NSString *currentField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                 NSString *targetField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
@@ -150,14 +150,26 @@
     return fileAtPath;
 }
 
-- (void) collectAndSendDataToEmail:(NSString *) email FromFolder:(NSString *) folder
+// Email functions
+- (Boolean) sendFile:(NSString *) file ToEmail:(NSString *) email
 {
-    NSString* fileAtPath = [self writeFolderToFile:folder];
-    // TODO: get email sending function
-    //sendEmail(email, fileAtPath)
+    // TODO: everything...
+    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    picker.mailComposeDelegate = self;
+    [picker setSubject:@"Check out this image!"];
+    
+    return false;
 }
 
-// End static methods
+// Top level function
+- (void) collectAndSendDataFromFolder:(NSString *) folder ToEmail:(NSString *) email
+{
+    NSString* fileAtPath = [self writeFolderToFile:folder];
+    Boolean success = [self sendFile:fileAtPath ToEmail:email];
+    if (!success) printf("Unable to send file!\n");
+}
+
+// Start puplic methods
 
 - (void) setFolder:(NSString *) folder
 {
@@ -171,7 +183,7 @@
 
 - (void) collectAndSendData
 {
-    [self collectAndSendDataToEmail:emailToSendTo FromFolder:folderToCollectFrom];
+    [self collectAndSendDataFromFolder:folderToCollectFrom ToEmail:emailToSendTo];
 }
 
 @end
