@@ -388,6 +388,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void) editTaskButtonTouched:(NSInteger*) index
 {
+    
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
     CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
     [vc setFolderName:folderName];
@@ -395,7 +396,8 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [self.navigationController pushViewController:vc animated:YES];
     [vc setTitle:@"Edit Task"];
     [vc setEditingTask:TRUE];
-    [vc populateFields:[taskNames objectAtIndex:index] WithUnits:[_taskUnits objectAtIndex:index] WithGoal:[_taskTargets objectAtIndex:index] WithRecurrance:[_taskPeriods  objectAtIndex:index] EndingOn:[_taskEndDates  objectAtIndex:index]];
+    //Needs to be fixed BUG
+    [vc populateFields:[taskNames objectAtIndex:index] WithUnits:[_taskUnits objectAtIndex:index] WithGoal:[_taskTargets objectAtIndex:index] WithRecurrance:[_taskPeriods  objectAtIndex:index] EndingOn:[[NSDate date] timeIntervalSince1970]];
     //[vc populateFields:folderName];
 }
 
@@ -918,7 +920,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
      }else{*/
     NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
     //[myFormatter stringFromDate:Cdate]
-    [myFormatter setDateFormat:@"MMM dd"];
+    [myFormatter setDateFormat:@"MM/dd"];
     return [myFormatter stringFromDate:date];
     // }
     

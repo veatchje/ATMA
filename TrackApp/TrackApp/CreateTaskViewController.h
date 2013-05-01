@@ -50,7 +50,7 @@
 //@property (nonatomic, retain) UITextField *taskName;
 //Ahmed's code ends here
 - (void)setFolderName: (NSString*) name;
-- (void)populateFields: (NSString*) currentTaskName WithUnits:(NSString*) currentUnits WithGoal:(NSString*) currentGoal WithRecurrance:(int) currentDays EndingOn:(NSString*)currentEnd;
+- (void)populateFields: (NSString*) currentTaskName WithUnits:(NSString*) currentUnits WithGoal:(NSString*) currentGoal WithRecurrance:(int) currentDays EndingOn:(double)currentEnd;
 - (IBAction)cancel;
 - (IBAction)save;
 

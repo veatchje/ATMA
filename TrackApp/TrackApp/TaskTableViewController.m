@@ -200,6 +200,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 
 - (void) editTaskButtonTouched:(NSInteger*) index
 {
+    NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority ASC;", [self.navigationItem.title UTF8String]];
+    NSMutableArray* rows = [self executeSQL:querySQL ReturningRows:6];
+    
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
     CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
     [vc setFolderName:folderName];
@@ -207,7 +210,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [self.navigationController pushViewController:vc animated:YES];
     [vc setTitle:@"Edit Task"];
     [vc setEditingTask:TRUE];
-    [vc populateFields:[taskNames objectAtIndex:index] WithUnits:[_taskUnits objectAtIndex:index] WithGoal:[_taskTargets objectAtIndex:index] WithRecurrance:[_taskPeriods  objectAtIndex:index] EndingOn:[_taskEndDates  objectAtIndex:index]];
+    [vc populateFields:[taskNames objectAtIndex:index] WithUnits:[_taskUnits objectAtIndex:index] WithGoal:[_taskTargets objectAtIndex:index] WithRecurrance:[_taskPeriods  objectAtIndex:index] EndingOn:[[[rows objectAtIndex:index] objectAtIndex:3] integerValue]];
     //[vc populateFields:folderName];
 }
 
@@ -1019,7 +1022,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }else{*/
         NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
         //[myFormatter stringFromDate:Cdate]
-        [myFormatter setDateFormat:@"MMM dd"];
+        [myFormatter setDateFormat:@"MM/dd"];
         return [myFormatter stringFromDate:date];
    // }
     

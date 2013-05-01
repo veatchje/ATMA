@@ -221,7 +221,7 @@
     editingTask = editing;
 }
 
-- (void)populateFields:(NSString*) currentTaskName WithUnits:(NSString*) currentUnits WithGoal:(NSString*) currentGoal WithRecurrance:(int) currentDays EndingOn:(NSString*)currentEnd
+- (void)populateFields:(NSString*) currentTaskName WithUnits:(NSString*) currentUnits WithGoal:(NSString*) currentGoal WithRecurrance:(int) currentDays EndingOn:(double)currentEnd
 {
     printf("Populating fields: %s\n",[currentTaskName UTF8String]);
     origTaskName = currentTaskName;
@@ -229,6 +229,7 @@
     taskName.text = currentTaskName;
     unitName.text = currentUnits;
     goalNumber.text = currentGoal;
+    [self setCdate:currentEnd];
 //    switch (currentDays) {
 //        case 7:
 //            //daily
