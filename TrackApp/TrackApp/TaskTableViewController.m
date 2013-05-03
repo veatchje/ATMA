@@ -187,7 +187,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     
     //printf("New Period Data: %s.\n", [[_taskPeriods objectAtIndex:index] UTF8String]);
     //TODO
-    int period = [[_taskPeriods objectAtIndex:index] integerValue];
+    int period = [[self.taskPeriods objectAtIndex:index] integerValue];
     
     [self resetTaskWithName:selectedTaskName];
     //printf("About to reset time period with value %s.\n", [_taskPeriods objectAtIndex:index]);
@@ -501,6 +501,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         [self.taskNames addObject:[[rows objectAtIndex:i] objectAtIndex:0]];
         [self.taskUnits addObject:[[rows objectAtIndex:i] objectAtIndex:1]];
         [self.taskPeriods addObject:[[rows objectAtIndex:i] objectAtIndex:2]];
+        printf("Period: %d\n", [[[rows objectAtIndex:i] objectAtIndex:2] integerValue]);
         [self.taskEndDates addObject:[self DayFormat:[[[rows objectAtIndex:i] objectAtIndex:3] integerValue]]];
         [self.taskCurrents addObject:[[rows objectAtIndex:i] objectAtIndex:4]];
         [self.taskTargets addObject:[[rows objectAtIndex:i] objectAtIndex:5]];
@@ -730,9 +731,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     else if (thePeriod < 0)
     {
-        thePeriod += (-1);
-        //TODO: Do some date checking here
+        thePeriod *= (-1);
         //basically, take the min of the period and the number of days next month, then set thePeriod to be the number of days difference between the two.
+        //TODO: Fix the calendar code so that it works for the onth after the enddate, not the current date.
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDate *nextPeriod=[NSDate date];
         NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit  | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:today];
@@ -748,6 +749,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         
     } else {
         interval = thePeriod*24*3600;
+        printf("%ld\n", interval);
         total = enddate + interval;
         while (total < today_in_seconds)
         {
@@ -851,6 +853,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     } else {
         querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [self.navigationItem.title UTF8String]];
         priority = [[[[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0] objectAtIndex:0] integerValue];
+        priority++;
     }
     querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= %d and folder = \"%s\";", priority, [self.navigationItem.title UTF8String]];
     [self executeSQL:querySQL];

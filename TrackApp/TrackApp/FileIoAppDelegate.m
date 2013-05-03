@@ -154,10 +154,10 @@
 - (Boolean) sendFile:(NSString *) file ToEmail:(NSString *) email
 {
     // TODO: everything...
-    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    /*MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     picker.mailComposeDelegate = self;
     [picker setSubject:@"Check out this image!"];
-    
+    /*/
     return false;
 }
 

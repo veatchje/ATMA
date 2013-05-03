@@ -44,6 +44,7 @@
         if ([self checkUniquenessForTaskInDatabaseWithName:taskName.text withFolder:folderName])
         {
 //            [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:[self calculatePeriod] withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
+            //[self setRecur:recurrence];
             [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:selectedRecur withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
             
             NSString *deviceType = [UIDevice currentDevice].model;
@@ -75,6 +76,7 @@
             }
             else{
                 selectedRecur=-1*[datePicker selectedRowInComponent:0];
+                selectedRecur--;
                 break;
             }
           
@@ -209,7 +211,7 @@
     
      //[filemgr release];
      //The DB stuff ends here
-    
+    selectedRecur = 1;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
@@ -392,6 +394,7 @@
 
 - (int) calculatePeriod{
     int period = [recurrence selectedSegmentIndex];
+    printf("In calculatePeriod with period: %d\n", period);
     switch (period) {
         case 0:
             return 1;
