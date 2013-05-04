@@ -38,6 +38,7 @@
     NSString* origTaskName;
     NSString* folderName;
     int taskPriority;
+    int progress;
     
 }
 

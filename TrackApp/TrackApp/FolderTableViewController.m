@@ -311,25 +311,6 @@
 {
     NSString *querySQL = [NSString stringWithFormat:@"SELECT name from folders;"];
     [self.folderNames addObjectsFromArray:[self executeSQL:querySQL ReturningRows:1]];
-    
-//    const char *dbPath = [databasePath UTF8String];
-//    sqlite3_stmt *statement;
-//    
-//    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-//    {
-//        NSString *querySQL = [NSString stringWithFormat:@"SELECT name from folders;"];
-//        const char *query_stmt = [querySQL UTF8String];
-//        
-//        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-//        {
-//            while (sqlite3_step(statement) == SQLITE_ROW) {
-//                NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-//                [self.folderNames addObject:nameField];
-//            }
-//            sqlite3_finalize(statement);
-//        }
-//        sqlite3_close(atmaDB);
-//    }
     [self insertAddRowIntoArray];
     [self.tableView reloadData];
 }
@@ -338,24 +319,6 @@
 - (void)saveNameInDatabase:(NSString *)theName {
     NSString *insertSQL = [NSString stringWithFormat:@"insert into folders values(\"%@\");", theName];
     [self executeSQL:insertSQL];
-    
-//    const char *filePath = [databasePath UTF8String];
-//    
-//    sqlite3_stmt *statement;
-//	[self prepareDatabase];
-//	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
-//    {
-//        NSString *insertSQL = [NSString stringWithFormat:@"insert into folders values(\"%@\");", theName];
-//        const char *insert_stmt = [insertSQL UTF8String];
-//        
-//        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-//        
-//        if(sqlite3_step(statement) == SQLITE_DONE ) {
-//			printf("Folder added\n");
-//		}
-//        sqlite3_finalize(statement);
-//        sqlite3_close(atmaDB);
-//    }
 }
 
 //Deletes a given folder from the folders table. Also deletes all tasks in that folder, and all completedTasks from that folder.
@@ -366,44 +329,6 @@
     [self executeSQL:insertSQL];
     insertSQL = [NSString stringWithFormat:@"delete from completedtasks where folder = \"%@\";", theName];
     [self executeSQL:insertSQL];
-    
-//    const char *filePath = [databasePath UTF8String];
-//    sqlite3_stmt *statement;
-//	[self prepareDatabase];
-//	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
-//    {
-//        NSString *insertSQL = [NSString stringWithFormat:@"delete from folders where name = \"%@\";", theName];
-//        const char *insert_stmt = [insertSQL UTF8String];
-//        
-//        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-//        
-//        if(sqlite3_step(statement) == SQLITE_DONE ) {
-//			printf("Folder deleted.\n");
-//		}
-//        sqlite3_finalize(statement);
-//        
-//        insertSQL = [NSString stringWithFormat:@"delete from tasks where folder = \"%@\";", theName];
-//        insert_stmt = [insertSQL UTF8String];
-//        
-//        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-//        
-//        if(sqlite3_step(statement) == SQLITE_DONE ) {
-//			printf("Multiple tasks deleted.\n");
-//		}
-//        sqlite3_finalize(statement);
-//        
-//        insertSQL = [NSString stringWithFormat:@"delete from completedtasks where folder = \"%@\";", theName];
-//        insert_stmt = [insertSQL UTF8String];
-//        
-//        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-//        
-//        if(sqlite3_step(statement) == SQLITE_DONE ) {
-//			printf("Multiple completedtasks deleted.\n");
-//		}
-//        sqlite3_finalize(statement);
-//        
-//        sqlite3_close(atmaDB);
-//    }
 }
 
 //Prepares the database for change. Probably magic.
