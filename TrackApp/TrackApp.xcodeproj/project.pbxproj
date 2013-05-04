@@ -31,8 +31,6 @@
 		0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0235FD3816695750008F136B /* CreateTaskViewController.m */; };
 		02B3B709171603ED00A9908B /* CombinedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B3B706171603ED00A9908B /* CombinedController.m */; };
 		02B3B70A171603ED00A9908B /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B3B708171603ED00A9908B /* TaskDetailViewController.m */; };
-		0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */; };
-		0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A241A321674FBCC007E7F08 /* UITaskViewCell.m */; };
 		0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A46D11216A7461900E278D4 /* Plus%20button.png */; };
 		0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */ = {isa = PBXBuildFile; fileRef = 0AA85DE7169FFB4C00090FB5 /* atmadatabase */; };
 		5022050A16E685B30077F983 /* Plus_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5022050916E685B30077F983 /* Plus_button.png */; };
@@ -91,10 +89,6 @@
 		02B3B706171603ED00A9908B /* CombinedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombinedController.m; sourceTree = "<group>"; };
 		02B3B707171603ED00A9908B /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailViewController.h; sourceTree = "<group>"; };
 		02B3B708171603ED00A9908B /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailViewController.m; sourceTree = "<group>"; };
-		0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITaskListViewControllerIPad.h; path = ../UITaskListViewControllerIPad.h; sourceTree = "<group>"; };
-		0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITaskListViewControllerIPad.m; path = ../UITaskListViewControllerIPad.m; sourceTree = "<group>"; };
-		0A241A311674FBCC007E7F08 /* UITaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITaskViewCell.h; sourceTree = "<group>"; };
-		0A241A321674FBCC007E7F08 /* UITaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITaskViewCell.m; sourceTree = "<group>"; };
 		0A46D11216A7461900E278D4 /* Plus%20button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plus%20button.png"; sourceTree = "<group>"; };
 		0AA85DE7169FFB4C00090FB5 /* atmadatabase */ = {isa = PBXFileReference; lastKnownFileType = file; name = atmadatabase; path = ../../atmadatabase; sourceTree = "<group>"; };
 		5022050916E685B30077F983 /* Plus_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Plus_button.png; path = Images/Plus_button.png; sourceTree = SOURCE_ROOT; };
@@ -169,10 +163,6 @@
 		0235FCD71669423F008F136B /* TrackApp */ = {
 			isa = PBXGroup;
 			children = (
-				0A241A311674FBCC007E7F08 /* UITaskViewCell.h */,
-				0A241A321674FBCC007E7F08 /* UITaskViewCell.m */,
-				0A241A2E1674FB70007E7F08 /* UITaskListViewControllerIPad.h */,
-				0A241A2F1674FB70007E7F08 /* UITaskListViewControllerIPad.m */,
 				02B3B705171603ED00A9908B /* CombinedController.h */,
 				02B3B706171603ED00A9908B /* CombinedController.m */,
 				02B3B707171603ED00A9908B /* TaskDetailViewController.h */,
@@ -369,8 +359,6 @@
 				0235FCDE1669423F008F136B /* main.m in Sources */,
 				0235FCE21669423F008F136B /* AppDelegate.m in Sources */,
 				0235FD3916695750008F136B /* CreateTaskViewController.m in Sources */,
-				0A241A301674FB70007E7F08 /* UITaskListViewControllerIPad.m in Sources */,
-				0A241A331674FBCC007E7F08 /* UITaskViewCell.m in Sources */,
 				0206C5F41680FFD000559975 /* FolderTableViewController.m in Sources */,
 				0206C5F81680FFE500559975 /* FolderTableViewCell.m in Sources */,
 				0206C5FB16810CD900559975 /* TaskTableViewController.m in Sources */,
