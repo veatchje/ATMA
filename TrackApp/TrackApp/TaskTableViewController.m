@@ -48,42 +48,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //FileIoAppDelegate* f = [FileIoAppDelegate constructWithFolderName:@"Folder1" Email:@""];
     //printf("%s", [[f stringFromDatabase:@"Folder1"] UTF8String]);
     
-    //Stuff for initializing the database -Ahmed
-    NSString *docsDir;
-    NSArray *dirPaths;
-    
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = [dirPaths objectAtIndex:0];
-    
-    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
-    
-    NSFileManager *filemgr = [NSFileManager defaultManager];
-    
-    if ([filemgr fileExistsAtPath:databasePath] == NO)
-    {
-        const char * dbPath = [databasePath UTF8String];
-        printf("In viewDidLoad, table does not exist.\n");
-        
-        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-        {
-            char *errMsg;
-            const char *sql_stmt = "create table tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
-            
-            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
-            {
-                status.text = @"Failed to create Tasks table";
-            }
-            
-            sqlite3_close(atmaDB);
-        } else {
-            status.text = @"Failed to open/create database";
-        }
-        
-    }
-    
-    //[filemgr release];
-    //The DB stuff ends here */
-    
+    [DatabaseAccessors initializeDatabase];
     
     folderName = self.navigationItem.title;
     //Initialize the arrays, call the database
@@ -123,6 +88,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [super viewDidAppear: animated];
     [self setEditing:FALSE animated:FALSE];
     [self loadTasksFromDatabase];
+    //[self insertAddRowIntoArray];
     //Update the TableView
     [self.tableView reloadData];
 }
@@ -169,7 +135,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     for(int i=0; i<self.taskCurrents.count; i++){
         [self.taskCurrents replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:0]];
     }
-    [self resetTasksFromDatabase];
+    [DatabaseAccessors resetTasksFromDatabaseFolder:self.navigationItem.title];
     [self.tableView reloadData];
 }
 
@@ -189,9 +155,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //TODO
     int period = [[self.taskPeriods objectAtIndex:index] integerValue];
     
-    [self resetTaskWithName:selectedTaskName];
+    [DatabaseAccessors resetTaskWithName:selectedTaskName FromFolder:self.navigationItem.title];
     //printf("About to reset time period with value %s.\n", [_taskPeriods objectAtIndex:index]);
-    [self resetPeriod:period ForTaskWithName:selectedTaskName];
+    [DatabaseAccessors resetPeriod:period ForTaskWithName:selectedTaskName FromFolder:self.navigationItem.title];
     //NOTE: HIGHLY INELEGANT SOLUTION, TAKES SOME TIME
     [self loadTasksFromDatabase];
     [self.tableView reloadData];
@@ -201,7 +167,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 - (void) editTaskButtonTouched:(NSInteger*) index
 {
     NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority ASC;", [self.navigationItem.title UTF8String]];
-    NSMutableArray* rows = [self executeSQL:querySQL ReturningRows:6];
+    NSMutableArray* rows = [DatabaseAccessors executeSQL:querySQL ReturningRows:6];
     
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
     CreateTaskViewController* vc = [sb instantiateViewControllerWithIdentifier:@"CreateTaskViewController"];
@@ -316,7 +282,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
         NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
         [self.taskCurrents replaceObjectAtIndex:button.tag withObject:newCurrent];
-    [self incrementTaskWithName:[self.taskNames objectAtIndex:button.tag]];
+    [DatabaseAccessors incrementTaskWithName:[self.taskNames objectAtIndex:button.tag] FromFolder:self.navigationItem.title];
         [self.tableView reloadData];
     //}
 }
@@ -364,7 +330,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
     NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
     [self.taskCurrents replaceObjectAtIndex:index withObject:newCurrent];
-    [self incrementTaskWithName:[self.taskNames objectAtIndex:index] WithValue:newCurrentFloat];
+    [DatabaseAccessors incrementTaskWithName:[self.taskNames objectAtIndex:index] WithValue:newCurrentFloat FromFolder:self.navigationItem.title];
     [self.tableView reloadData];
     //}
 }
@@ -388,7 +354,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        [self deleteTaskWithName:[self.taskNames objectAtIndex:indexPath.row]];
+        [DatabaseAccessors deleteTaskWithName:[self.taskNames objectAtIndex:indexPath.row] FromFolder:self.navigationItem.title];
         [self.taskNames removeObjectAtIndex:indexPath.row];
         [self.taskPeriods removeObjectAtIndex:indexPath.row];
         [self.taskCurrents removeObjectAtIndex:indexPath.row];
@@ -450,8 +416,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [self.visibleBools removeObjectAtIndex:sourceIndexPath.row];
     [self.visibleBools insertObject:visibleBoolToMove atIndex:destinationIndexPath.row];
     //Save array of new order to database
-    printf("First name: %s \t Second name: %s\n", [nameToMove UTF8String], [toMoveAbove UTF8String]);
-    [self moveTaskWithName:nameToMove AboveTaskWithName:toMoveAbove];
+    [DatabaseAccessors moveTaskWithName:nameToMove AboveTaskWithName:toMoveAbove FromFolder:self.navigationItem.title];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
@@ -478,7 +443,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
 }
 
-//Database stuff starts here - Ahmed
+/*//Database stuff starts here - Ahmed
 //AHMED CODE START
 
 //Loads all relevant task information into the appropriate arrays.
@@ -706,8 +671,36 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     return allRows;
 }
 
-//Database stuff ends here
-//AHMED CODE END
+//Database stuff ends here*/
+ 
+ - (void) loadTasksFromDatabase
+{
+    NSMutableArray* tasks = [DatabaseAccessors loadTasksFromDatabaseForFolder:self.navigationItem.title];
+    
+    [self.taskNames removeAllObjects];
+    [self.taskUnits removeAllObjects];
+    [self.taskPeriods removeAllObjects];
+    [self.taskEndDates removeAllObjects];
+    [self.taskCurrents removeAllObjects];
+    [self.taskTargets removeAllObjects];
+    [self.visibleBools removeAllObjects];
+    
+    for (int i = 0; i < [tasks count]; i++)
+    {
+        [self.taskNames addObject:[[tasks objectAtIndex:i] objectAtIndex:0]];
+        [self.taskUnits addObject:[[tasks objectAtIndex:i] objectAtIndex:1]];
+        [self.taskPeriods addObject:[[tasks objectAtIndex:i] objectAtIndex:2]];
+        [self.taskEndDates addObject:[self DayFormat:[[[tasks objectAtIndex:i] objectAtIndex:3] integerValue]]];
+        [self.taskCurrents addObject:[[tasks objectAtIndex:i] objectAtIndex:4]];
+        [self.taskTargets addObject:[[tasks objectAtIndex:i] objectAtIndex:5]];
+        [self.visibleBools addObject:@"false"];
+    }
+    
+    [self insertAddRowIntoArray];
+
+    
+}
+//AHMED CODE END*/
 
 -(NSString *) DayFormat:(double) time
 {

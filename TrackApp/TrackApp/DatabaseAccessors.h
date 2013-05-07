@@ -10,17 +10,23 @@
 #import <sqlite3.h>
 
 @interface DatabaseAccessors : NSObject {
-    NSString *databasePath;
-    sqlite3 *atmaDB;
 }
 
 #define DATABASE_NAME @"atmadatabase.db"
 #define DATABASE_TITLE @"atmadatabase"
 
-- (NSMutableArray*) loadNamesFromDatabase;
-- (void) initializeDatabase;
-- (void)saveNameInDatabase:(NSString *)theName;
-- (void) deleteFolder:(NSString *) theName;
-
++ (NSMutableArray*) loadNamesFromDatabase;
++ (void) initializeDatabase;
++ (void)saveNameInDatabase:(NSString *)theName;
++ (void) deleteFolder:(NSString *) theName;
++ (NSMutableArray*)loadTasksFromDatabaseForFolder:(NSString*)theFolder;
++ (void)incrementTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder;
++ (void)incrementTaskWithName:(NSString*)theName WithValue:(int)theValue FromFolder:(NSString*)theFolder;
++ (void)resetTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder;
++ (void)resetTasksFromDatabaseFolder:(NSString*)theFolder;
++ (void)deleteTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder;
++ (void)resetPeriod:(int)thePeriod ForTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder;
++ (void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithName:(NSString*)theSecondName FromFolder:(NSString*)theFolder;
++ (NSMutableArray *) executeSQL:(NSString*) theStatement ReturningRows:(int)numRows;
 
 @end

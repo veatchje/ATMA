@@ -37,7 +37,7 @@
                 [self.folderNames removeLastObject];
                 [self.folderNames addObject:folderName];
                 [self insertAddRowIntoArray];
-                [self->dbAccess saveNameInDatabase:folderName];
+                [DatabaseAccessors saveNameInDatabase:folderName];
                 [self.tableView reloadData];
             } else
             {
@@ -90,9 +90,9 @@
     self.folderNames = [[NSMutableArray alloc] init];
 
     //Ahmed's code
-    dbAccess = [[DatabaseAccessors alloc] init];
-    [self->dbAccess initializeDatabase];
-    self.folderNames = [self->dbAccess loadNamesFromDatabase];
+    //dbAccess = [[DatabaseAccessors alloc] init];
+    [DatabaseAccessors initializeDatabase];
+    self.folderNames = [DatabaseAccessors loadNamesFromDatabase];
     [self insertAddRowIntoArray];
     [self.tableView reloadData];
     //Ahmed's code end
@@ -183,7 +183,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         //database call?
-        [self->dbAccess deleteFolder:[self.folderNames objectAtIndex:indexPath.row]];
+        [DatabaseAccessors deleteFolder:[self.folderNames objectAtIndex:indexPath.row]];
         [self.folderNames removeObjectAtIndex:indexPath.row];
         [tableView reloadData];
     }
@@ -229,122 +229,6 @@
 }
 
 //MITCH CODE END
-
-//AHMED CODE START
-
-/*//Database stuff starts here - Ahmed
-
-//Loads a list of all folder names into the folderNames array
-- (void) loadNamesFromDatabase
-{
-    NSString *querySQL = [NSString stringWithFormat:@"SELECT name from folders;"];
-    [self.folderNames addObjectsFromArray:[self executeSQL:querySQL ReturningRows:1]];
-    [self insertAddRowIntoArray];
-    [self.tableView reloadData];
-}
-
-//Saves a given folder name into the folders table.
-- (void)saveNameInDatabase:(NSString *)theName {
-    NSString *insertSQL = [NSString stringWithFormat:@"insert into folders values(\"%@\");", theName];
-    [self executeSQL:insertSQL];
-}
-
-//Deletes a given folder from the folders table. Also deletes all tasks in that folder, and all completedTasks from that folder.
-- (void) deleteFolder:(NSString *) theName {
-    NSString *insertSQL = [NSString stringWithFormat:@"delete from folders where name = \"%@\";", theName];
-    [self executeSQL:insertSQL];
-    insertSQL = [NSString stringWithFormat:@"delete from tasks where folder = \"%@\";", theName];
-    [self executeSQL:insertSQL];
-    insertSQL = [NSString stringWithFormat:@"delete from completedtasks where folder = \"%@\";", theName];
-    [self executeSQL:insertSQL];
-}
-
-//Prepares the database for change. Probably magic.
-- (void)prepareDatabase {
-    NSError *err=nil;
-    NSFileManager *fm=[NSFileManager defaultManager];
-    
-    NSArray *arrPaths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, -1);
-    NSString *path=[arrPaths objectAtIndex:0];
-    NSString *path2= [path stringByAppendingPathComponent:@"atmadatabase.sql"];
-    
-    
-    if(![fm fileExistsAtPath:path2])
-    {
-        
-        bool success=[fm copyItemAtPath:databasePath toPath:path2 error:&err];
-        if(success)
-            NSLog(@"file copied successfully");
-        else
-            NSLog(@"file not copied");
-        
-    }
-}
-
-- (void) executeSQL:(NSString*) theStatement
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    [self prepareDatabase];
-    
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        const char *query_stmt = [theStatement UTF8String];
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-}
-
-- (NSMutableArray *) executeSQL:(NSString*) theStatement ReturningRows:(int)numRows
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    NSMutableArray* allRows;
-    NSArray* row;
-    NSString* stringArray[numRows];
-    
-    allRows = [[NSMutableArray alloc] init];
-    
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        const char *query_stmt = [theStatement UTF8String];
-        
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            if (numRows == 1)
-            {
-                while (sqlite3_step(statement) == SQLITE_ROW)
-                {
-                    NSString * obj = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                    [allRows addObject:obj];
-                }
-            } else {
-                while (sqlite3_step(statement) == SQLITE_ROW) {
-                    for (int i  = 0; i < numRows; i++)
-                    {
-                        stringArray[i] = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, i)];
-                        printf("%s\n", [stringArray[i] UTF8String]);
-                    }
-                    
-                    row = [NSArray arrayWithObjects:stringArray count:numRows];
-                    [allRows addObject:row];
-                }
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-    return allRows;
-}
- 
-//Database stuff ends here*/
-
-//AHMED CODE END
-
 
 @end
 

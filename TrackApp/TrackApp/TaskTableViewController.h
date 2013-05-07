@@ -11,13 +11,12 @@
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
 #import "TaskTableViewCell.h"
+#import "DatabaseAccessors.h"
 
 @interface TaskTableViewController : UITableViewController{
     UIBarButtonItem *resetTasksButton;
     NSString* folderName;
     UILabel *status;
-    NSString *databasePath;
-    sqlite3 *atmaDB;
     NSString* selectedTaskName;
     
     UITextField *taskNumberTextField;
@@ -25,10 +24,6 @@
     NSInteger *plusButtonIndex;
     NSInteger *cellIndex;
 }
-
-
-#define DATABASE_NAME @"atmadatabase.db"
-#define DATABASE_TITLE @"atmadatabase"
 
 @property (nonatomic, strong) NSMutableArray *taskNames;
 @property (nonatomic, strong) NSMutableArray *visibleBools;

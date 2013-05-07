@@ -8,9 +8,12 @@
 
 #import "DatabaseAccessors.h"
 
+NSString *databasePath;
+sqlite3 *atmaDB;
+
 @implementation DatabaseAccessors
 
-- (void) initializeDatabase {
++ (void) initializeDatabase {
     NSString *docsDir;
     NSArray *dirPaths;
     
@@ -83,7 +86,7 @@
 }
 
 //Loads a list of all folder names into the folderNames array
-- (NSMutableArray*) loadNamesFromDatabase
++ (NSMutableArray*) loadNamesFromDatabase
 {
     NSMutableArray * toReturn = [[NSMutableArray alloc] init];
     NSString *querySQL = [NSString stringWithFormat:@"SELECT name from folders;"];
@@ -91,16 +94,14 @@
     return toReturn;
 }
 
-
-
 //Saves a given folder name into the folders table.
-- (void)saveNameInDatabase:(NSString *)theName {
++ (void)saveNameInDatabase:(NSString *)theName {
     NSString *insertSQL = [NSString stringWithFormat:@"insert into folders values(\"%@\");", theName];
     [self executeSQL:insertSQL];
 }
 
 //Deletes a given folder from the folders table. Also deletes all tasks in that folder, and all completedTasks from that folder.
-- (void) deleteFolder:(NSString *) theName {
++ (void) deleteFolder:(NSString *) theName {
     NSString *insertSQL = [NSString stringWithFormat:@"delete from folders where name = \"%@\";", theName];
     [self executeSQL:insertSQL];
     insertSQL = [NSString stringWithFormat:@"delete from tasks where folder = \"%@\";", theName];
@@ -110,65 +111,43 @@
 }
 
 //Loads all relevant task information into the appropriate arrays.
-- (NSMutableArray*)loadTasksFromDatabaseForFolder:(NSString*)theFolder
++ (NSMutableArray*)loadTasksFromDatabaseForFolder:(NSString*)theFolder
 {
     NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority ASC;", [theFolder UTF8String]];
     NSMutableArray* rows = [self executeSQL:querySQL ReturningRows:6];
-    return rows;
-    
-    //    [self.taskNames removeAllObjects];
-    //    [self.taskUnits removeAllObjects];
-    //    [self.taskPeriods removeAllObjects];
-    //    [self.taskEndDates removeAllObjects];
-    //    [self.taskCurrents removeAllObjects];
-    //    [self.taskTargets removeAllObjects];
-    //    [self.visibleBools removeAllObjects];
-    
-    //for (int i = 0; i < [rows count]; i++)
-    // {
-    //        [self.taskNames addObject:[[rows objectAtIndex:i] objectAtIndex:0]];
-    //        [self.taskUnits addObject:[[rows objectAtIndex:i] objectAtIndex:1]];
-    //        [self.taskPeriods addObject:[[rows objectAtIndex:i] objectAtIndex:2]];
-    //        [self.taskEndDates addObject:[self DayFormat:[[[rows objectAtIndex:i] objectAtIndex:3] integerValue]]];
-    //        [self.taskCurrents addObject:[[rows objectAtIndex:i] objectAtIndex:4]];
-    //        [self.taskTargets addObject:[[rows objectAtIndex:i] objectAtIndex:5]];
-    //        [self.visibleBools addObject:@"false"];
-    
-    //NSString*  = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_colu]
-    //}
-    
+    return rows;    
 }
 
 //Increments a task by 1.
-- (void)incrementTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder
++ (void)incrementTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder
 {
     NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+1 where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
     [self executeSQL:querySQL];
 }
 
 //Changes the current value of a task to the indicated amount.
-- (void)incrementTaskWithName:(NSString*)theName WithValue:(int)theValue FromFolder:(NSString*)theFolder
++ (void)incrementTaskWithName:(NSString*)theName WithValue:(int)theValue FromFolder:(NSString*)theFolder
 {
     NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =%d where name = \"%s\" and folder = \"%s\";", theValue, [theName UTF8String], [theFolder UTF8String]];
     [self executeSQL:querySQL];
 }
 
 //This function resets the progress of a given task
-- (void)resetTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder
++ (void)resetTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder
 {
     NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =0 where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
     [self executeSQL:querySQL];
 }
 
 //This function resets the progress of all the tasks in the given folder
-- (void)resetTasksFromDatabaseFolder:(NSString*)theFolder
++ (void)resetTasksFromDatabaseFolder:(NSString*)theFolder
 {
     NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =0 where folder = \"%s\";", [theFolder UTF8String]];
     [self executeSQL:querySQL];
 }
 
 // Deletes a task and it's associated completedTasks from the database.
-- (void)deleteTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder
++ (void)deleteTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder
 {
     NSString *querySQL = [NSString stringWithFormat:@"delete from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
     [self executeSQL:querySQL];
@@ -177,7 +156,7 @@
 }
 
 //This indicates that a task has been completed and resets it, incrementing the end date appropriately and adding it to the completedTasks table.
-- (void)resetPeriod:(int)thePeriod ForTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder
++ (void)resetPeriod:(int)thePeriod ForTaskWithName:(NSString*)theName FromFolder:(NSString*)theFolder
 {
     
     int enddate = 0;
@@ -241,17 +220,19 @@
 }
 
 
--(void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithName:(NSString*)theSecondName FromFolder:(NSString*)theFolder
++ (void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithName:(NSString*)theSecondName FromFolder:(NSString*)theFolder
 {
+    printf("1\n");
     NSString *querySQL;
     int priority = 0;
     if (![theSecondName isEqualToString:@""]) {
         priority = [[self retrieveValue:@"priority" FromTask:theSecondName FromFolder:theFolder] intValue];
     } else {
         querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [theFolder UTF8String]];
-        priority = [[[[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0] objectAtIndex:0] integerValue];
+        priority = [[[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0] integerValue];
         priority++;
     }
+    printf("2\n");
     querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= %d and folder = \"%s\";", priority, [theFolder UTF8String]];
     [self executeSQL:querySQL];
     querySQL = [NSString stringWithFormat:@"update tasks set priority = %d where name = \"%s\" and folder = \"%s\";", priority, [theFirstName UTF8String], [theFolder UTF8String]];
@@ -259,7 +240,7 @@
 }
 
 //Prepares the database for change. Probably magic.
-- (void)prepareDatabase {
++ (void)prepareDatabase {
     NSError *err=nil;
     NSFileManager *fm=[NSFileManager defaultManager];
     
@@ -280,13 +261,13 @@
     }
 }
 
-- (NSString*) retrieveValue:(NSString*) theValue FromTask:(NSString*) theName FromFolder:(NSString*) theFolder
++ (NSString*) retrieveValue:(NSString*) theValue FromTask:(NSString*) theName FromFolder:(NSString*) theFolder
 {
     NSString *querySQL = [NSString stringWithFormat:@"select %s from tasks where name = \"%s\" and folder = \"%s\";", [theValue UTF8String], [theName UTF8String], [theFolder UTF8String]];
-    return [[[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0] objectAtIndex:0];
+    return [[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0];
 }
 
-- (void) executeSQL:(NSString*) theStatement
++ (void) executeSQL:(NSString*) theStatement
 {
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;
@@ -304,7 +285,7 @@
     }
 }
 
-- (NSMutableArray *) executeSQL:(NSString*) theStatement ReturningRows:(int)numRows
++ (NSMutableArray *) executeSQL:(NSString*) theStatement ReturningRows:(int)numRows
 {
     const char *dbPath = [databasePath UTF8String];
     sqlite3_stmt *statement;

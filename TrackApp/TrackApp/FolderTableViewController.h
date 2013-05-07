@@ -20,16 +20,12 @@
     NSString *databasePath;
     sqlite3 *atmaDB;
 
-	DatabaseAccessors *dbAccess;
 	NSMutableArray *_namesArray;
     
     UIBarButtonItem *setupButton;
     
     UITextField *folderNameTextField;
 }
-
-//#define DATABASE_NAME @"atmadatabase.db"
-//#define DATABASE_TITLE @"atmadatabase"
 
 @property (nonatomic, strong) UIImageView *folderImage;
 @property (nonatomic, strong) NSMutableArray *folderNames;

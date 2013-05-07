@@ -374,10 +374,9 @@
 	
 	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
     {
-        progress = [self retrieveValue:@"current" FromTask:theName];
+        progress = [[self retrieveValue:@"current" FromTask:theName FromFolder:folderName] integerValue];
         NSString *querySQL = [NSString stringWithFormat:@"select priority from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
         const char *query_stmt = [querySQL UTF8String];
-        printf("query made\n");
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             sqlite3_step(statement);
@@ -385,18 +384,8 @@
             taskPriority = [priorityRaw intValue];
             sqlite3_finalize(statement);
         }
-        printf("Priority set: %d", taskPriority);
 		NSString *insertSQL = [NSString stringWithFormat:@"delete from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
-        const char *insert_stmt = [insertSQL UTF8String];
-        
-        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-        
-        if(sqlite3_step(statement) == SQLITE_DONE ) {
-			status.text = @"Task deleted";
-            printf("Deleted task.\n");
-		} else {
-            //fail state
-        }
+        [self executeSQL:insertSQL];
 		sqlite3_finalize(statement);
         sqlite3_close(atmaDB);
         
@@ -454,7 +443,6 @@
                     countStr = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                     count = [countStr integerValue];
                 } else {
-                    printf("Error Occured Here.\n");
                 }
                 sqlite3_finalize(statement);
             }
@@ -469,7 +457,6 @@
                         b = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                         a = [b integerValue];
                     } else {
-                        printf("Error Occured Here.\n");
                     }
                     sqlite3_finalize(statement);
                 }
@@ -492,9 +479,9 @@
 	}
 }
 
-- (NSString*) retrieveValue:(NSString*) theValue FromTask:(NSString*) theName
+- (NSString*) retrieveValue:(NSString*) theValue FromTask:(NSString*) theName FromFolder:(NSString*)theFolder
 {
-    NSString *querySQL = [NSString stringWithFormat:@"select %s from tasks where name = \"%s\" and folder = \"%s\";", [theValue UTF8String], [theName UTF8String], [self.navigationItem.title UTF8String]];
+    NSString *querySQL = [NSString stringWithFormat:@"select %s from tasks where name = \"%s\" and folder = \"%s\";", [theValue UTF8String], [theName UTF8String], [theFolder UTF8String]];
     return [[[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0] objectAtIndex:0];
 }
 
@@ -523,28 +510,31 @@
     NSMutableArray* allRows;
     NSArray* row;
     NSString* stringArray[numRows];
+    int j = 0;
+    int i  = 0;
     
     allRows = [[NSMutableArray alloc] init];
     
     if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
     {
         const char *query_stmt = [theStatement UTF8String];
-        
         if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             while (sqlite3_step(statement) == SQLITE_ROW) {
-                for (int i  = 0; i < numRows; i++)
+                for (i  = 0; i < numRows; i++)
                 {
                     stringArray[i] = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, i)];
                 }
                 
                 row = [NSArray arrayWithObjects:stringArray count:numRows];
                 [allRows addObject:row];
+                j++;
             }
             sqlite3_finalize(statement);
         }
         sqlite3_close(atmaDB);
     }
+    
     return allRows;
 }
 
