@@ -501,7 +501,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
         [self.taskNames addObject:[[rows objectAtIndex:i] objectAtIndex:0]];
         [self.taskUnits addObject:[[rows objectAtIndex:i] objectAtIndex:1]];
         [self.taskPeriods addObject:[[rows objectAtIndex:i] objectAtIndex:2]];
-        printf("Period: %d\n", [[[rows objectAtIndex:i] objectAtIndex:2] integerValue]);
         [self.taskEndDates addObject:[self DayFormat:[[[rows objectAtIndex:i] objectAtIndex:3] integerValue]]];
         [self.taskCurrents addObject:[[rows objectAtIndex:i] objectAtIndex:4]];
         [self.taskTargets addObject:[[rows objectAtIndex:i] objectAtIndex:5]];

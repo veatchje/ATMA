@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
+#import "DatabaseAccessors.h"
 
 @interface FolderTableViewController : UITableViewController {
     
@@ -19,7 +20,7 @@
     NSString *databasePath;
     sqlite3 *atmaDB;
 
-	
+	DatabaseAccessors *dbAccess;
 	NSMutableArray *_namesArray;
     
     UIBarButtonItem *setupButton;
@@ -27,8 +28,8 @@
     UITextField *folderNameTextField;
 }
 
-#define DATABASE_NAME @"atmadatabase.db"
-#define DATABASE_TITLE @"atmadatabase"
+//#define DATABASE_NAME @"atmadatabase.db"
+//#define DATABASE_TITLE @"atmadatabase"
 
 @property (nonatomic, strong) UIImageView *folderImage;
 @property (nonatomic, strong) NSMutableArray *folderNames;
@@ -36,7 +37,7 @@
 @property (nonatomic, retain) IBOutlet UITextField *textField;
 
 - (IBAction)sendTitle:(id)sender;
-- (void) loadNamesFromDatabase;
+//- (void) loadNamesFromDatabase;
 
 ///////BRIAN'S CODE START
 

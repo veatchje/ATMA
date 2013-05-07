@@ -17,4 +17,10 @@
 #define DATABASE_NAME @"atmadatabase.db"
 #define DATABASE_TITLE @"atmadatabase"
 
+- (NSMutableArray*) loadNamesFromDatabase;
+- (void) initializeDatabase;
+- (void)saveNameInDatabase:(NSString *)theName;
+- (void) deleteFolder:(NSString *) theName;
+
+
 @end

@@ -37,7 +37,7 @@
                 [self.folderNames removeLastObject];
                 [self.folderNames addObject:folderName];
                 [self insertAddRowIntoArray];
-                [self saveNameInDatabase:folderName];
+                [self->dbAccess saveNameInDatabase:folderName];
                 [self.tableView reloadData];
             } else
             {
@@ -87,87 +87,15 @@
     UIImage *img = [UIImage imageNamed:@"folder.png"];
     [self.folderImage setImage:img];
     
-     
-    //self.folderNames = [[NSMutableArray alloc]
-    //                    initWithObjects:@"Business",
-    //                    @"Personal", nil];
-    
-    
-    //DB stuff, so this is my code -Ahmed
-    NSString *docsDir;
-    NSArray *dirPaths;
-    
     self.folderNames = [[NSMutableArray alloc] init];
-    
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = [dirPaths objectAtIndex:0];
-    
-    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
-    
-    NSFileManager *filemgr = [NSFileManager defaultManager];
-    printf("Checking if file exists\n");
-    if ([filemgr fileExistsAtPath:databasePath] == NO)
-    {
-        printf("Creating the database\n");
-        const char * dbPath = [databasePath UTF8String];
-        
-        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-        {
-            char *errMsg;
-            //Creates the folders table.
-            const char *sql_stmt = "create table if not exists folders(name TEXT);";
-            
-            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
-            {
-                //status.text = @"Failed to create Folders table";
-            } else {
-                //Here we load the initial values into the folders table.
-                sqlite3_stmt *statement;
-                NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Business\")"];
-                const char *insert_stmt = [insertSQL UTF8String];
-                sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-                
-                if(sqlite3_step(statement) == SQLITE_DONE ) {
-                    printf("Folder added");
-                }
-                
-                insertSQL = [NSString stringWithFormat:@"INSERT INTO FOLDERS values (\"Personal\")"];
-                insert_stmt = [insertSQL UTF8String];
-                sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-                
-                if(sqlite3_step(statement) == SQLITE_DONE ) {
-                    printf("Folder added");
-                }
-            }
-            
-            //Creates the tasks table.
-            sql_stmt = "create table if not exists tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
-            
-            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
-            {
-                printf("Failed to create Tasks table");
-            } else {
-                
-            }
-            
-            //Creates the completedTasks table.
-            sql_stmt = "create table if not exists completedtasks(name TEXT, units TEXT, folder TEXT, period INTEGER, completed TIME, current INTEGER, target INTEGER);";
-            
-            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
-            {
-                printf("Failed to create completedTasks table");
-            } else {
-                
-            }
-            
-            sqlite3_close(atmaDB);
-        } else {
-            //status.text = @"Failed to open/create database";
-        }
-    }
-    //[filemgr release];
-    //[self populateDatabase];
-    [self loadNamesFromDatabase];
+
+    //Ahmed's code
+    dbAccess = [[DatabaseAccessors alloc] init];
+    [self->dbAccess initializeDatabase];
+    self.folderNames = [self->dbAccess loadNamesFromDatabase];
+    [self insertAddRowIntoArray];
+    [self.tableView reloadData];
+    //Ahmed's code end
     
     //ETHAN'S LINE OF CODE
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -255,7 +183,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         //database call?
-        [self deleteFolder:[self.folderNames objectAtIndex:indexPath.row]];
+        [self->dbAccess deleteFolder:[self.folderNames objectAtIndex:indexPath.row]];
         [self.folderNames removeObjectAtIndex:indexPath.row];
         [tableView reloadData];
     }
@@ -304,7 +232,7 @@
 
 //AHMED CODE START
 
-//Database stuff starts here - Ahmed
+/*//Database stuff starts here - Ahmed
 
 //Loads a list of all folder names into the folderNames array
 - (void) loadNamesFromDatabase
@@ -413,7 +341,7 @@
     return allRows;
 }
  
-//Database stuff ends here
+//Database stuff ends here*/
 
 //AHMED CODE END
 
