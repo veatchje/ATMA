@@ -13,12 +13,12 @@
 @implementation FileIoAppDelegate
 
 // A constructor for ease of use.
-+ (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email
++ (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName
 {
-    return [[FileIoAppDelegate alloc] initWithFolderName: folderName Email: email];
+    return [[FileIoAppDelegate alloc] initWithFolderName: folderName];
 }
 
-- (FileIoAppDelegate *) initWithFolderName:(NSString *) folderName Email:(NSString *) email
+- (FileIoAppDelegate *) initWithFolderName:(NSString *) folderName
 {
     self = [super init];
     NSString *docsDir;
@@ -29,7 +29,6 @@
     if (self)
     {
         [self setFolder: folderName];
-        [self setEmail: email];
     }
     
     return self;
@@ -150,24 +149,14 @@
     return fileAtPath;
 }
 
-// Email functions
-- (Boolean) sendFile:(NSString *) file ToEmail:(NSString *) email
-{
-    // TODO: everything...
-    /*MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
-    picker.mailComposeDelegate = self;
-    [picker setSubject:@"Check out this image!"];
-    /*/
-    return false;
-}
 
-// Top level function
-- (void) collectAndSendDataFromFolder:(NSString *) folder ToEmail:(NSString *) email
-{
-    NSString* fileAtPath = [self writeFolderToFile:folder];
-    Boolean success = [self sendFile:fileAtPath ToEmail:email];
-    if (!success) printf("Unable to send file!\n");
-}
+// Function no longer needed
+//- (void) collectAndSendDataFromFolder:(NSString *) folder ToEmail:(NSString *) email
+//{
+//    NSString* fileAtPath = [self writeFolderToFile:folder];
+//    Boolean success = [self sendFile:fileAtPath ToEmail:email];
+//    if (!success) printf("Unable to send file!\n");
+//}
 
 // Start puplic methods
 
@@ -176,14 +165,14 @@
     folderToCollectFrom = folder;
 }
 
-- (void) setEmail:(NSString *) email
+- (NSString*) writeFolderToFile
 {
-    emailToSendTo = email;
+    return [self writeFolderToFile:folderToCollectFrom];
 }
 
-- (void) collectAndSendData
+- (NSString*) stringFromDatabase
 {
-    [self collectAndSendDataFromFolder:folderToCollectFrom ToEmail:emailToSendTo];
+    return [self stringFromDatabase:folderToCollectFrom];
 }
 
 @end

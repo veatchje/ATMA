@@ -19,13 +19,15 @@
     NSString *emailToSendTo;
 }
 
+//Ahmed's defines
 #define DATABASE_NAME @"atmadatabase.db"
 #define DATABASE_TITLE @"atmadatabase"
 
-+ (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName Email:(NSString *) email;
-- (void) collectAndSendData;
++ (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName;
 - (void) setFolder:(NSString *) folder;
-- (void) setEmail:(NSString *) email;
+- (NSString*) writeFolderToFile;
+- (NSString*) stringFromDatabase;
+//- (void) setEmail:(NSString *) email;
 
 // For testing
 - (NSString *) stringFromDatabase:(NSString *) theFolderName;
