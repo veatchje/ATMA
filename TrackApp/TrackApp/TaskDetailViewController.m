@@ -364,7 +364,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [vc setTitle:@"Edit Task"];
     [vc setEditingTask:TRUE];
     //Needs to be fixed BUG
-    [vc populateFields:[taskNames objectAtIndex:index] WithUnits:[_taskUnits objectAtIndex:index] WithGoal:[_taskTargets objectAtIndex:index] WithRecurrance:[_taskPeriods  objectAtIndex:index] EndingOn:[[NSDate date] timeIntervalSince1970]];
+    [vc populateFields:[taskNames objectAtIndex:index] WithUnits:[_taskUnits objectAtIndex:index] WithGoal:[_taskTargets objectAtIndex:index] WithRecurrance:[_taskPeriods  objectAtIndex:index] EndingOn:[[DatabaseAccessors retrieveValue:@"enddate" FromTask:[taskNames objectAtIndex:index] FromFolder:folderName] doubleValue]];
     //[vc populateFields:folderName];
 }
 
