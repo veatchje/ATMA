@@ -34,6 +34,7 @@
 		0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A46D11216A7461900E278D4 /* Plus%20button.png */; };
 		0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */ = {isa = PBXBuildFile; fileRef = 0AA85DE7169FFB4C00090FB5 /* atmadatabase */; };
 		5022050A16E685B30077F983 /* Plus_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5022050916E685B30077F983 /* Plus_button.png */; };
+		5058C734173AAE160010AFB9 /* Folders.m in Sources */ = {isa = PBXBuildFile; fileRef = 5058C733173AAE160010AFB9 /* Folders.m */; };
 		50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B616CEDCA800A778B8 /* App%20icon%202.png */; };
 		50A593B916CEDD1900A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B816CEDD1900A778B8 /* App%20icon%202.png */; };
 		A00898011714944B00DF409B /* FileIoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A00898001714944B00DF409B /* FileIoAppDelegate.m */; };
@@ -92,6 +93,8 @@
 		0A46D11216A7461900E278D4 /* Plus%20button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plus%20button.png"; sourceTree = "<group>"; };
 		0AA85DE7169FFB4C00090FB5 /* atmadatabase */ = {isa = PBXFileReference; lastKnownFileType = file; name = atmadatabase; path = ../../atmadatabase; sourceTree = "<group>"; };
 		5022050916E685B30077F983 /* Plus_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Plus_button.png; path = Images/Plus_button.png; sourceTree = SOURCE_ROOT; };
+		5058C732173AAE160010AFB9 /* Folders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folders.h; sourceTree = "<group>"; };
+		5058C733173AAE160010AFB9 /* Folders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folders.m; sourceTree = "<group>"; };
 		50A593B616CEDCA800A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "App%20icon%202.png"; path = "Images/App%20icon%202.png"; sourceTree = SOURCE_ROOT; };
 		50A593B816CEDD1900A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App%20icon%202.png"; sourceTree = "<group>"; };
 		A00897FF1714944B00DF409B /* FileIoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileIoAppDelegate.h; sourceTree = "<group>"; };
@@ -163,28 +166,11 @@
 		0235FCD71669423F008F136B /* TrackApp */ = {
 			isa = PBXGroup;
 			children = (
-				02B3B705171603ED00A9908B /* CombinedController.h */,
-				02B3B706171603ED00A9908B /* CombinedController.m */,
-				02B3B707171603ED00A9908B /* TaskDetailViewController.h */,
-				02B3B708171603ED00A9908B /* TaskDetailViewController.m */,
 				0235FCE01669423F008F136B /* AppDelegate.h */,
 				0235FCE11669423F008F136B /* AppDelegate.m */,
-				A00897FF1714944B00DF409B /* FileIoAppDelegate.h */,
-				A00898001714944B00DF409B /* FileIoAppDelegate.m */,
-				0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */,
-				A04E0B461705F5070067BC8A /* MainStoryboard_iPad.storyboard */,
-				0206C5F21680FFD000559975 /* FolderTableViewController.h */,
-				0206C5F31680FFD000559975 /* FolderTableViewController.m */,
-				0206C5F61680FFE500559975 /* FolderTableViewCell.h */,
-				0206C5F71680FFE500559975 /* FolderTableViewCell.m */,
-				0206C5F916810CD800559975 /* TaskTableViewController.h */,
-				0206C5FA16810CD800559975 /* TaskTableViewController.m */,
-				0206C5FC16810CF400559975 /* TaskTableViewCell.h */,
-				0206C5FD16810CF400559975 /* TaskTableViewCell.m */,
-				0235FD35166956D1008F136B /* CreateTaskViewController.h */,
-				0235FD3816695750008F136B /* CreateTaskViewController.m */,
-				A03CAEEC1705FF2F00507FA1 /* HelpDocController.h */,
-				A03CAEED1705FF2F00507FA1 /* HelpDocController.m */,
+				5058C737173AAE3B0010AFB9 /* iPad */,
+				5058C736173AAE360010AFB9 /* iPhone */,
+				5058C735173AAE210010AFB9 /* Platform Independent */,
 				0AA85DE5169FFB3100090FB5 /* Database */,
 				0235FCD81669423F008F136B /* Supporting Files */,
 			);
@@ -237,6 +223,49 @@
 				0AA85DE7169FFB4C00090FB5 /* atmadatabase */,
 			);
 			name = Database;
+			sourceTree = "<group>";
+		};
+		5058C735173AAE210010AFB9 /* Platform Independent */ = {
+			isa = PBXGroup;
+			children = (
+				5058C732173AAE160010AFB9 /* Folders.h */,
+				5058C733173AAE160010AFB9 /* Folders.m */,
+				0206C5FC16810CF400559975 /* TaskTableViewCell.h */,
+				0206C5FD16810CF400559975 /* TaskTableViewCell.m */,
+				0206C5F61680FFE500559975 /* FolderTableViewCell.h */,
+				0206C5F71680FFE500559975 /* FolderTableViewCell.m */,
+				0235FD35166956D1008F136B /* CreateTaskViewController.h */,
+				0235FD3816695750008F136B /* CreateTaskViewController.m */,
+				A03CAEEC1705FF2F00507FA1 /* HelpDocController.h */,
+				A03CAEED1705FF2F00507FA1 /* HelpDocController.m */,
+				A00897FF1714944B00DF409B /* FileIoAppDelegate.h */,
+				A00898001714944B00DF409B /* FileIoAppDelegate.m */,
+			);
+			name = "Platform Independent";
+			sourceTree = "<group>";
+		};
+		5058C736173AAE360010AFB9 /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				0235FCE91669423F008F136B /* MainStoryboard_iPhone.storyboard */,
+				0206C5F21680FFD000559975 /* FolderTableViewController.h */,
+				0206C5F31680FFD000559975 /* FolderTableViewController.m */,
+				0206C5F916810CD800559975 /* TaskTableViewController.h */,
+				0206C5FA16810CD800559975 /* TaskTableViewController.m */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		5058C737173AAE3B0010AFB9 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				A04E0B461705F5070067BC8A /* MainStoryboard_iPad.storyboard */,
+				02B3B705171603ED00A9908B /* CombinedController.h */,
+				02B3B706171603ED00A9908B /* CombinedController.m */,
+				02B3B707171603ED00A9908B /* TaskDetailViewController.h */,
+				02B3B708171603ED00A9908B /* TaskDetailViewController.m */,
+			);
+			name = iPad;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,6 +397,7 @@
 				02B3B709171603ED00A9908B /* CombinedController.m in Sources */,
 				02B3B70A171603ED00A9908B /* TaskDetailViewController.m in Sources */,
 				AA5AA4581735B4720052C1A6 /* DatabaseAccessors.m in Sources */,
+				5058C734173AAE160010AFB9 /* Folders.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
