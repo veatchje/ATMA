@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
 #import "TaskTableViewCell.h"
+#import "DatabaseAccessors.h"
 
 @interface TaskDetailViewController : UITableViewController<UISplitViewControllerDelegate>
 {

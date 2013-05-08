@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
+#import "DatabaseAccessors.h"
 #pragma mark -
 #pragma mark PickerView DataSorce
 
@@ -31,20 +32,12 @@
     UIAlertView* recurAlert;
     UITextField* customRecurTextField;
     
-    //Ahmed's code
-    UILabel *status;
-    NSString *databasePath;
-    sqlite3 *atmaDB;
     NSString* origTaskName;
     NSString* folderName;
     int taskPriority;
     int progress;
     
 }
-
-
-#define DATABASE_NAME @"atmadatabase.db"
-#define DATABASE_TITLE @"atmadatabase"
 
 
 @property (retain, nonatomic) IBOutlet UILabel *status;

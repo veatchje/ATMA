@@ -11,7 +11,6 @@
 #import "TaskTableViewController.h"
 #import "TaskTableViewCell.h"
 #import "CreateTaskViewController.h"
-//#import "FileIoAppDelegate.h"
 
 #define TAG_INCREMENT 1
 #define TAG_RESET_ALL 2
@@ -44,9 +43,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     [super viewDidLoad];
     
-    // Code for testing. Will be deleted later.
-    //FileIoAppDelegate* f = [FileIoAppDelegate constructWithFolderName:@"Folder1" Email:@""];
-    //printf("%s", [[f stringFromDatabase:@"Folder1"] UTF8String]);
     
     [DatabaseAccessors initializeDatabase];
     
@@ -697,7 +693,6 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     }
     
     [self insertAddRowIntoArray];
-
     
 }
 //AHMED CODE END*/

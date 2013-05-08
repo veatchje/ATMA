@@ -45,40 +45,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     //Stuff for initializing the database -Ahmed
-    NSString *docsDir;
-    NSArray *dirPaths;
-    
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = [dirPaths objectAtIndex:0];
-    
-    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
-    
-    NSFileManager *filemgr = [NSFileManager defaultManager];
-    
-    if ([filemgr fileExistsAtPath:databasePath] == NO)
-    {
-        const char * dbPath = [databasePath UTF8String];
-        printf("In viewDidLoad, table does not exist.\n");
-        
-        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-        {
-            char *errMsg;
-            const char *sql_stmt = "create table tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
-            
-            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
-            {
-                status.text = @"Failed to create Tasks table";
-            }
-            
-            sqlite3_close(atmaDB);
-        } else {
-            status.text = @"Failed to open/create database";
-        }
-        
-    }
-    
-    //[filemgr release];
-    //The DB stuff ends here */
+    [DatabaseAccessors initializeDatabase];
     
     
     folderName = self.navigationItem.title;
@@ -365,7 +332,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     for(int i=0; i<self.taskCurrents.count; i++){
         [self.taskCurrents replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:0]];
     }
-    [self resetTasksFromDatabase];
+    [DatabaseAccessors resetTasksFromDatabaseFolder:self.navigationItem.title];
     [self.tableView reloadData];
 }
 
@@ -377,9 +344,9 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //TODO
     int period = [[_taskPeriods objectAtIndex:index] integerValue];
     
-    [self resetTaskWithName:selectedTaskName];
+    [DatabaseAccessors resetTaskWithName:selectedTaskName FromFolder:self.navigationItem.title];
     //printf("About to reset time period with value %s.\n", [_taskPeriods objectAtIndex:index]);
-    [self resetPeriod:period ForTaskWithName:selectedTaskName];
+    [DatabaseAccessors resetPeriod:period ForTaskWithName:selectedTaskName FromFolder:self.navigationItem.title];
     //NOTE: HIGHLY INELEGANT SOLUTION, TAKES SOME TIME
     [self loadTasksFromDatabase];
     [self.tableView reloadData];
@@ -408,7 +375,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
     NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
     [self.taskCurrents replaceObjectAtIndex:button.tag withObject:newCurrent];
-    [self incrementTaskWithName:[self.taskNames objectAtIndex:button.tag]];
+    [DatabaseAccessors incrementTaskWithName:[self.taskNames objectAtIndex:button.tag] FromFolder:self.navigationItem.title];
     [self.tableView reloadData];
     //}
 }
@@ -456,7 +423,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     //if(newCurrentFloat <= [[self.taskTargets objectAtIndex:button.tag] floatValue]){
     NSNumber* newCurrent = [NSNumber numberWithFloat:newCurrentFloat];
     [self.taskCurrents replaceObjectAtIndex:index withObject:newCurrent];
-    [self incrementTaskWithName:[self.taskNames objectAtIndex:index] WithValue:newCurrentFloat];
+    [DatabaseAccessors incrementTaskWithName:[self.taskNames objectAtIndex:index] WithValue:newCurrentFloat FromFolder:self.navigationItem.title];
     [self.tableView reloadData];
     //}
 }
@@ -480,7 +447,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        [self deleteTaskWithName:[self.taskNames objectAtIndex:indexPath.row]];
+        [DatabaseAccessors deleteTaskWithName:[self.taskNames objectAtIndex:indexPath.row] FromFolder:self.navigationItem.title];
         [self.taskNames removeObjectAtIndex:indexPath.row];
         [self.taskPeriods removeObjectAtIndex:indexPath.row];
         [self.taskCurrents removeObjectAtIndex:indexPath.row];
@@ -544,7 +511,7 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
     [self.visibleBools insertObject:visibleBoolToMove atIndex:destinationIndexPath.row];
     //Save array of new order to database
     printf("First name: %s \t Second name: %s\n", [nameToMove UTF8String], [toMoveAbove UTF8String]);
-    [self moveTaskWithName:nameToMove AboveTaskWithName:toMoveAbove];
+    [DatabaseAccessors moveTaskWithName:nameToMove AboveTaskWithName:toMoveAbove FromFolder:self.navigationItem.title];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
@@ -572,333 +539,33 @@ static int loadNamesCallback(void *context, int count, char **values, char **col
 }
 
 //Database stuff starts here - Ahmed
-//AHMED CODE START
-
-- (NSString *) getWritableDBPath {
-	
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
-	NSString *documentsDir = [paths objectAtIndex:0];
-	return [documentsDir stringByAppendingPathComponent:DATABASE_NAME];
-}
-
-- (void)loadTasksFromDatabase
+- (void) loadTasksFromDatabase
 {
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
+    NSMutableArray* tasks = [DatabaseAccessors loadTasksFromDatabaseForFolder:self.navigationItem.title];
     
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
+    [self.taskNames removeAllObjects];
+    [self.taskUnits removeAllObjects];
+    [self.taskPeriods removeAllObjects];
+    [self.taskEndDates removeAllObjects];
+    [self.taskCurrents removeAllObjects];
+    [self.taskTargets removeAllObjects];
+    [self.visibleBools removeAllObjects];
+    
+    for (int i = 0; i < [tasks count]; i++)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority ASC;", [self.navigationItem.title UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) != SQLITE_OK)
-        {
-            printf("Now creating Tasks table.\n");
-            char * errMsg;
-            const char *sql_stmt = "create table if not exists tasks(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, units TEXT, folder TEXT, period INTEGER, enddate TIME, current INTEGER, target INTEGER, priority INTEGER);";
-            if (sqlite3_exec(atmaDB, sql_stmt, NULL, NULL, &errMsg) == SQLITE_OK)
-            {
-                printf("Task table creation statement was successful.\n");
-                sqlite3_stmt *statement2;
-                NSString *insertSQL2 = [NSString stringWithFormat:@"insert into tasks (name, units, folder, period, enddate, current, target, priority) values (\"Create Tasks\", \"tasks\", \"%s\", 7, 2013-2-13, 0, 1, 1);", [self.navigationItem.title UTF8String]];
-                const char *insert_stmt2 = [insertSQL2 UTF8String];
-                sqlite3_prepare_v2(atmaDB, insert_stmt2, -1, &statement2, NULL);
-                printf("Everything is prepared.\n");
-                if(sqlite3_step(statement2) == SQLITE_DONE ) {
-                    printf("Task added");
-                }
-            }
-        }
-        
-        if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            [self.taskNames removeAllObjects];
-            [self.taskUnits removeAllObjects];
-            [self.taskPeriods removeAllObjects];
-            [self.taskEndDates removeAllObjects];
-            [self.taskCurrents removeAllObjects];
-            [self.taskTargets removeAllObjects];
-            [self.visibleBools removeAllObjects];
-            while (sqlite3_step(statement) == SQLITE_ROW) {
-                NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                [self.taskNames addObject:nameField];
-                
-                NSString *unitsField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
-                [self.taskUnits addObject:unitsField];
-                
-                NSString *periodField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
-                [self.taskPeriods addObject:periodField];
-                //printf("PeriodData: %s.\n", [periodField UTF8String]);
-                
-                NSString *endField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
-                [self.taskEndDates addObject:[self DayFormat:[endField integerValue]]];
-                
-                NSString *currentField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 4)];
-                [self.taskCurrents addObject:currentField];
-                
-                NSString *targetField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 5)];
-                [self.taskTargets addObject:targetField];
-                
-                [self.visibleBools addObject:@"false"];
-            }
-            sqlite3_finalize(statement);
-        } else {
-            printf("%d", sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL));
-        }
-        sqlite3_close(atmaDB);
+        [self.taskNames addObject:[[tasks objectAtIndex:i] objectAtIndex:0]];
+        [self.taskUnits addObject:[[tasks objectAtIndex:i] objectAtIndex:1]];
+        [self.taskPeriods addObject:[[tasks objectAtIndex:i] objectAtIndex:2]];
+        [self.taskEndDates addObject:[self DayFormat:[[[tasks objectAtIndex:i] objectAtIndex:3] integerValue]]];
+        [self.taskCurrents addObject:[[tasks objectAtIndex:i] objectAtIndex:4]];
+        [self.taskTargets addObject:[[tasks objectAtIndex:i] objectAtIndex:5]];
+        [self.visibleBools addObject:@"false"];
     }
+    
     [self insertAddRowIntoArray];
+    
 }
 
-- (void)incrementTaskWithName:(NSString*)theName
-{
-    
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    [self prepareDatabase];
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =current+1 where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            //sqlite3_bind_text(*query_stmt, 1, [theName UTF8String], -1, NULL);
-            if (sqlite3_step(statement) == SQLITE_DONE) {
-                //Inrement successful!
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-}
-
-- (void)incrementTaskWithName:(NSString*)theName WithValue:(int)theValue
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    
-    [self prepareDatabase];
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =%d where name = \"%s\" and folder = \"%s\";", theValue, [theName UTF8String], [self.navigationItem.title UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            //sqlite3_bind_int(*query_stmt, 1, theValue);
-            //sqlite3_bind_text(*query_stmt, 2, [theName UTF8String], -1, NULL);
-            if (sqlite3_step(statement) == SQLITE_DONE) {
-                //Inrement successful!
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-}
-
-//This function resets the progress of a given task
-- (void)resetTaskWithName:(NSString*)theName
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    [self prepareDatabase];
-    
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =0 where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            if (sqlite3_step(statement) == SQLITE_DONE) {
-                //Increment successful!
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-}
-
-//This function resets the progress of all the tasks in the given folder
-- (void)resetTasksFromDatabase
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    [self prepareDatabase];
-    
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =0 where folder = \"%s\";", [self.navigationItem.title UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            if (sqlite3_step(statement) == SQLITE_DONE) {
-                //Increment successful!
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-}
-
-- (void)deleteTaskWithName:(NSString*)theName
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    [self prepareDatabase];
-    
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        NSString *querySQL = [NSString stringWithFormat:@"delete from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [self.navigationItem.title UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            if (sqlite3_step(statement) == SQLITE_DONE) {
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-}
-
-- (void)resetPeriod:(int)thePeriod ForTaskWithName:(NSString*)theName
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    [self prepareDatabase];
-    
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        //No longer need to add current time, this code preserved in case of future need
-        //NSDate* today = [NSDate date];
-        //double seconds = [today timeIntervalSince1970];
-        NSString *querySQL = [NSString stringWithFormat:@"update tasks set enddate = enddate + %d where name = \"%s\" and folder = \"%s\";", thePeriod*24*3600, [theName UTF8String], [self.navigationItem.title UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            if (sqlite3_step(statement) == SQLITE_DONE) {
-                printf("Time period reset was successful for task %s with period %d.", [theName UTF8String], thePeriod);
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-}
-
-
--(void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithName:(NSString*)theSecondName
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    [self prepareDatabase];
-    
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        NSString *querySQL = [NSString stringWithFormat:@"select priority from tasks where name = \"%s\" and folder = \"%s\";", [theSecondName UTF8String], [self.navigationItem.title UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        int priority = 0;
-        if (![theSecondName isEqualToString:@""]) {
-            
-            querySQL = [NSString stringWithFormat:@"select priority from tasks where name = \"%s\" and folder = \"%s\";", [theSecondName UTF8String], [self.navigationItem.title UTF8String]];
-            query_stmt = [querySQL UTF8String];
-            if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-            {
-                sqlite3_step(statement);
-                NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
-                priority = [priorityRaw intValue];
-                sqlite3_finalize(statement);
-            }
-        } else {
-            querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [self.navigationItem.title UTF8String]];
-            query_stmt = [querySQL UTF8String];
-            if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-            {
-                sqlite3_step(statement);
-                NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
-                priority = [priorityRaw intValue] + 1;
-                sqlite3_finalize(statement);
-            }
-            
-        }
-        
-        
-        querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= %d and folder = \"%s\";", priority, [self.navigationItem.title UTF8String]];
-        query_stmt = [querySQL UTF8String];
-        
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            if (sqlite3_step(statement) == SQLITE_DONE) {
-                //Incrementation successful!
-            }
-            sqlite3_finalize(statement);
-        }
-        
-        querySQL = [NSString stringWithFormat:@"update tasks set priority = %d where name = \"%s\" and folder = \"%s\";", priority, [theFirstName UTF8String], [self.navigationItem.title UTF8String]];
-        query_stmt = [querySQL UTF8String];
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            if (sqlite3_step(statement) == SQLITE_DONE) {
-                //Reprioritization successful!
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-}
-
-- (void)prepareDatabase {
-    NSError *err=nil;
-    NSFileManager *fm=[NSFileManager defaultManager];
-    
-    NSArray *arrPaths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, -1);
-    NSString *path=[arrPaths objectAtIndex:0];
-    NSString *path2= [path stringByAppendingPathComponent:@"ProductDatabase.sql"];
-    
-    
-    if(![fm fileExistsAtPath:path2])
-    {
-        
-        bool success=[fm copyItemAtPath:databasePath toPath:path2 error:&err];
-        if(success)
-            NSLog(@"file copied successfully");
-        else
-            NSLog(@"file not copied");
-        
-    }
-}
-     //This is used to grab names for export later to graph.
-     - (NSMutableArray *) loadTaskNamesFromDatabase:(NSString *) theFolderName
-    {
-        const char *dbPath = [databasePath UTF8String];
-        sqlite3_stmt *statement;
-        NSMutableArray* names;
-        
-        names = [[NSMutableArray alloc] init];
-        
-        if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-        {
-            NSString *querySQL = [NSString stringWithFormat:@"SELECT name from tasks where folder = \"%s\";", [theFolderName UTF8String]];
-            const char *query_stmt = [querySQL UTF8String];
-            
-            if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-            {
-                while (sqlite3_step(statement) == SQLITE_ROW) {
-                    NSString *nameField = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                    [names addObject:nameField];
-                }
-                sqlite3_finalize(statement);
-            }
-            sqlite3_close(atmaDB);
-        }
-        return names;
-    }
-
-
-//Database stuff ends here
 //AHMED CODE END
 
 -(NSString *) DayFormat:(double) time

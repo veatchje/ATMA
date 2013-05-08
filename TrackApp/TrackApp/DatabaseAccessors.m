@@ -13,6 +13,7 @@ sqlite3 *atmaDB;
 
 @implementation DatabaseAccessors
 
+//Called in the beginning of every screen
 + (void) initializeDatabase {
     NSString *docsDir;
     NSArray *dirPaths;
@@ -85,6 +86,7 @@ sqlite3 *atmaDB;
 
 }
 
+//Folder Functions
 //Loads a list of all folder names into the folderNames array
 + (NSMutableArray*) loadNamesFromDatabase
 {
@@ -110,6 +112,7 @@ sqlite3 *atmaDB;
     [self executeSQL:insertSQL];
 }
 
+//Task Screen Functions
 //Loads all relevant task information into the appropriate arrays.
 + (NSMutableArray*)loadTasksFromDatabaseForFolder:(NSString*)theFolder
 {
@@ -177,8 +180,8 @@ sqlite3 *atmaDB;
     
     if (thePeriod==-40){
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDate *nextPeriod=[NSDate date];
-        NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit  | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:today];
+        NSDate *nextPeriod=[NSDate dateWithTimeIntervalSince1970:enddate];
+        NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit  | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:nextPeriod];
         [dateComponents setMonth:[dateComponents month]+1];
         nextPeriod = [calendar dateFromComponents:dateComponents];
         int daysInNextMonth = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:nextPeriod].length;
@@ -193,8 +196,8 @@ sqlite3 *atmaDB;
         //basically, take the min of the period and the number of days next month, then set thePeriod to be the number of days difference between the two.
         //TODO: Fix the calendar code so that it works for the onth after the enddate, not the current date.
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDate *nextPeriod=[NSDate date];
-        NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit  | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:today];
+        NSDate *nextPeriod=[NSDate dateWithTimeIntervalSince1970:enddate];
+        NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit  | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:nextPeriod];
         [dateComponents setMonth:[dateComponents month]+1];
         nextPeriod = [calendar dateFromComponents:dateComponents];
         int daysInNextMonth = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:nextPeriod].length;
@@ -222,7 +225,6 @@ sqlite3 *atmaDB;
 
 + (void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithName:(NSString*)theSecondName FromFolder:(NSString*)theFolder
 {
-    printf("1\n");
     NSString *querySQL;
     int priority = 0;
     if (![theSecondName isEqualToString:@""]) {
@@ -232,13 +234,57 @@ sqlite3 *atmaDB;
         priority = [[[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0] integerValue];
         priority++;
     }
-    printf("2\n");
     querySQL = [NSString stringWithFormat:@"update tasks set priority = priority+1 where priority >= %d and folder = \"%s\";", priority, [theFolder UTF8String]];
     [self executeSQL:querySQL];
     querySQL = [NSString stringWithFormat:@"update tasks set priority = %d where name = \"%s\" and folder = \"%s\";", priority, [theFirstName UTF8String], [theFolder UTF8String]];
     [self executeSQL:querySQL];
 }
 
+//Create Task Functions
++ (NSArray*)deleteExistingTaskInDatabaseWithName:(NSString*)theName withFolder:(NSString *)theFolder {
+    NSString* progress = [self retrieveValue:@"current" FromTask:theName FromFolder:theFolder];
+    NSString* priority = [self retrieveValue:@"priority" FromTask:theName FromFolder:theFolder];
+    NSArray* toReturn = [NSArray arrayWithObjects: progress, priority, nil];
+    
+    NSString *insertSQL = [NSString stringWithFormat:@"delete from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
+    [self executeSQL:insertSQL];
+
+    return toReturn;
+}
+
++ (Boolean)checkUniquenessForTaskInDatabaseWithName:(NSString*)theName withFolder:(NSString *)theFolder
+{
+    NSString *insertSQL = [NSString stringWithFormat:@"select * from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
+    if ([[self executeSQL:insertSQL ReturningRows:1] count] == 0)
+    {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
++ (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(int)thePeriod withDate:(double)theDate withTarget:(NSInteger *)theTarget withProgress:(int)progress withPriority:(int) priority
+{
+    int a = 0, count = 0;
+    if (priority == -1)
+    {
+        
+        NSString* querySQL = [NSString stringWithFormat:@"select count(*) from tasks where folder = \"%s\";", [theFolder UTF8String]];
+        count = [[[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0] integerValue];
+        if (count > 0)
+        {
+            querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [theFolder UTF8String]];
+            a = [[[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0] integerValue];
+        }
+        a++;
+    } else {
+        a = priority;
+    }
+    NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO tasks (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %d, %f, %d, %d, %d)", theName, theUnits, theFolder, thePeriod, theDate, progress, (int)theTarget, a];
+    [self executeSQL:insertSQL];
+}
+
+//Inner Functions
 //Prepares the database for change. Probably magic.
 + (void)prepareDatabase {
     NSError *err=nil;

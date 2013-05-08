@@ -39,13 +39,16 @@
         //This boolean is true if we are editing an existing task
         if (editingTask)
         {
-            [self deleteExistingTaskInDatabaseWithName:origTaskName withFolder:folderName];
+            NSArray* r = [DatabaseAccessors deleteExistingTaskInDatabaseWithName:origTaskName withFolder:folderName];
+            progress = [[r objectAtIndex:0] integerValue];
+            taskPriority = [[r objectAtIndex:1] integerValue];
         } else {
             progress = 0;
+            taskPriority = -1;
         }
-        if ([self checkUniquenessForTaskInDatabaseWithName:taskName.text withFolder:folderName])
+        if ([DatabaseAccessors checkUniquenessForTaskInDatabaseWithName:origTaskName withFolder:folderName])
         {
-            [self saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:selectedRecur withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue]];
+            [DatabaseAccessors saveTaskInDatabaseWithName:taskName.text withUnits:unitName.text withFolder:folderName withPeriod:selectedRecur withDate:Cdate.timeIntervalSince1970 withTarget:[goalNumber.text intValue] withProgress:progress withPriority:taskPriority];
             
             NSString *deviceType = [UIDevice currentDevice].model;
             [self.navigationController popViewControllerAnimated:YES];
@@ -176,13 +179,7 @@
     self.navigationItem.leftBarButtonItem = cancelButton;
     
     //Stuff for initializing the database -Ahmed
-    NSString *docsDir;
-    NSArray *dirPaths;
-    
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = [dirPaths objectAtIndex:0];
-    
-    databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent:DATABASE_NAME]];
+    [DatabaseAccessors initializeDatabase];
     
      //The DB stuff ends here
     selectedRecur = 1;
@@ -364,199 +361,6 @@
         return [myFormatter stringFromDate:newDate];
     }
     return [NSString stringWithFormat:@"%d", row+1];
-}
-
-//More DBstuff -Ahmed
-- (void)deleteExistingTaskInDatabaseWithName:(NSString*)theName withFolder:(NSString *)theFolder {
-    const char *filePath = [databasePath UTF8String];
-    
-    sqlite3_stmt *statement;
-	
-	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
-    {
-        progress = [[self retrieveValue:@"current" FromTask:theName FromFolder:folderName] integerValue];
-        NSString *querySQL = [NSString stringWithFormat:@"select priority from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
-        const char *query_stmt = [querySQL UTF8String];
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            sqlite3_step(statement);
-            NSString *priorityRaw = [[NSString alloc] initWithUTF8String: (char *)sqlite3_column_text(statement, 0)];
-            taskPriority = [priorityRaw intValue];
-            sqlite3_finalize(statement);
-        }
-		NSString *insertSQL = [NSString stringWithFormat:@"delete from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
-        [self executeSQL:insertSQL];
-		sqlite3_finalize(statement);
-        sqlite3_close(atmaDB);
-        
-	}
-
-}
-
-- (Boolean)checkUniquenessForTaskInDatabaseWithName:(NSString*)theName withFolder:(NSString *)theFolder {
-    Boolean toReturn = FALSE;
-    const char *filePath = [databasePath UTF8String];
-    
-    sqlite3_stmt *statement;
-    
-    if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
-    {
-        
-        NSString *insertSQL = [NSString stringWithFormat:@"select * from tasks where name = \"%s\" and folder = \"%s\";", [theName UTF8String], [theFolder UTF8String]];
-        const char *insert_stmt = [insertSQL UTF8String];
-        
-        sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-        
-        sqlite3_step(statement);
-        
-        if(sqlite3_data_count(statement) == 0 ) {
-            toReturn = TRUE;
-        } else {
-            toReturn = FALSE;
-        }
-        sqlite3_finalize(statement);
-        sqlite3_close(atmaDB);
-    }
-    return toReturn;
-}
-
-- (void)saveTaskInDatabaseWithName:(NSString *)theName withUnits:(NSString *)theUnits withFolder:(NSString *)theFolder withPeriod:(int)thePeriod withDate:(double)theDate withTarget:(NSInteger *)theTarget  {
-	
-    
-	const char *filePath = [databasePath UTF8String];
-    
-    sqlite3_stmt *statement;
-	
-	if(sqlite3_open(filePath, &atmaDB) == SQLITE_OK)
-    {
-        NSString* b, *countStr;
-        int a = 0, count = 0;
-        if (editingTask) {
-            a = taskPriority;
-        } else {
-            NSString* querySQL = [NSString stringWithFormat:@"select count(*) from tasks where folder = \"%s\";", [theFolder UTF8String]];
-            const char *query_stmt = [querySQL UTF8String];
-            if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-            {
-                if (sqlite3_step(statement) == SQLITE_ROW)
-                {
-                    countStr = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                    count = [countStr integerValue];
-                } else {
-                }
-                sqlite3_finalize(statement);
-            }
-            if (count > 0)
-            {
-                querySQL = [NSString stringWithFormat:@"select max(priority) from tasks where folder = \"%s\";", [theFolder UTF8String]];
-                query_stmt = [querySQL UTF8String];
-                if (sqlite3_prepare_v2(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-                {
-                    if (sqlite3_step(statement) == SQLITE_ROW)
-                    {
-                        b = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                        a = [b integerValue];
-                    } else {
-                    }
-                    sqlite3_finalize(statement);
-                }
-            }
-            a++;
-        }
-		NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO tasks (name, units, folder, period, enddate, current, target, priority) values (\"%@\", \"%@\", \"%@\", %d, %f, %d, %d, %d)", theName, theUnits, theFolder, thePeriod, theDate, progress, (int)theTarget, a];
-        const char *insert_stmt = [insertSQL UTF8String];
-        
-		sqlite3_prepare_v2(atmaDB, insert_stmt, -1, &statement, NULL);
-        
-        if(sqlite3_step(statement) == SQLITE_DONE ) {
-			status.text = @"Contact added";
-            //printf("Added task.\n");
-		} else {
-            //fail state
-        }
-		sqlite3_finalize(statement);
-        sqlite3_close(atmaDB);
-	}
-}
-
-- (NSString*) retrieveValue:(NSString*) theValue FromTask:(NSString*) theName FromFolder:(NSString*)theFolder
-{
-    NSString *querySQL = [NSString stringWithFormat:@"select %s from tasks where name = \"%s\" and folder = \"%s\";", [theValue UTF8String], [theName UTF8String], [theFolder UTF8String]];
-    return [[[self executeSQL:querySQL ReturningRows:1] objectAtIndex:0] objectAtIndex:0];
-}
-
-- (void) executeSQL:(NSString*) theStatement
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    [self prepareDatabase];
-    
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        const char *query_stmt = [theStatement UTF8String];
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-}
-
-- (NSMutableArray *) executeSQL:(NSString*) theStatement ReturningRows:(int)numRows
-{
-    const char *dbPath = [databasePath UTF8String];
-    sqlite3_stmt *statement;
-    NSMutableArray* allRows;
-    NSArray* row;
-    NSString* stringArray[numRows];
-    int j = 0;
-    int i  = 0;
-    
-    allRows = [[NSMutableArray alloc] init];
-    
-    if (sqlite3_open(dbPath, &atmaDB) == SQLITE_OK)
-    {
-        const char *query_stmt = [theStatement UTF8String];
-        if (sqlite3_prepare(atmaDB, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            while (sqlite3_step(statement) == SQLITE_ROW) {
-                for (i  = 0; i < numRows; i++)
-                {
-                    stringArray[i] = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, i)];
-                }
-                
-                row = [NSArray arrayWithObjects:stringArray count:numRows];
-                [allRows addObject:row];
-                j++;
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(atmaDB);
-    }
-    
-    return allRows;
-}
-
-- (void)prepareDatabase {
-    NSError *err=nil;
-    NSFileManager *fm=[NSFileManager defaultManager];
-    
-    NSArray *arrPaths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, -1);
-    NSString *path=[arrPaths objectAtIndex:0];
-    NSString *path2= [path stringByAppendingPathComponent:@"ProductDatabase.sql"];
-    
-    
-    if(![fm fileExistsAtPath:path2])
-    {
-        
-        bool success=[fm copyItemAtPath:databasePath toPath:path2 error:&err];
-        if(success)
-            NSLog(@"file copied successfully");
-        else
-            NSLog(@"file not copied");
-        
-    }
 }
 
 @end;
