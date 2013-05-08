@@ -6,42 +6,11 @@
 //  Copyright (c) 2012 ATMA. All rights reserved.
 //
 
-///////MITCH CODE START
+#import "Tasks.h"
 
-#import <UIKit/UIKit.h>
-#import <sqlite3.h>
-#import "TaskTableViewCell.h"
-#import "DatabaseAccessors.h"
-
-@interface TaskTableViewController : UITableViewController{
-    UIBarButtonItem *resetTasksButton;
-    NSString* folderName;
-    UILabel *status;
-    NSString* selectedTaskName;
+@interface TaskTableViewController : Tasks{
     
-    UITextField *taskNumberTextField;
-    UIAlertView *taskAlertView;
-    NSInteger *plusButtonIndex;
-    NSInteger *cellIndex;
 }
-
-@property (nonatomic, strong) NSMutableArray *taskNames;
-@property (nonatomic, strong) NSMutableArray *visibleBools;
-//AHMED CODE START
-@property (nonatomic, strong) NSMutableArray *taskTotals;
-//The number of days allowed for the task
-@property (nonatomic, strong) NSMutableArray *taskPeriods;
-//The units the task is measured in
-@property (nonatomic, strong) NSMutableArray *taskUnits;
-//The date the task is due
-@property (nonatomic, strong) NSMutableArray *taskEndDates;
-//The current progress of the task
-@property (nonatomic, strong) NSMutableArray *taskCurrents;
-//The target goal of progress for the task
-@property (nonatomic, strong) NSMutableArray *taskTargets;
-@property (retain, nonatomic) IBOutlet UILabel *status;
-//AHMED CODE END
 
 @end
 
-///////MITCH'S CODE END
