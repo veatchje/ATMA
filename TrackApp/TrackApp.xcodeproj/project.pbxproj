@@ -33,6 +33,7 @@
 		02B3B70A171603ED00A9908B /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B3B708171603ED00A9908B /* TaskDetailViewController.m */; };
 		0A46D11316A7461900E278D4 /* Plus%20button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A46D11216A7461900E278D4 /* Plus%20button.png */; };
 		0AA85DE8169FFB4C00090FB5 /* atmadatabase in Resources */ = {isa = PBXBuildFile; fileRef = 0AA85DE7169FFB4C00090FB5 /* atmadatabase */; };
+		0AD4F87C173C5EAD00F2DB0B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD4F87B173C5EAD00F2DB0B /* MessageUI.framework */; };
 		5022050A16E685B30077F983 /* Plus_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5022050916E685B30077F983 /* Plus_button.png */; };
 		5058C734173AAE160010AFB9 /* Folders.m in Sources */ = {isa = PBXBuildFile; fileRef = 5058C733173AAE160010AFB9 /* Folders.m */; };
 		50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B616CEDCA800A778B8 /* App%20icon%202.png */; };
@@ -93,6 +94,7 @@
 		02B3B708171603ED00A9908B /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailViewController.m; sourceTree = "<group>"; };
 		0A46D11216A7461900E278D4 /* Plus%20button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plus%20button.png"; sourceTree = "<group>"; };
 		0AA85DE7169FFB4C00090FB5 /* atmadatabase */ = {isa = PBXFileReference; lastKnownFileType = file; name = atmadatabase; path = ../../atmadatabase; sourceTree = "<group>"; };
+		0AD4F87B173C5EAD00F2DB0B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		5022050916E685B30077F983 /* Plus_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Plus_button.png; path = Images/Plus_button.png; sourceTree = SOURCE_ROOT; };
 		5058C732173AAE160010AFB9 /* Folders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folders.h; sourceTree = "<group>"; };
 		5058C733173AAE160010AFB9 /* Folders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folders.m; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AD4F87C173C5EAD00F2DB0B /* MessageUI.framework in Frameworks */,
 				020C5F3516A0AEC300EEF68D /* libsqlite3.dylib in Frameworks */,
 				0235FCD21669423F008F136B /* UIKit.framework in Frameworks */,
 				0235FCD41669423F008F136B /* Foundation.framework in Frameworks */,
@@ -137,6 +140,7 @@
 		0235FCC21669423F008F136B = {
 			isa = PBXGroup;
 			children = (
+				0AD4F87B173C5EAD00F2DB0B /* MessageUI.framework */,
 				50A593B816CEDD1900A778B8 /* App%20icon%202.png */,
 				020C5F3416A0AEC300EEF68D /* libsqlite3.dylib */,
 				0235FCD71669423F008F136B /* TrackApp */,

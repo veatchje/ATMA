@@ -11,6 +11,8 @@
 #import "DatabaseAccessors.h"
 #import "FolderTableViewCell.h"
 #import "HelpDocController.h"
+#import "MessageUI/MessageUI.h"
+#import "FileIoAppDelegate.h"
 
 @interface Folders : UITableViewController {
     

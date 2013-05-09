@@ -15,6 +15,7 @@
 // A constructor for ease of use.
 + (FileIoAppDelegate *) constructWithFolderName:(NSString *) folderName
 {
+    
     return [[FileIoAppDelegate alloc] initWithFolderName: folderName];
 }
 

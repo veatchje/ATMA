@@ -76,8 +76,39 @@
         [cell.folderImage setHidden:TRUE];
     }
     
+    UILongPressGestureRecognizer *incremenLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(emailFolder:)];
+    incremenLongPress.minimumPressDuration=1.0;
+    [cell addGestureRecognizer:incremenLongPress];
+    
     return cell;
 }
+
+- (void) emailFolder:(UILongPressGestureRecognizer*)sender
+{
+    if([MFMailComposeViewController canSendMail])
+    {
+        MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
+        mailCont.mailComposeDelegate = self;
+        
+        [mailCont setSubject:@"Progress Attached"];
+        [mailCont setMessageBody:[NSString stringWithFormat:@"Attached is the %@ folder",
+                                  [_folderNames objectAtIndex:[[self.tableView indexPathForSelectedRow] row]]] isHTML:NO];
+        FileIoAppDelegate *temp=[FileIoAppDelegate constructWithFolderName:
+                                 [_folderNames objectAtIndex:[[self.tableView indexPathForSelectedRow] row]]];
+        [mailCont addAttachmentData:[NSData dataWithContentsOfFile:[temp writeFolderToFile]] mimeType:@"text//csv" fileName:@"report.csv"];
+         [self presentModalViewController:mailCont animated:YES];
+    }
+         }
+         
+         
+         
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error;
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+    
+
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
