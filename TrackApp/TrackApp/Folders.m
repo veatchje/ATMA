@@ -92,9 +92,9 @@
         
         [mailCont setSubject:@"Progress Attached"];
         [mailCont setMessageBody:[NSString stringWithFormat:@"Attached is the %@ folder",
-                                  [_folderNames objectAtIndex:[[self.tableView indexPathForSelectedRow] row]]] isHTML:NO];
+                                  [self.folderNames objectAtIndex:[[self.tableView indexPathForSelectedRow] row]]] isHTML:NO];
         FileIoAppDelegate *temp=[FileIoAppDelegate constructWithFolderName:
-                                 [_folderNames objectAtIndex:[[self.tableView indexPathForSelectedRow] row]]];
+                                 [self.folderNames objectAtIndex:[[self.tableView indexPathForSelectedRow] row]]];
         [mailCont addAttachmentData:[NSData dataWithContentsOfFile:[temp writeFolderToFile]] mimeType:@"text//csv" fileName:@"report.csv"];
          [self presentModalViewController:mailCont animated:YES];
     }
