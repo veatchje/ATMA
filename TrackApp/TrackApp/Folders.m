@@ -70,20 +70,23 @@
                             objectAtIndex: [indexPath row]];
     [cell.folderName setHidden:FALSE];
     [cell.folderImage setHidden:FALSE];
-    
-    if([indexPath row] == self.folderNames.count - 1){
-        [cell.folderName setHidden:TRUE];
-        [cell.folderImage setHidden:TRUE];
-    }
-    
     UILongPressGestureRecognizer *incremenLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(emailFolder:)];
     incremenLongPress.minimumPressDuration=1.0;
     [cell addGestureRecognizer:incremenLongPress];
     
+    
+    if([indexPath row] == self.folderNames.count - 1){
+        [cell removeGestureRecognizer:incremenLongPress];
+        [cell.folderName setHidden:TRUE];
+        [cell.folderImage setHidden:TRUE];
+    }
+    
+
+    
     return cell;
 }
 
-- (void) emailFolder:(UILongPressGestureRecognizer*)sender
+- (IBAction) emailFolder:(UILongPressGestureRecognizer*)sender
 {
     if([MFMailComposeViewController canSendMail])
     {
@@ -96,7 +99,8 @@
         FileIoAppDelegate *temp=[FileIoAppDelegate constructWithFolderName:
                                  [self.folderNames objectAtIndex:[[self.tableView indexPathForSelectedRow] row]]];
         [mailCont addAttachmentData:[NSData dataWithContentsOfFile:[temp writeFolderToFile]] mimeType:@"text//csv" fileName:@"report.csv"];
-         [self presentModalViewController:mailCont animated:YES];
+        [self presentViewController:mailCont animated:YES completion:NULL];
+         //[self presentModalViewController:mailCont animated:YES];
     }
          }
          
@@ -104,7 +108,7 @@
          
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error;
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
     

@@ -13,6 +13,7 @@
 @interface FolderTableViewCell : UITableViewCell
 @property (nonatomic, strong) IBOutlet UIImageView *folderImage;
 @property (nonatomic, strong) IBOutlet UILabel *folderName;
+@property (nonatomic, strong) IBOutlet UIButton *cellButton;
 @end
 
 ///////MITCH CODE END

@@ -237,6 +237,8 @@
 			children = (
 				5058C732173AAE160010AFB9 /* Folders.h */,
 				5058C733173AAE160010AFB9 /* Folders.m */,
+				50BD3C74173AEBB500C18C35 /* Tasks.h */,
+				50BD3C75173AEBB500C18C35 /* Tasks.m */,
 				0206C5FC16810CF400559975 /* TaskTableViewCell.h */,
 				0206C5FD16810CF400559975 /* TaskTableViewCell.m */,
 				0206C5F61680FFE500559975 /* FolderTableViewCell.h */,
@@ -247,8 +249,6 @@
 				A03CAEED1705FF2F00507FA1 /* HelpDocController.m */,
 				A00897FF1714944B00DF409B /* FileIoAppDelegate.h */,
 				A00898001714944B00DF409B /* FileIoAppDelegate.m */,
-				50BD3C74173AEBB500C18C35 /* Tasks.h */,
-				50BD3C75173AEBB500C18C35 /* Tasks.m */,
 			);
 			name = "Platform Independent";
 			sourceTree = "<group>";

@@ -119,7 +119,11 @@
         //NSLog(headString);
         [result appendString:headString];
         for(NSArray* row in rows) {
-            rowText = [NSString stringWithFormat:@"%@,%@,%@\n", row[0], row[1], row[2]];
+            NSDate *temp=[NSDate dateWithTimeIntervalSince1970:[row[2] integerValue]];
+            NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
+            [myFormatter setDateFormat:@"MMM dd YYYY"];
+            
+            rowText = [NSString stringWithFormat:@"%@,%@,%@\n", row[0], row[1], [myFormatter stringFromDate:temp]];
             [result appendString:rowText];
         }
     }
