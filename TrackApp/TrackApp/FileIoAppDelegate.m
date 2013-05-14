@@ -113,7 +113,6 @@
     NSArray* names = [self loadTaskNamesFromDatabase:theFolderName];
     
     for(NSString* name in names) {
-        printf("yup\n");
         NSArray* rows = [self loadCompletedTasksFromDatabase:name FromFolder:theFolderName];
         for(NSArray* row in rows) {
             if(theName == NULL) {
