@@ -35,8 +35,6 @@
     return self;
 }
 
-// Static methods start
-
 // Ahmed's code start
 - (NSMutableArray *) loadTaskNamesFromDatabase:(NSString *) theFolderName
 {
@@ -108,24 +106,36 @@
     NSString* fileHead = [NSString stringWithFormat:@"Folder Name:%@\n", theFolderName];
     [result appendString:fileHead];
     
-    NSString* headString;
+    [result appendString:@"Task Name,Current Progress,Target Goal,Completed Date\n"];
     NSString* rowText;
+    NSString* theName = NULL;
     
     NSArray* names = [self loadTaskNamesFromDatabase:theFolderName];
     
     for(NSString* name in names) {
+        printf("yup\n");
         NSArray* rows = [self loadCompletedTasksFromDatabase:name FromFolder:theFolderName];
-        headString = [NSString stringWithFormat:@"Task Name:%@\nCurrent Progress,Target Goal,Completed Date\n", name];
-        //NSLog(headString);
-        [result appendString:headString];
         for(NSArray* row in rows) {
+            if(theName == NULL) {
+                theName = name;
+            } else if(theName == name) {
+                theName = @"";
+            }
+            
             NSDate *temp=[NSDate dateWithTimeIntervalSince1970:[row[2] integerValue]];
             NSDateFormatter *myFormatter = [[NSDateFormatter alloc] init];
             [myFormatter setDateFormat:@"MMM dd YYYY"];
             
-            rowText = [NSString stringWithFormat:@"%@,%@,%@\n", row[0], row[1], [myFormatter stringFromDate:temp]];
+            rowText = [NSString stringWithFormat:@"%@,%@,%@,%@\n", theName, row[0], row[1], [myFormatter stringFromDate:temp]];
             [result appendString:rowText];
         }
+        if(theName == NULL) {
+            rowText = [NSString stringWithFormat:@"%@,NO DATA,NO DATA,NO DATA\n", name];
+            [result appendString:rowText];
+        } else {
+            theName = NULL;
+        }
+        [result appendString:@"\n"];
     }
     
     return result;
