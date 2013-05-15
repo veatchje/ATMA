@@ -36,6 +36,7 @@
 		0AD4F87C173C5EAD00F2DB0B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD4F87B173C5EAD00F2DB0B /* MessageUI.framework */; };
 		5022050A16E685B30077F983 /* Plus_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5022050916E685B30077F983 /* Plus_button.png */; };
 		5058C734173AAE160010AFB9 /* Folders.m in Sources */ = {isa = PBXBuildFile; fileRef = 5058C733173AAE160010AFB9 /* Folders.m */; };
+		5095C8FE1744093C0083C3D2 /* LongPressWithTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 5095C8FD1744093C0083C3D2 /* LongPressWithTag.m */; };
 		50A593B716CEDCA800A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B616CEDCA800A778B8 /* App%20icon%202.png */; };
 		50A593B916CEDD1900A778B8 /* App%20icon%202.png in Resources */ = {isa = PBXBuildFile; fileRef = 50A593B816CEDD1900A778B8 /* App%20icon%202.png */; };
 		50BD3C76173AEBB500C18C35 /* Tasks.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BD3C75173AEBB500C18C35 /* Tasks.m */; };
@@ -98,6 +99,8 @@
 		5022050916E685B30077F983 /* Plus_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Plus_button.png; path = Images/Plus_button.png; sourceTree = SOURCE_ROOT; };
 		5058C732173AAE160010AFB9 /* Folders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folders.h; sourceTree = "<group>"; };
 		5058C733173AAE160010AFB9 /* Folders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folders.m; sourceTree = "<group>"; };
+		5095C8FC1744093C0083C3D2 /* LongPressWithTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LongPressWithTag.h; sourceTree = "<group>"; };
+		5095C8FD1744093C0083C3D2 /* LongPressWithTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LongPressWithTag.m; sourceTree = "<group>"; };
 		50A593B616CEDCA800A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "App%20icon%202.png"; path = "Images/App%20icon%202.png"; sourceTree = SOURCE_ROOT; };
 		50A593B816CEDD1900A778B8 /* App%20icon%202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App%20icon%202.png"; sourceTree = "<group>"; };
 		50BD3C74173AEBB500C18C35 /* Tasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
@@ -249,6 +252,8 @@
 				A03CAEED1705FF2F00507FA1 /* HelpDocController.m */,
 				A00897FF1714944B00DF409B /* FileIoAppDelegate.h */,
 				A00898001714944B00DF409B /* FileIoAppDelegate.m */,
+				5095C8FC1744093C0083C3D2 /* LongPressWithTag.h */,
+				5095C8FD1744093C0083C3D2 /* LongPressWithTag.m */,
 			);
 			name = "Platform Independent";
 			sourceTree = "<group>";
@@ -408,6 +413,7 @@
 				AA5AA4581735B4720052C1A6 /* DatabaseAccessors.m in Sources */,
 				5058C734173AAE160010AFB9 /* Folders.m in Sources */,
 				50BD3C76173AEBB500C18C35 /* Tasks.m in Sources */,
+				5095C8FE1744093C0083C3D2 /* LongPressWithTag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -38,15 +38,4 @@
 #define TAG_RESET_ALL 2
 #define TAG_TASK_CHANGE 3
 
-//@property (nonatomic, strong) NSMutableArray *taskNames;
-//@property (nonatomic, strong) NSMutableArray *visibleBools;
-//@property (nonatomic, strong) NSMutableArray *taskTotals;
-//@property (nonatomic, strong) NSMutableArray *taskPeriods;
-//@property (nonatomic, strong) NSMutableArray *taskUnits;
-//@property (nonatomic, strong) NSMutableArray *taskEndDates;
-//@property (nonatomic, strong) NSMutableArray *taskCurrents;
-//@property (nonatomic, strong) NSMutableArray *taskTargets;
-//@property (retain, nonatomic) IBOutlet UILabel *status;
-
-
 @end

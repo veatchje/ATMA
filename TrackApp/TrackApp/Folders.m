@@ -70,9 +70,10 @@
                             objectAtIndex: [indexPath row]];
     [cell.folderName setHidden:FALSE];
     [cell.folderImage setHidden:FALSE];
-    UILongPressGestureRecognizer *incremenLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(emailFolder:)];
+    LongPressWithTag *incremenLongPress = [[LongPressWithTag alloc] initWithTarget:self action:@selector(emailFolder:)];
     incremenLongPress.minimumPressDuration=1.0;
     [cell addGestureRecognizer:incremenLongPress];
+    [incremenLongPress setTag:indexPath.row];
     
     
     if([indexPath row] == self.folderNames.count - 1){
@@ -86,7 +87,7 @@
     return cell;
 }
 
-- (IBAction) emailFolder:(UILongPressGestureRecognizer*)sender
+- (IBAction) emailFolder:(LongPressWithTag*)sender
 {
     if([MFMailComposeViewController canSendMail])
     {
@@ -95,7 +96,7 @@
         
         [mailCont setSubject:@"Progress Attached"];
         [mailCont setMessageBody:[NSString stringWithFormat:@"Attached is the %@ folder",
-                                  [self.folderNames objectAtIndex:[[self.tableView indexPathForSelectedRow] row]]] isHTML:NO];
+                                  [self.folderNames objectAtIndex:[sender getTag]]] isHTML:NO];
         FileIoAppDelegate *temp=[FileIoAppDelegate constructWithFolderName:
                                  [self.folderNames objectAtIndex:[[self.tableView indexPathForSelectedRow] row]]];
         [mailCont addAttachmentData:[NSData dataWithContentsOfFile:[temp writeFolderToFile]] mimeType:@"text//csv" fileName:@"report.csv"];

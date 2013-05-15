@@ -13,6 +13,7 @@
 #import "HelpDocController.h"
 #import "MessageUI/MessageUI.h"
 #import "FileIoAppDelegate.h"
+#import "LongPressWithTag.h"
 
 @interface Folders : UITableViewController {
     
