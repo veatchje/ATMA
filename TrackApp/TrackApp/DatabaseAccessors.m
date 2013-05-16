@@ -116,7 +116,11 @@ sqlite3 *atmaDB;
 //Loads all relevant task information into the appropriate arrays.
 + (NSMutableArray*)loadTasksFromDatabaseForFolder:(NSString*)theFolder
 {
-    NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority ASC;", [theFolder UTF8String]];
+    //if (manual ordering) {
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by priority ASC;", [theFolder UTF8String]];
+    // } else {
+        // NSString *querySQL = [NSString stringWithFormat:@"SELECT name, units, period, enddate, current, target from tasks where folder = \"%s\" order by enddate ASC;", [theFolder UTF8String]];
+    // }
     NSMutableArray* rows = [self executeSQL:querySQL ReturningRows:6];
     return rows;    
 }
@@ -131,7 +135,11 @@ sqlite3 *atmaDB;
 //Changes the current value of a task to the indicated amount.
 + (void)incrementTaskWithName:(NSString*)theName WithValue:(int)theValue FromFolder:(NSString*)theFolder
 {
-    NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =%d where name = \"%s\" and folder = \"%s\";", theValue, [theName UTF8String], [theFolder UTF8String]];
+    // if (replacive incrementation) {
+        NSString *querySQL = [NSString stringWithFormat:@"update tasks set current =%d where name = \"%s\" and folder = \"%s\";", theValue, [theName UTF8String], [theFolder UTF8String]];
+    // } else {
+        // NSString *querySQL = [NSString stringWithFormat:@"update tasks set current += %d where name = \"%s\" and folder = \"%s\";", theValue, [theName UTF8String], [theFolder UTF8String]];
+    // }
     [self executeSQL:querySQL];
 }
 
@@ -221,7 +229,6 @@ sqlite3 *atmaDB;
     insertSQL = [NSString stringWithFormat:@"update tasks set enddate = %f where name = \"%s\" and folder = \"%s\";", total, [theName UTF8String], [theFolder UTF8String]];
     [self executeSQL:insertSQL];
 }
-
 
 + (void)moveTaskWithName:(NSString*)theFirstName AboveTaskWithName:(NSString*)theSecondName FromFolder:(NSString*)theFolder
 {
